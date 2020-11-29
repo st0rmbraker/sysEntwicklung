@@ -11,7 +11,7 @@ public class GraphDB {
 
         ODatabaseSession db = orient.open("VehicleHistoryGraph","root","123456");
 
-        OElement element = db.newInstance("Person");
+        OElement element = db.newInstance("Test");
         element.setProperty("name", "John");
 
 //at this stage the record is not yet persistent
