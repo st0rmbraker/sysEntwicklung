@@ -25,9 +25,12 @@ public class GraphDB {
         System.out.println(element.getIdentity()); //this will print the valid, final RID for that document.
         ORID temp = element.getIdentity();
 
+        ORecordID temp2 = new ORecordID("#13:1");
 
         OElement doc = db.load(temp);
         System.out.println(doc.getProperty("name"));
+
+
 
         db.close();
         orient.close();
