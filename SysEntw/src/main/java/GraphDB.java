@@ -27,13 +27,9 @@ public class GraphDB {
         ORID temp = element.getIdentity();
 
         ORecordId temp2 = new ORecordId("#13:1");
-        //https://orientdb.com/javadoc/develop/com/orientechnologies/orient/core/id/ORecordId.html
-
 
         OElement doc = db.load(temp);
         System.out.println(doc.getProperty("name"));
-
-
 
 
 
@@ -42,10 +38,11 @@ public class GraphDB {
 
         }
 
-    public static void test(){
-        System.out.println("Teeest");
-    }
-
+        public static void test() {
+        for(int i = 0; i <= 100; i++) {
+                System.out.println(i);
+            }
+        }
     }
 
 
