@@ -2,6 +2,7 @@ import com.orientechnologies.orient.core.db.ODatabaseSession;
 import com.orientechnologies.orient.core.db.OrientDB;
 import com.orientechnologies.orient.core.db.OrientDBConfig;
 import com.orientechnologies.orient.core.id.ORID;
+import com.orientechnologies.orient.core.id.ORecordId;
 import com.orientechnologies.orient.core.record.OElement;
 
 public class GraphDB {
@@ -25,7 +26,7 @@ public class GraphDB {
         System.out.println(element.getIdentity()); //this will print the valid, final RID for that document.
         ORID temp = element.getIdentity();
 
-        ORecordID temp2 = new ORecordID("#13:1");
+        ORecordId temp2 = new ORecordId("#13:1");
 
         OElement doc = db.load(temp);
         System.out.println(doc.getProperty("name"));
@@ -35,6 +36,12 @@ public class GraphDB {
         db.close();
         orient.close();
 
+        }
+
+        public static void test() {
+        for(int i = 0; i <= 100; i++) {
+                System.out.println(i);
+            }
         }
     }
 
