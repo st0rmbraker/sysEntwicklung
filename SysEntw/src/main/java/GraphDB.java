@@ -28,7 +28,7 @@ public class GraphDB {
 
         ORecordId temp2 = new ORecordId("#13:1");
 
-        OElement doc = db.load(temp);
+        OElement doc = db.load(temp2);
         System.out.println(doc.getProperty("name"));
 
 
