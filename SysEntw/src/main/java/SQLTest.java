@@ -8,7 +8,9 @@ import java.sql.Date;
 public class SQLTest {
 
     public static void main(String []args){
-        OrientDB orient = new OrientDB("remote:localhost", OrientDBConfig.defaultConfig());
+
+
+      OrientDB orient = new OrientDB("remote:localhost", OrientDBConfig.defaultConfig());
 
         ODatabaseSession db = orient.open("VehicleHistoryGraph","root","123456");
 
@@ -21,5 +23,6 @@ public class SQLTest {
         }
         rs.close();
     }
+
 
 }
