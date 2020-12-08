@@ -27,11 +27,15 @@ public class GUITest {
                 OResultSet rs = db.query(statement);
                 while(rs.hasNext()){
                     OResult row = rs.next();
-                    //Date birthDate = row.getProperty("birthDate");
                     textArea1.append("ID: "+row.getIdentity().toString());
                     textArea1.append("Name: "+row.<String>getProperty("firstName")+" "+row.<String>getProperty("lastName")+"\n");
                 }
-                String statement2
+                String statement2 = "SELECT FROM jagt";
+                OResultSet rs2 = db.query(statement2);
+                while(rs2.hasNext()){
+                    OResult row = rs2.next();
+                    textArea1.append((row.<String>getProperty("IN")));
+                }
                 rs.close();
             }
         });
