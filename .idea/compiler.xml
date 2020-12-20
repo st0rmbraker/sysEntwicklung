@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="SysEntw" target="7" />
+      <module name="SysEntw" target="8" />
     </bytecodeTargetLevel>
   </component>
 </project>

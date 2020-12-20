@@ -15,7 +15,7 @@ public class SQLTest {
         ODatabaseSession db = orient.open("VehicleHistoryGraph","root","123456");
 
         String statement = "SELECT FROM person WHERE firstName = ?";
-        OResultSet rs = db.query(statement, "Ann");
+        OResultSet rs = db.query(statement, "Lennart");
         while(rs.hasNext()){
             OResult row = rs.next();
             //Date birthDate = row.getProperty("birthDate");
