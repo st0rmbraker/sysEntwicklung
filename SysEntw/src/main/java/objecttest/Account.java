@@ -27,4 +27,8 @@ public class Account {
     public Adress getAdress() {
         return adress;
     }
+
+    public void printName() {
+        System.out.println(this.name);
+    }
 }
