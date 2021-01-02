@@ -45,6 +45,8 @@ public class FollowTest {
     listConnectedVertices(test);
 
 
+    db.close();
+    orient.close();
     }
 
     //Gibt alle Knoten aus, denen der User folgt.
