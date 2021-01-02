@@ -37,8 +37,12 @@ public class FollowTest {
 
         listConnectedVertices(alex);
 */
-    OVertex malhoffen = getVertexByUsername("atheob");
-    System.out.println(malhoffen.getProperty("firstName").toString());
+    OVertex test = getVertexByUsername("mfink");
+    OVertex test2 = getVertexByUsername("lhergel");
+    System.out.println(test.getProperty("firstName").toString());
+
+    followUser(test, test2);
+    listConnectedVertices(test);
 
 
     }
