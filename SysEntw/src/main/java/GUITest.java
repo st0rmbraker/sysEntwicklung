@@ -71,6 +71,7 @@ public class GUITest {
     }
 
     public void refresh(){
+        onStart();
         System.out.println("Refresh");
         try{
             output.setText("");
