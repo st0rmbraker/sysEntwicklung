@@ -56,7 +56,7 @@ public class GUITest {
                 orient.close();
                 System.out.println("Close");
                 if (JOptionPane.showConfirmDialog(frame,
-                        "Are you sure you want to close this window?", "Close Window?",
+                        "Möchten sie dieses Fenster wirklich schließen?", "Close Window?",
                         JOptionPane.YES_NO_OPTION,
                         JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){
                     System.exit(0);
@@ -67,14 +67,14 @@ public class GUITest {
 
     public void onStart(){
         orient = new OrientDB("remote:localhost", OrientDBConfig.defaultConfig());
-        db = orient.open("DHBWDB","root","123456");
+        db = orient.open("Netzwerk1","root","123456");
     }
 
     public void refresh(){
         System.out.println("Refresh");
         try{
             output.setText("");
-            String statement = "SELECT FROM PersonV";
+            String statement = "SELECT FROM Account";
             db.query(statement);
             OResultSet rs = db.query(statement);
             while (rs.hasNext()) {
@@ -82,23 +82,23 @@ public class GUITest {
                 output.append("ID: " + row.getIdentity().toString());
                 output.append("Name: " + row.getProperty("firstName").toString() + " " + row.getProperty("lastName").toString() + "\n");
             }
-            String statement2 = "SELECT FROM jagt";
+            /*String statement2 = "SELECT FROM follows";
             OResultSet rs2 = db.query(statement2);
             while (rs2.hasNext()) {
                 OResult row = rs2.next();
-                output.append(row.getProperty("in").toString());
+                //output.append(row.getProperty("in").toString());
             }
             rs.close();
-            rs2.close();
+            rs2.close();*/
         }
         catch (ODatabaseException ex) {
-            System.out.println("Ein Datenbankfehler ist aufgetreten"+ex);
+            System.out.println("Ein Datenbankfehler ist aufgetreten: "+ex);
         }
 
     }
 
     public OVertex createPerson (ODatabaseSession db, String lastName, String firstName){
-        OVertex n = db.newVertex("PersonV");
+        OVertex n = db.newVertex("Account");
         n.setProperty("lastName", lastName);
         n.setProperty("firstName", firstName);
         n.save();
@@ -106,7 +106,7 @@ public class GUITest {
     }
 
     public static void main(String[] args) {
-        frame = new JFrame("App");
+        frame = new JFrame("Netzwerk");
         frame.setContentPane(new GUITest().panel1);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
