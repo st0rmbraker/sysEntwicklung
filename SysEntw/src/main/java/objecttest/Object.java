@@ -1,16 +1,8 @@
 package objecttest;
 
-//import com.orientechnologies.orient.core.db.OrientDBConfig;
-//import com.orientechnologies.orient.core.db.object.ODatabaseObject;
 import com.orientechnologies.orient.core.sql.executor.OResult;
 import com.orientechnologies.orient.core.sql.executor.OResultSet;
-//import com.orientechnologies.orient.core.sql.query.OSQLSynchQuery;
-//import com.orientechnologies.orient.object.db.ODatabaseObjectPool;
-//import com.orientechnologies.orient.object.db.OObjectDatabasePool;
 import com.orientechnologies.orient.object.db.OObjectDatabaseTx;
-//import com.orientechnologies.orient.object.db.OrientDBObject;
-
-import java.util.List;
 
 public class Object {
     public static void main(String[] args) throws ClassNotFoundException {
@@ -78,6 +70,5 @@ public class Object {
 
         rs.close();
         db.close();
-
     }
 }
