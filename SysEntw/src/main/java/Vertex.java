@@ -1,6 +1,7 @@
 import com.orientechnologies.orient.core.db.ODatabaseSession;
 import com.orientechnologies.orient.core.db.OrientDB;
 import com.orientechnologies.orient.core.db.OrientDBConfig;
+import com.orientechnologies.orient.core.record.ODirection;
 import com.orientechnologies.orient.core.record.OEdge;
 import com.orientechnologies.orient.core.record.OElement;
 import com.orientechnologies.orient.core.record.OVertex;
@@ -20,6 +21,7 @@ public class Vertex {
 
         OEdge edge1 = matt.addEdge(wiedemann, "jagt");
         OEdge edge2 = wiedemann.addEdge(grimm, "jagt");
+        OEdge edge3 = matt.addEdge(grimm, "jagt");
         edge1.save();
         edge2.save();
 
