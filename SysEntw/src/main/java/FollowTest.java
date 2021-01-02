@@ -45,7 +45,7 @@ public class FollowTest {
 
     public static void listConnectedVertices(OVertex element)
     {
-        Iterable<OVertex> overtexList = element.getVertices(ODirection.OUT);
+        Iterable<OVertex> overtexList = element.getVertices(ODirection.OUT); //Gibt auch noch IN und BOTH für die Richtungen
 
         System.out.println("Du folgst: ");
         for(OVertex v : overtexList) {
