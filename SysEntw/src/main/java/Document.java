@@ -20,9 +20,9 @@ public class Document {
         db.save(doc);
 
         for (ODocument out : db.browseClass("Person")) {
-            System.out.println(out.field("name").toString());
-            System.out.print(out.field("surname").toString());
-            System.out.println(out.field("city").toString());
+            System.out.print(out.field("name").toString()+", ");
+            System.out.print(out.field("surname").toString()+", ");
+            System.out.println(out.field("city").toString()+"\n");
         }
 
 
