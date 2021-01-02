@@ -13,7 +13,7 @@ import com.orientechnologies.orient.core.sql.executor.OResultSet;
 import java.util.Optional;
 
 public class FollowTest {
-
+//WICHTIG ALLGEMEIN: BEI AENDERUNGEN ERHOEHT SICH DIE @VERSION UM 1
     static OrientDB orient = new OrientDB("remote:localhost", OrientDBConfig.defaultConfig());
     static ODatabaseSession db = orient.open("Netzwerk1","root","123456");
 
@@ -41,11 +41,13 @@ public class FollowTest {
     OVertex test2 = getVertexByUsername("lhergel");
     System.out.println(test.getProperty("firstName").toString());
 
-    followUser(test, test2);
+    followUser(test2, test);
     listConnectedVertices(test);
 
 
     }
+
+    //Gibt alle Knoten aus, denen der User folgt.
 
     public static void listConnectedVertices(OVertex element)
     {
@@ -58,6 +60,8 @@ public class FollowTest {
 
     }
 
+    //Erzeugt Edge "follows" von follower zu followed, wenn Edge noch nicht vorhanden und gibt erstellte Edge zuriecl
+
     public static OEdge followUser(OVertex follower, OVertex followed)
     {
         boolean followsAlready = false;
@@ -68,7 +72,7 @@ public class FollowTest {
         for(OVertex v : overtexList) {
             if(v.getIdentity() == followed.getIdentity())
             {
-                System.out.println("User folgt bereits");
+                System.out.println(follower.getProperty("username") + " folgt bereits " + followed.getProperty("username"));
                 return null;
             }
         }
@@ -78,13 +82,14 @@ public class FollowTest {
         return temp;
     }
 
+    //Gibt ein Element passend zur property "username" aus der Tabelle Account zurueck... WICHTIG: Nutzernamen duerfen nur einmalig sein, ansonsten wird erstes gefundenes Element zurueckgegeben => Bei Erstellung beachten
+
     public static OVertex getVertexByUsername(String userID)
     {
         String statement = "SELECT FROM Account WHERE username = ?";
         OResultSet rs = db.query(statement, userID);
         while(rs.hasNext()){
             OResult row = rs.next();
-            //Date birthDate = row.getProperty("birthDate");
 
             System.out.println("Läuft soweit");
             if(row.<String>getProperty("username").equals(userID))
@@ -94,12 +99,13 @@ public class FollowTest {
                 OVertex ret = db.load(user);
 
                 System.out.println("Erfolg");
+                rs.close();
                 return ret;
 
 
             }
         }
-        rs.close();
+
 
         System.out.println("Misserfolg");
         return null;
