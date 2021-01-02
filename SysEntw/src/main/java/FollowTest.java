@@ -86,11 +86,13 @@ public class FollowTest {
             if(row.<String>getProperty("username").equals(userID))
             {
                 System.out.println("Geht in die IF");
-                ORecordId user = new ORecordId(String.valueOf(row.getIdentity()));
+                ORecordId user = new ORecordId(row.getProperty("@rid").toString());
                 OVertex ret = db.load(user);
 
                 System.out.println("Erfolg");
                 return ret;
+
+
             }
         }
         rs.close();
