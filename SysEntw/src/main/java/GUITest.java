@@ -20,11 +20,13 @@ public class GUITest {
     private JTextField inputLast;
     private JTextArea outputOwn;
     private JTextField ownID;
+    private JTextField inputUser;
     private ODatabaseSession db;
     private OrientDB orient;
 
-    public GUITest() {
+    public static String user;
 
+    public GUITest() {
         session();
         refresh();
         System.out.println("Startup");
@@ -39,16 +41,8 @@ public class GUITest {
         addPerson.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                OVertex n = createPerson(db,inputLast.getText(), inputFirst.getText());
+                OVertex n = createPerson(db,inputLast.getText(), inputFirst.getText(), inputUser.getText());
                 refresh();
-
-                //OVertex wiedemann = createPerson(db, "Wiedemann", "Armin");
-                //OVertex grimm = createPerson(db, "Grimm", "Simon");
-
-                //OEdge edge1 = matt.addEdge(wiedemann, "jagt");
-                //OEdge edge2 = wiedemann.addEdge(grimm, "jagt");
-                //edge1.save();
-                //edge2.save();
             }
         });
 
@@ -56,13 +50,7 @@ public class GUITest {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
                 orient.close();
-                if (JOptionPane.showConfirmDialog(frame,
-                        "Möchten sie dieses Fenster wirklich schließen?", "Fenster schließen?",
-                        JOptionPane.YES_NO_OPTION,
-                        JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){
-                    System.exit(0);
-                    System.out.println("Close");
-                }
+                System.out.println("Closing");
             }
         });
     }
@@ -73,64 +61,55 @@ public class GUITest {
     }
 
     public void refresh(){
-
         System.out.println("Refreshing");
         try{
-            session();
-            outputAll.setText("");
-            outputOwn.setText("");
+            clear();
+            String statement;
 
-            String statement = "SELECT FROM Account";
-            db.query(statement);
-            OResultSet rs = db.query(statement);
-
-            while (rs.hasNext()) {
-                OResult row = rs.next();
-                outputAll.append("ID: " + row.getIdentity().toString());
-                outputAll.append("Name: " + row.getProperty("firstName").toString() + " " + row.getProperty("lastName").toString() + "\n");
-            }
-            rs.close();
+            statement = "SELECT FROM Account";
+            outputQueryAcc(statement, outputAll);
+            statement = "SELECT FROM Account WHERE @rid="+ownID.getText();
+            outputQueryAcc(statement, outputOwn);
 
             /*String statement2 = "SELECT FROM follows";
             OResultSet rs2 = db.query(statement2);
             while (rs2.hasNext()) {
                 OResult row = rs2.next();
-                //outputAll.append(row.getProperty("in").toString());
+                outputAll.append(row.getProperty("in").toString());
             }*/
-
-
-            //rs2.close();
-
-            session();
-            String statement3 = "SELECT FROM Account WHERE @rid="+ownID.getText();
-            db.query(statement3);
-            OResultSet rs3 = db.query(statement3);
-
-            while (rs3.hasNext()) {
-                OResult row = rs3.next();
-                outputOwn.append("ID: " + row.getIdentity().toString());
-                outputOwn.append("Name: " + row.getProperty("firstName").toString() + " " + row.getProperty("lastName").toString() + "\n");
-            }
-            rs3.close();
-
-
-
-
         }
         catch (ODatabaseException ex) {
-            System.out.println("Ein Datenbankfehler ist aufgetreten"+ex);
+            System.out.println("Ein Datenbankfehler ist aufgetreten:"+ex);
         }
         finally{
             System.out.println("Refreshing complete");
         }
-
     }
 
-    public OVertex createPerson (ODatabaseSession db, String lastName, String firstName){
+    public void clear(){
+        outputAll.setText("");
+        outputOwn.setText("");
+    }
+
+    private void outputQueryAcc(String statement, JTextArea output) {
+        session();
+        db.query(statement);
+        OResultSet rs = db.query(statement);
+
+        while (rs.hasNext()) {
+            OResult row = rs.next();
+            output.append("ID: " + row.getIdentity().toString());
+            output.append("Name: " + row.getProperty("firstName").toString() + " " + row.getProperty("lastName").toString() + "\n");
+        }
+        rs.close();
+    }
+
+    public OVertex createPerson (ODatabaseSession db, String nLastName, String nFirstName,String nUser){
         session();
         OVertex n = db.newVertex("Account");
-        n.setProperty("lastName", lastName);
-        n.setProperty("firstName", firstName);
+        n.setProperty("lastName", nLastName);
+        n.setProperty("firstName", nFirstName);
+        n.setProperty("inputUser", nUser);
         n.save();
         return n;
     }
@@ -140,6 +119,13 @@ public class GUITest {
         frame.setContentPane(new GUITest().panel1);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
+
+        user = JOptionPane.showInputDialog(null,
+                "Bitte geben sie ihren Benutzernamen ein.",
+                JOptionPane.DEFAULT_OPTION);
+
+        System.out.println(user);
+
         frame.setVisible(true);
     }
 }
