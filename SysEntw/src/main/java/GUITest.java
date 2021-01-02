@@ -23,7 +23,7 @@ public class GUITest {
 
     public GUITest() {
 
-        onStart();
+        session();
         refresh();
         System.out.println("Startup");
 
@@ -54,23 +54,24 @@ public class GUITest {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
                 orient.close();
-                System.out.println("Close");
                 if (JOptionPane.showConfirmDialog(frame,
                         "Möchten sie dieses Fenster wirklich schließen?", "Close Window?",
                         JOptionPane.YES_NO_OPTION,
                         JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){
                     System.exit(0);
+                    System.out.println("Close");
                 }
             }
         });
     }
 
-    public void onStart(){
+    public void session(){
         orient = new OrientDB("remote:localhost", OrientDBConfig.defaultConfig());
         db = orient.open("Netzwerk1","root","123456");
     }
 
     public void refresh(){
+        session();
         System.out.println("Refresh");
         try{
             output.setText("");
@@ -87,17 +88,21 @@ public class GUITest {
             while (rs2.hasNext()) {
                 OResult row = rs2.next();
                 //output.append(row.getProperty("in").toString());
-            }
+            }*/
             rs.close();
-            rs2.close();*/
+            //rs2.close();
         }
         catch (ODatabaseException ex) {
-            System.out.println("Ein Datenbankfehler ist aufgetreten: "+ex);
+            System.out.println("Ein Datenbankfehler ist aufgetreten"+ex);
+        }
+        finally{
+            System.out.println("Refreshing complete");
         }
 
     }
 
     public OVertex createPerson (ODatabaseSession db, String lastName, String firstName){
+        session();
         OVertex n = db.newVertex("Account");
         n.setProperty("lastName", lastName);
         n.setProperty("firstName", firstName);
