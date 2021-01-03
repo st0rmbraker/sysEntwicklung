@@ -167,7 +167,7 @@ public class Helpers {
 
     public OVertex createUser(String userName, String firstName, String lastName)
     {
-        if(checkUserExist(userName) == false)
+        if(checkUserExists(userName) == false)
         {
             OVertex user = db.newVertex("Account");
             user.setProperty("username", userName);
