@@ -33,6 +33,9 @@ public class GUITest {
 
     public static String user;
 
+
+
+
     public GUITest() {
         session();
         refresh();
@@ -153,22 +156,7 @@ public class GUITest {
         return temp;
     }
 
-    //Gibt ein Element passend zur property "username" aus der Tabelle Account zurueck... WICHTIG: Nutzernamen duerfen nur einmalig sein, ansonsten wird erstes gefundenes Element zurueckgegeben => Bei Erstellung beachten
-    public OVertex getVertexByUsername(String userID){
-        OResultSet rs = db.query("SELECT FROM Account WHERE username = ?", userID);
-        while(rs.hasNext()){
-            OResult row = rs.next();
-            if(row.<String>getProperty("username").equals(userID)){
-                ORecordId user = new ORecordId(row.getProperty("@rid").toString());
-                OVertex ret = db.load(user);
-                System.out.println("User "+userID+" gefunden.");
-                rs.close();
-                return ret;
-            }
-        }
-        System.out.println("User "+userID+" nicht gefunden.");
-        return null;
-    }
+
 
     public static void main(String[] args) {
         frame = new JFrame("Netzwerk");
