@@ -49,14 +49,23 @@ public class Helpers {
         }
     }
 
+    public boolean checkUserExists(String username){
+        session();
+        OResultSet rs = db.query("SELECT FROM Account");
+        while (rs.hasNext()) {
+            OResult row = rs.next();
+            if(row.getProperty("username").equals(username)) return true;
+        }
+        return false;
+    }
+
     public void clear(){
-        System.out.println("TO DOOOOOOOOOOOOOOOO");
+        System.out.println("Macht im Moment nichts.");
     }
 
     public String outputQueryAcc(String statement) {
         session();
         String ret = "Nutzer in der Datenbank:\n";
-        db.query(statement);
         OResultSet rs = db.query(statement);
 
         while (rs.hasNext()) {
