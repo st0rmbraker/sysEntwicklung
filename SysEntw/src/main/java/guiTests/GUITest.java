@@ -11,7 +11,7 @@ import com.orientechnologies.orient.core.record.OVertex;
 import com.orientechnologies.orient.core.sql.executor.OResult;
 import com.orientechnologies.orient.core.sql.executor.OResultSet;
 
-import Programm.*;
+//import Programm.*;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -33,26 +33,23 @@ public class GUITest {
 
     public static String user;
 
-
-
+    Programm.Helpers h = new Programm.Helpers();
 
     public GUITest() {
-        session();
-        refresh();
         System.out.println("Startup");
 
         update.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                refresh();
+                h.refreshAcc();
             }
         });
 
         addPerson.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                OVertex n = createPerson(db,inputLast.getText(), inputFirst.getText(), inputUser.getText());
-                refresh();
+                OVertex n = h.createPerson(db,inputLast.getText(), inputFirst.getText(), inputUser.getText());
+                h.refreshAcc();
             }
         });
 
@@ -65,6 +62,10 @@ public class GUITest {
         });
     }
 
+
+    public void onStart(){
+        h.refreshAcc();
+    }
 
 
     public void clear(){
