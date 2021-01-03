@@ -54,11 +54,14 @@ public class Helpers {
 
     public boolean checkUserExists(String username){
         session();
-        OResultSet rs = db.query("SELECT FROM Account WHERE username ="+username);
+        OResultSet rs = db.query("SELECT FROM Account WHERE username =?", username);
         while (rs.hasNext()) {
             OResult row = rs.next();
             System.out.println(row.<String>getProperty("username"));
-            if(row.<String>getProperty("username").equals(username)) return true;
+            if(row.<String>getProperty("username").equals(username)) {
+                System.out.println("WARUM FALSE");
+                return true;
+            }
         }
         return false;
     }
