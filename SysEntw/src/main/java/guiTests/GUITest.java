@@ -46,6 +46,7 @@ public class GUITest {
             public void actionPerformed(ActionEvent e) {
                 outputAll.setText(h.refreshAcc());
             }
+
         });
 
         addPerson.addActionListener(new ActionListener() {
@@ -93,6 +94,18 @@ public class GUITest {
 
         System.out.println(g.h.checkUserExists(user));
 
+/**
+        if(true){
+            g.addPerson.setVisible(false);
+            g.inputFirst.setVisible(false);
+            g.inputLast.setVisible(false);
+            g.inputUser.setVisible(false);
+        }
+        frame.validate();
+        frame.repaint();
+        frame.getContentPane().validate();
+        frame.getContentPane().repaint();
+**/
         System.out.println(user);
         frame.setVisible(true);
     }

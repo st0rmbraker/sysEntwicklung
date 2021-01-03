@@ -58,10 +58,7 @@ public class Helpers {
         while (rs.hasNext()) {
             OResult row = rs.next();
             System.out.println(row.<String>getProperty("username"));
-            if(row.<String>getProperty("username").equals(username)) {
-                System.out.println("WARUM FALSE");
-                return true;
-            }
+            if(row.<String>getProperty("username").equals(username)) return true;
         }
         return false;
     }
