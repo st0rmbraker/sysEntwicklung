@@ -37,11 +37,12 @@ public class GUITest {
 
     public GUITest() {
         System.out.println("Startup");
+        h.session();
 
         update.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                h.refreshAcc();
+                outputAll.setText(h.refreshAcc());
             }
         });
 
@@ -56,7 +57,7 @@ public class GUITest {
         frame.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-                orient.close();
+                //orient.close();
                 System.out.println("Closing");
             }
         });
