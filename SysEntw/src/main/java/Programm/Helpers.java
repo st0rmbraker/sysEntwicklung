@@ -54,7 +54,7 @@ public class Helpers {
 
     public boolean checkUserExists(String username){
         session();
-        OResultSet rs = db.query("SELECT FROM Account");
+        OResultSet rs = db.query("SELECT FROM Account WHERE username ="+username);
         while (rs.hasNext()) {
             OResult row = rs.next();
             System.out.println(row.<String>getProperty("username"));
