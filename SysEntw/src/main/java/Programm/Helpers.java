@@ -28,6 +28,7 @@ public class Helpers {
     public String refreshAcc(){
         System.out.println("Refreshing");
         try{
+            session();
             clear();
             String statement = "SELECT FROM Account";
             return outputQueryAcc(statement);
@@ -51,20 +52,29 @@ public class Helpers {
         }
     }
 
+    public boolean checkUserExists(String username){
+        session();
+        OResultSet rs = db.query("SELECT FROM Account");
+        while (rs.hasNext()) {
+            OResult row = rs.next();
+            if(row.getProperty("username").equals(username)) return true;
+        }
+        return false;
+    }
+
     public void clear(){
-        System.out.println("TO DOOOOOOOOOOOOOOOO");
+        System.out.println("Macht im Moment nichts.");
     }
 
     public String outputQueryAcc(String statement) {
         session();
-        String ret = null;
-        db.query(statement);
+        String ret = "Nutzer in der Datenbank:\n";
         OResultSet rs = db.query(statement);
 
         while (rs.hasNext()) {
             OResult row = rs.next();
-            ret.concat("ID: " + row.getIdentity().toString());
-            ret.concat("Name: " + row.getProperty("firstName").toString() + " " + row.getProperty("lastName").toString() + "\n");
+            ret = ret+("ID: " + row.getIdentity().toString());
+            ret = ret+("Name: " + row.getProperty("firstName").toString() + " " + row.getProperty("lastName").toString() + "\n");
         }
 
         rs.close();
@@ -83,6 +93,7 @@ public class Helpers {
 
     //Gibt alle Knoten aus, denen der User folgt.
     public String listConnectedVertices(OVertex element){
+        session();
         String ret = null;
         Iterable<OVertex> overtexList = element.getVertices(ODirection.OUT); //Gibt auch noch IN und BOTH für die Richtungen
 
@@ -96,7 +107,7 @@ public class Helpers {
 
     //Erzeugt Edge "follows" von follower zu followed, wenn Edge noch nicht vorhanden und gibt erstellte Edge zuriecl
     public OEdge followUser(OVertex follower, OVertex followed){
-
+        session();
         boolean followsAlready = false;
         //checkt ob User bereits folgt damit keine doppelten Edges kommen
 
@@ -116,6 +127,7 @@ public class Helpers {
 
     //Gibt ein Element passend zur property "username" aus der Tabelle Account zurueck... WICHTIG: Nutzernamen duerfen nur einmalig sein, ansonsten wird erstes gefundenes Element zurueckgegeben => Bei Erstellung beachten
     public OVertex getVertexByUsername(String userID){
+        session();
         OResultSet rs = db.query("SELECT FROM Account WHERE username = ?", userID);
         while(rs.hasNext()){
             OResult row = rs.next();
