@@ -1,4 +1,4 @@
-package javafx;
+package Programm;
 
 
 import javafx.application.Application;
@@ -11,13 +11,15 @@ import javafx.stage.Stage;
 
 public class GUI extends Application{
 
+    Helpers h = new Helpers();
+
     public static void main(String[] args) {
         launch(args);
     }
 
     @Override
     public void start(Stage primaryStage) {
-        primaryStage.setTitle("Hello World!");
+        primaryStage.setTitle("Systementwicklung - Projekt");
         Button btn = new Button();
         btn.setText("Say 'Hello World'");
         btn.setOnAction(new EventHandler<ActionEvent>() {
@@ -39,6 +41,7 @@ public class GUI extends Application{
 
     public void stop(){
         System.out.println("Closing.");
+        h.close();
     }
 
 
