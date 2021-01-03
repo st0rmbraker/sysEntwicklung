@@ -1,3 +1,5 @@
+package guiTests;
+
 import javax.swing.*;
 
 public class GUIT {
