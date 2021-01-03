@@ -57,7 +57,8 @@ public class Helpers {
         OResultSet rs = db.query("SELECT FROM Account");
         while (rs.hasNext()) {
             OResult row = rs.next();
-            if(row.getProperty("username").equals(username)) return true;
+            System.out.println(row.<String>getProperty("username"));
+            if(row.<String>getProperty("username").equals(username)) return true;
         }
         return false;
     }
@@ -167,7 +168,7 @@ public class Helpers {
 
     public OVertex createUser(String userName, String firstName, String lastName)
     {
-        if(checkUserExist(userName) == false)
+        if(checkUserExists(userName) == false)
         {
             OVertex user = db.newVertex("Account");
             user.setProperty("username", userName);

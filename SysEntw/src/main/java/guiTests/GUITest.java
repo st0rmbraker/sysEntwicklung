@@ -11,7 +11,7 @@ import com.orientechnologies.orient.core.record.OVertex;
 import com.orientechnologies.orient.core.sql.executor.OResult;
 import com.orientechnologies.orient.core.sql.executor.OResultSet;
 
-//import Programm.*;
+//import Programm.Helpers;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -31,9 +31,11 @@ public class GUITest {
     private ODatabaseSession db;
     private OrientDB orient;
 
+    Programm.Helpers h = new Programm.Helpers();
+
     public static String user;
 
-    Programm.Helpers h = new Programm.Helpers();
+    //Programm.Helpers h = new Programm.Helpers();
 
     public GUITest() {
         System.out.println("Startup");
@@ -66,6 +68,7 @@ public class GUITest {
 
     public void onStart(){
         h.refreshAcc();
+        outputAll.setText("");
     }
 
 
@@ -76,17 +79,21 @@ public class GUITest {
 
 
     public static void main(String[] args) {
+
         frame = new JFrame("Netzwerk");
         frame.setContentPane(new GUITest().panel1);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
 
+        GUITest g = new GUITest();
+
         user = JOptionPane.showInputDialog(null,
                 "Bitte geben sie ihren Benutzernamen ein.",
                 JOptionPane.DEFAULT_OPTION);
 
-        System.out.println(user);
+        System.out.println(g.h.checkUserExists(user));
 
+        System.out.println(user);
         frame.setVisible(true);
     }
 }
