@@ -3,14 +3,17 @@ package Programm;
 import com.orientechnologies.orient.core.db.ODatabaseSession;
 import com.orientechnologies.orient.core.db.OrientDB;
 import com.orientechnologies.orient.core.db.OrientDBConfig;
+import com.orientechnologies.orient.core.db.document.ODatabaseDocument;
 import com.orientechnologies.orient.core.exception.ODatabaseException;
 import com.orientechnologies.orient.core.id.ORecordId;
 import com.orientechnologies.orient.core.record.ODirection;
 import com.orientechnologies.orient.core.record.OEdge;
 import com.orientechnologies.orient.core.record.OVertex;
+import com.orientechnologies.orient.core.record.impl.ODocument;
 import com.orientechnologies.orient.core.sql.executor.OResult;
 import com.orientechnologies.orient.core.sql.executor.OResultSet;
 import javax.swing.*;
+import java.sql.Date;
 
 public class Helpers {
 
@@ -128,9 +131,46 @@ public class Helpers {
         return null;
     }
 
+    /**
+     * erstellt Userinfos Objekt in der klasse userInfos mit Stadt, Mail und Geburtstag, letzteres als java.sql.Date
+     * @return erstelltes Object der userInfos klasse
+     */
+    public ODocument createUserInfos(String city, String mail, Date birthDay)
+    {
+        session();
+        ODocument doc = new ODocument("userInfos");
+        doc.field( "city", city );
+        doc.field( "mail", mail );
+        doc.field( "birthday", birthDay);
+
+        db.save(doc);
+
+        return doc;
+    }
+
     public void close(){
         db.close();
         orient.close();
+    }
+
+    public OVertex createUser(String userName, String firstName, String lastName)
+    {
+        if(checkUserExist(userName) == false)
+        {
+            OVertex user = db.newVertex("Account");
+            user.setProperty("username", userName);
+            user.setProperty("firstName", firstName);
+            user.setProperty("lastName", lastName);
+
+            user.save();
+            return user;
+        }
+
+        System.out.println("User bereits vorhanden");
+
+        return null;
+
+        //ERGÄNZEN: WENN USER VORHANDEN DATEN ZIEHEN
     }
 
 }
