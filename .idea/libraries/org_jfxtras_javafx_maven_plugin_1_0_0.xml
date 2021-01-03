@@ -1,0 +1,39 @@
+<component name="libraryTable">
+  <library name="org.jfxtras:javafx-maven-plugin:1.0.0" type="repository">
+    <properties maven-id="org.jfxtras:javafx-maven-plugin:1.0.0" />
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/javafx-maven-plugin-1.0.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/maven-plugin-api-2.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/maven-core-2.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/maven-settings-2.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/wagon-file-1.0-alpha-5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/maven-plugin-parameter-documenter-2.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/wagon-http-lightweight-1.0-alpha-5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/maven-reporting-api-2.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/doxia-sink-api-1.0-alpha-4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/maven-profile-2.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/maven-model-2.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/maven-artifact-2.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/wagon-provider-api-1.0-alpha-5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/plexus-container-default-1.0-alpha-8.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/junit-3.8.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/classworlds-1.1-alpha-2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/maven-repository-metadata-2.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/maven-error-diagnostics-2.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/maven-project-2.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/maven-plugin-registry-2.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/commons-cli-1.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/maven-plugin-descriptor-2.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/plexus-interactivity-api-1.0-alpha-4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/maven-artifact-manager-2.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/maven-monitor-2.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/wagon-ssh-1.0-alpha-5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jsch-0.1.23.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/plexus-utils-1.0.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/plexus-archiver-1.0-alpha-7.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/plexus-bundle-publisher-1.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

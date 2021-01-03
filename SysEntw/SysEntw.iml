@@ -32,5 +32,6 @@
     <orderEntry type="library" name="Maven: com.ibm.icu:icu4j:65.1" level="project" />
     <orderEntry type="library" name="Maven: commons-lang:commons-lang:2.6" level="project" />
     <orderEntry type="library" name="Maven: javax.activation:javax.activation-api:1.2.0" level="project" />
+    <orderEntry type="library" name="org.jfxtras:javafx-maven-plugin:1.0.0" level="project" />
   </component>
 </module>
