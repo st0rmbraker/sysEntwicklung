@@ -25,6 +25,12 @@
             <artifactId>orientdb-client</artifactId>
             <version>3.1.5</version>
         </dependency>
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>RELEASE</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <dependency>
