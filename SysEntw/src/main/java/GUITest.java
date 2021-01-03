@@ -2,6 +2,9 @@ import com.orientechnologies.orient.core.db.ODatabaseSession;
 import com.orientechnologies.orient.core.db.OrientDB;
 import com.orientechnologies.orient.core.db.OrientDBConfig;
 import com.orientechnologies.orient.core.exception.ODatabaseException;
+import com.orientechnologies.orient.core.id.ORecordId;
+import com.orientechnologies.orient.core.record.ODirection;
+import com.orientechnologies.orient.core.record.OEdge;
 import com.orientechnologies.orient.core.record.OVertex;
 import com.orientechnologies.orient.core.sql.executor.OResult;
 import com.orientechnologies.orient.core.sql.executor.OResultSet;
@@ -112,6 +115,55 @@ public class GUITest {
         n.setProperty("inputUser", nUser);
         n.save();
         return n;
+    }
+
+    //Gibt alle Knoten aus, denen der User folgt.
+    public static void listConnectedVertices(OVertex element)
+    {
+        Iterable<OVertex> overtexList = element.getVertices(ODirection.OUT); //Gibt auch noch IN und BOTH für die Richtungen
+
+        System.out.println("Du folgst: ");
+        for(OVertex v : overtexList) {
+            System.out.print("-" + v.getProperty("firstName").toString() + System.lineSeparator());
+        }
+
+    }
+
+    //Erzeugt Edge "follows" von follower zu followed, wenn Edge noch nicht vorhanden und gibt erstellte Edge zuriecl
+    public static OEdge followUser(OVertex follower, OVertex followed)
+    {
+        boolean followsAlready = false;
+        //checkt ob User bereits folgt damit keine doppelten Edges kommen
+
+        Iterable<OVertex> overtexList = follower.getVertices(ODirection.OUT);
+        for(OVertex v : overtexList) {
+            if(v.getIdentity() == followed.getIdentity())
+            {
+                System.out.println(follower.getProperty("username") + " folgt bereits " + followed.getProperty("username"));
+                return null;
+            }
+        }
+
+        OEdge temp = follower.addEdge(followed, "follows");
+        temp.save();
+        return temp;
+    }
+
+    //Gibt ein Element passend zur property "username" aus der Tabelle Account zurueck... WICHTIG: Nutzernamen duerfen nur einmalig sein, ansonsten wird erstes gefundenes Element zurueckgegeben => Bei Erstellung beachten
+    public OVertex getVertexByUsername(String userID){
+        OResultSet rs = db.query("SELECT FROM Account WHERE username = ?", userID);
+        while(rs.hasNext()){
+            OResult row = rs.next();
+            if(row.<String>getProperty("username").equals(userID)){
+                ORecordId user = new ORecordId(row.getProperty("@rid").toString());
+                OVertex ret = db.load(user);
+                System.out.println("User "+userID+" gefunden.");
+                rs.close();
+                return ret;
+            }
+        }
+        System.out.println("User "+userID+" nicht gefunden.");
+        return null;
     }
 
     public static void main(String[] args) {

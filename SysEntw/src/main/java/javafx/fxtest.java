@@ -32,6 +32,13 @@ public class fxtest extends Application{
         root.getChildren().add(btn);
         primaryStage.setScene(new Scene(root, 300, 250));
         primaryStage.show();
+
+
+
+    }
+
+    public void stop(){
+        System.out.println("Closing.");
     }
 
 
