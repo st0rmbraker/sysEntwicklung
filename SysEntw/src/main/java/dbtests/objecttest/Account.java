@@ -1,6 +1,4 @@
-package objecttest;
-
-import java.util.Collection;
+package dbtests.objecttest;
 
 public class Account {
 

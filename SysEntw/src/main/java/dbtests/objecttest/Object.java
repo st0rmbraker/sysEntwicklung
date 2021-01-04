@@ -1,4 +1,4 @@
-package objecttest;
+package dbtests.objecttest;
 
 import com.orientechnologies.orient.core.sql.executor.OResult;
 import com.orientechnologies.orient.core.sql.executor.OResultSet;
@@ -50,7 +50,7 @@ public class Object {
         OObjectDatabaseTx db = new OObjectDatabaseTx ("remote:localhost/ObjectDB").open("root", "123456");
 
         //Add objects in package objecttest to db
-        db.getEntityManager().registerEntityClasses("objecttest");
+        db.getEntityManager().registerEntityClasses("dbtests/objecttest");
 
         //create sample object
         Account account = new Account();

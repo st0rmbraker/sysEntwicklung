@@ -1,4 +1,4 @@
-package objecttest;
+package dbtests.objecttest;
 
 public class Country {
 
