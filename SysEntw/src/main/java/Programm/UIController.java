@@ -19,9 +19,15 @@ public class UIController {
     public ListView examples;
     public TextField insert_user;
 
+    Helpers h = new Helpers();
+
     //public void sayHelloWorld(ActionEvent actionEvent) {helloWorld.setText("Hello World!");}
 
-    public void follows_me(ActionEvent actionEvent) { follows_me.getId(); }
+    public void follows_me_action(ActionEvent actionEvent) {
+
+        System.out.println("Test");
+        h.outputQueryAcc("SELECT FROM Account");
+    }
 
 
     //lollll
