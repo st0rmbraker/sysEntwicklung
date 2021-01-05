@@ -174,6 +174,8 @@ public class Helpers {
             user.setProperty("username", userName);
             user.setProperty("firstName", firstName);
             user.setProperty("lastName", lastName);
+            //user.setProperty("userInfos", createUserInfos("Mannheim", "alex@web.de", new Date(1,1,1)));
+
 
             user.save();
             return user;
