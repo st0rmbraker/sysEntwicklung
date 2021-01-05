@@ -22,8 +22,6 @@
          <Button fx:id="profile_following" layoutX="491.0" layoutY="286.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="104.0" text="Following" textFill="#211f1f" />
          <ListView fx:id="examples" layoutX="490.0" layoutY="76.0" prefHeight="200.0" prefWidth="110.0" />
          <TextField fx:id="insert_user" layoutX="491.0" layoutY="14.0" prefHeight="28.0" prefWidth="110.0" />
-         <Button layoutX="170.0" layoutY="94.0" text="Hello World" />
          <Label fx:id="helloWorld" layoutX="157.0" layoutY="140.0" prefHeight="17.0" prefWidth="189.0" />
-         <Button fx:id="hanswurst" layoutX="197.0" layoutY="221.0" mnemonicParsing="false" text="button2" />
       </children>
    </AnchorPane>
