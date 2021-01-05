@@ -3,7 +3,6 @@ package Programm;
 import com.orientechnologies.orient.core.db.ODatabaseSession;
 import com.orientechnologies.orient.core.db.OrientDB;
 import com.orientechnologies.orient.core.db.OrientDBConfig;
-import com.orientechnologies.orient.core.db.document.ODatabaseDocument;
 import com.orientechnologies.orient.core.exception.ODatabaseException;
 import com.orientechnologies.orient.core.id.ORecordId;
 import com.orientechnologies.orient.core.record.ODirection;
@@ -12,8 +11,11 @@ import com.orientechnologies.orient.core.record.OVertex;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 import com.orientechnologies.orient.core.sql.executor.OResult;
 import com.orientechnologies.orient.core.sql.executor.OResultSet;
-import javax.swing.*;
+
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public class Helpers {
 
@@ -174,7 +176,7 @@ public class Helpers {
             user.setProperty("username", userName);
             user.setProperty("firstName", firstName);
             user.setProperty("lastName", lastName);
-            //user.setProperty("userInfos", createUserInfos("Mannheim", "alex@web.de", new Date(1,1,1)));
+            user.setProperty("userInfos", createUserInfos("Mannheim", "alex@web.de", new Date(1,1,1)));
 
 
             user.save();
@@ -186,6 +188,48 @@ public class Helpers {
         return null;
 
         //ERGÄNZEN: WENN USER VORHANDEN DATEN ZIEHEN
+    }
+
+
+    public List<Optional<OVertex>> getUsersByCity(String city)
+    {
+        session();
+
+        List<Optional<OVertex>> list = new ArrayList<>();
+
+        OResultSet rs = db.query("SELECT FROM Account");
+        while(rs.hasNext())
+        {
+            OResult row = rs.next();
+
+            list.add(row.toElement().asVertex());
+            System.out.println(row.<String>getProperty("username"));
+
+        }
+
+        return list;
+    }
+
+    public void printTest() {
+        session();
+
+        OResultSet rs = db.query("SELECT FROM Account WHERE username='atheob'");
+        while(rs.hasNext())
+        {
+            OResult row = rs.next();
+
+            OResultSet rsuserInfos = db.query("SELECT FROM userInfos WHERE @rid=?", row.getProperty("userInfos").toString());
+
+            if(rsuserInfos.hasNext())
+            {
+
+                rsuserInfos.next();
+                //System.out.println(rsuserInfos.);
+            }
+
+            System.out.println(row.getProperty("userInfos").toString());
+
+        }
     }
 
 }
