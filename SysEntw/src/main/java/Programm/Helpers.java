@@ -232,4 +232,23 @@ public class Helpers {
         }
     }
 
+
+    public String getUsersFromLand(String land)
+    {
+        session();
+
+        String ret = "String";
+
+        OResultSet rs = db.query("SELECT * FROM Account WHERE userInfos.land.kuerzel=?", land);
+
+        while(rs.hasNext())
+        {
+            OResult row = rs.next();
+            System.out.println(row.getProperty("username").toString());
+            ret = row.getProperty("username").toString();
+        }
+
+        return ret;
+    }
+
 }

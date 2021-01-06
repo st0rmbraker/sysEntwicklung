@@ -26,7 +26,8 @@ public class UIController {
     public void follows_me_action(ActionEvent actionEvent) {
 
         System.out.println("Test");
-        h.outputQueryAcc("SELECT FROM Account");
+        h.session();
+        insert_user.setText(h.outputQueryAcc("SELECT FROM ACCOUNT"));
     }
 
 
