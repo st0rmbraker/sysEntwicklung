@@ -7,7 +7,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.TextFlow;
 
-public class UIController {
+public class UIController extends Helpers{
 
     //public Label helloWorld;
     public Button follows_me;
@@ -29,8 +29,8 @@ public class UIController {
     public void follows_me_action(ActionEvent actionEvent) {
 
         System.out.println("Test");
-        h.session();
-        insert_user.setText(h.outputQueryAcc("SELECT FROM ACCOUNT"));
+        session();
+        insert_user.setText(outputQueryAcc("SELECT FROM ACCOUNT"));
     }
 
     public void whoFollowsMe(ActionEvent actionEvent) {
@@ -42,7 +42,7 @@ public class UIController {
 //        String userToFollow = insert_user.getText();
 //        if(h.getVertexByUsername(userToFollow) != null ?! h.getVertexByUsername())
 //        h.followUser()
-        System.out.println(user.getProperty("username").toString());
+        System.out.println(user.getProperty("firstName").toString());
 
     }
 
