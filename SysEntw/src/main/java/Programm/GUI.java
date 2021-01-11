@@ -15,6 +15,7 @@ import static javafx.fxml.FXMLLoader.load;
 public class GUI extends Application {
 
     String user;
+    Helpers h = new Helpers();
 
     public static void main(String[] args) {
         launch(args);
@@ -30,7 +31,7 @@ public class GUI extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/sample.fxml"));
         Parent root = (Parent)fxmlLoader.load();
         UIController controller = fxmlLoader.<UIController>getController();
-        //controller.test(user);
+        controller.setUser(h.getVertexByUsername(user));
 
 
         primaryStage.setTitle("Hello World");

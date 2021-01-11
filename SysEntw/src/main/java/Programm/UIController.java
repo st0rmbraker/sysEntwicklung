@@ -1,5 +1,6 @@
 package Programm;
 
+import com.orientechnologies.orient.core.record.OVertex;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
@@ -21,6 +22,7 @@ public class UIController {
     public Button plusButton;
 
     Helpers h = new Helpers();
+    OVertex user;
 
     //public void sayHelloWorld(ActionEvent actionEvent) {helloWorld.setText("Hello World!");}
 
@@ -37,6 +39,10 @@ public class UIController {
 
     public void onClickFollowButton(ActionEvent actionEvent)
     {
+//        String userToFollow = insert_user.getText();
+//        if(h.getVertexByUsername(userToFollow) != null ?! h.getVertexByUsername())
+//        h.followUser()
+        System.out.println(user.getProperty("username").toString());
 
     }
 
@@ -47,12 +53,15 @@ public class UIController {
     }
 
 
+
+
     //lollll
     //lllooooollll
     //lalala
 
 
-
-
+    public void setUser(OVertex user) {
+        this.user = user;
+    }
 }
 
