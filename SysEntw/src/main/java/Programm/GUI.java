@@ -31,11 +31,13 @@ public class GUI extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/sample.fxml"));
         Parent root = (Parent)fxmlLoader.load();
         UIController controller = fxmlLoader.<UIController>getController();
+
         controller.setUser(h.getVertexByUsername(user));
 
-
         primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 300, 275));
+        Scene scene = new Scene(root, 300, 275);
+        scene.getStylesheets().add("/style.css");
+        primaryStage.setScene(scene);
         primaryStage.show();
 
     }

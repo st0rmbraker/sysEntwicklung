@@ -111,14 +111,18 @@ public class Helpers {
     }
 
     //Gibt alle Knoten aus, denen der User folgt.
-    public String listConnectedVertices(OVertex element){
+    public String listConnectedVertices(OVertex element, String direction){
         session();
-        String ret = null;
-        Iterable<OVertex> overtexList = element.getVertices(ODirection.OUT); //Gibt auch noch IN und BOTH für die Richtungen
-
-        System.out.println("Du folgst: ");
+        String ret = "";
+        Iterable<OVertex> overtexList;
+        if(direction.equals("IN")) {
+           overtexList = element.getVertices(ODirection.IN); //Gibt auch noch IN und BOTH für die Richtungen
+        }
+        else {
+            overtexList = element.getVertices(ODirection.OUT); //Gibt auch noch IN und BOTH für die Richtungen
+        }
         for(OVertex v : overtexList) {
-            ret.concat("-" + v.getProperty("firstName").toString() + System.lineSeparator());
+            ret += ("-" + v.getProperty("firstName").toString() + System.lineSeparator());
         }
         return ret;
 

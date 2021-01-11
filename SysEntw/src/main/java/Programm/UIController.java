@@ -30,23 +30,23 @@ public class UIController extends Helpers {
     public ListView examples;
     public TextField insert_user;
     public Button plusButton;
+    public Label textfieldFollowsMe;
 
     Helpers h = new Helpers();
     OVertex user;
 
     //public void sayHelloWorld(ActionEvent actionEvent) {helloWorld.setText("Hello World!");}
 
-    public void follows_me_action(ActionEvent actionEvent) {
-
-        System.out.println("Test");
-        session();
-        insert_user.setText(outputQueryAcc("SELECT FROM ACCOUNT"));
+    public void followingAction(ActionEvent actionEvent) {
+        textfieldFollowsMe.setText(listConnectedVertices(user, "OUT"));
     }
 
     public void whoFollowsMe(ActionEvent actionEvent) {
+        textfieldFollowsMe.setText(listConnectedVertices(user, "IN"));
 
     }
 
+    //Der "+"-Button. Aktuell angemeldeter User folgt dem in dem Textfeld "insert_user" eingegeben Benutzernamen, wenn vorhanden.
     public void onClickFollowButton(ActionEvent event) {
         String userToFollow = insert_user.getText();
         if (getVertexByUsername(userToFollow) != null) {
@@ -59,10 +59,12 @@ public class UIController extends Helpers {
 
     }
 
+    public void setUser(OVertex user) {
+        this.user = user;
+    }
 
 
-
-    //lollll
+//lollll
     //lllooooollll
     //lalala
 
