@@ -1,23 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Programm.UIController">
-   <children>
-      <Label fx:id="helloWorld" layoutX="157.0" layoutY="140.0" prefHeight="17.0" prefWidth="189.0" />
-      <SplitPane dividerPositions="0.29797979797979796" prefHeight="400.0" prefWidth="600.0">
-        <items>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="350.0" prefWidth="238.0">
-               <children>
-                  <Button fx:id="hanswurst" layoutX="39.0" layoutY="199.0" mnemonicParsing="false" onAction="#testbuitton" text="button2" />
-                  <Button id="aktualisieren" layoutX="2.0" layoutY="1.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="167.0" text="Aktualisieren" />
-               </children></AnchorPane>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="377.0" prefWidth="150.0">
-               <children>
-                  <Button layoutX="5.0" layoutY="91.0" onAction="#sayHelloWorld" text="Hello World" />
-               </children></AnchorPane>
-        </items>
-      </SplitPane>
-   </children>
-</AnchorPane>
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Programm.UIController">
+      <children>
+         <Button fx:id="follows_me" layoutX="491.0" layoutY="347.0" onAction="#follows_me_action" prefHeight="46.0" prefWidth="104.0" text="Follows me" />
+         <ImageView id="profile_details" fx:id="profile_image" fitHeight="150.0" fitWidth="200.0" layoutX="7.0" pickOnBounds="true" preserveRatio="true" />
+         <ListView layoutY="150.0" prefHeight="200.0" prefWidth="213.0" />
+         <MenuButton fx:id="profile_settings" layoutX="-1.0" layoutY="350.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="214.0" text="Settings">
+            <items>
+               <MenuItem mnemonicParsing="false" text="Action 1" />
+               <MenuItem mnemonicParsing="false" text="Action 2" />
+            </items>
+         </MenuButton>
+         <ImageView fx:id="follower_image" fitHeight="158.0" fitWidth="118.0" layoutX="374.0" layoutY="-3.0" pickOnBounds="true" preserveRatio="true" />
+         <ListView fx:id="follower_details" layoutX="214.0" layoutY="-3.0" prefHeight="157.0" prefWidth="159.0" />
+         <TextFlow fx:id="chat" layoutX="214.0" layoutY="155.0" prefHeight="248.0" prefWidth="267.0" />
+         <Button fx:id="profile_following" layoutX="491.0" layoutY="286.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="104.0" text="Following" textFill="#211f1f" />
+         <ListView fx:id="examples" layoutX="490.0" layoutY="76.0" prefHeight="200.0" prefWidth="110.0" />
+         <TextField fx:id="insert_user" layoutX="491.0" layoutY="14.0" prefHeight="28.0" prefWidth="110.0" />
+         <Label fx:id="helloWorld" layoutX="157.0" layoutY="140.0" prefHeight="17.0" prefWidth="189.0" />
+      </children>
+   </AnchorPane>
