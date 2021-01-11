@@ -54,6 +54,11 @@ public class Helpers {
         }
     }
 
+    /**
+     * Diese Methode überprüft, ob ein User exitsiert. Dafür muss der USername übergeben werden
+     * @param username: String
+     * @return: es wird ein boolean zurückgegeben
+     */
     public boolean checkUserExists(String username){
         session();
         OResultSet rs = db.query("SELECT FROM Account WHERE username =?", username);
@@ -65,6 +70,9 @@ public class Helpers {
         return false;
     }
 
+    /**
+     * ???
+     */
     public void clear(){
         System.out.println("Macht im Moment nichts.");
     }
@@ -84,6 +92,14 @@ public class Helpers {
         return ret;
     }
 
+    /**
+     * Methode erstellt einen neuen Nutzer mit allen dazugehörigen Attributen in der gegeben Datenbank
+     * @param db: gegebene Datenbank
+     * @param nLastName: Nachname des Users
+     * @param nFirstName: Vorname des Users
+     * @param nUser: USername des Users
+     * @return: gibt den neu erstellten Nutzer zurück
+     */
     public OVertex createPerson (ODatabaseSession db, String nLastName, String nFirstName, String nUser){
         session();
         OVertex n = db.newVertex("Account");
