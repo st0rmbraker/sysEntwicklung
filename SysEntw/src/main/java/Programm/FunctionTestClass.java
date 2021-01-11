@@ -10,12 +10,7 @@ public class FunctionTestClass {
     public static void main(String[] args) {
         Helpers h = new Helpers();
 
-        System.out.println("Von der Print: " + h.getUsersFromLand("de"));
+        System.out.println(h.countFollowers(h.getVertexByUsername("atheob"), "OUT"));
 
-        OVertex user = h.getVertexByUsername(h.getUsersFromLand("de"));
-
-        user.setProperty("firstName", "Erfolg");
-
-        user.save();
     }
 }

@@ -162,6 +162,30 @@ public class Helpers {
         return null;
     }
 
+    public String countFollowers(OVertex user, String direction)
+    {
+        session();
+
+        Iterable<OVertex> list;
+
+        if(direction.equals("IN"))
+        {
+            list = user.getVertices(ODirection.IN);
+        }
+
+        else {
+            list = user.getVertices(ODirection.OUT);
+        }
+
+        int counter = 0;
+        for(OVertex v : list) {
+            counter++;
+        }
+
+        return Integer.toString(counter);
+
+    }
+
     /**
      * erstellt Userinfos Objekt in der klasse userInfos mit Stadt, Mail und Geburtstag, letzteres als java.sql.Date
      * @return erstelltes Object der userInfos klasse
@@ -253,17 +277,16 @@ public class Helpers {
     {
         session();
 
-        String ret = "String";
+        String ret = "User: \n";
 
         OResultSet rs = db.query("SELECT * FROM Account WHERE userInfos.land.kuerzel=?", land);
 
         while(rs.hasNext())
         {
             OResult row = rs.next();
-            System.out.println(row.getProperty("username").toString());
-            ret = row.getProperty("username").toString();
+            ret = ret + "\n - " +row.getProperty("username").toString();
         }
-
+        System.out.println(ret);
         return ret;
     }
 

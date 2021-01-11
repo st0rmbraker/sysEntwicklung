@@ -32,6 +32,9 @@ public class GUI extends Application {
         primaryStage.setTitle("Hello World");
         primaryStage.setScene(new Scene(root, 300, 275));
         primaryStage.show();
+
+        UIController ui = new UIController();
+
     }
 
     public String getUser(){
