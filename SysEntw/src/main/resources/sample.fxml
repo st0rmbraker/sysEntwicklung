@@ -23,6 +23,6 @@
       <ListView fx:id="examples" layoutX="490.0" layoutY="76.0" prefHeight="200.0" prefWidth="110.0" />
       <TextField fx:id="insert_user" layoutX="491.0" layoutY="14.0" prefHeight="28.0" prefWidth="88.0" />
       <Label fx:id="helloWorld" layoutX="157.0" layoutY="140.0" prefHeight="17.0" prefWidth="189.0" />
-      <Button fx:id="plusButton" onAction="#onClickFollowButton" layoutX="575.0" layoutY="15.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="23.0" text="+" />
+      <Button fx:id="plusButton" layoutX="575.0" layoutY="15.0" mnemonicParsing="false" onAction="#onClickFollowButton" prefHeight="26.0" prefWidth="32.0" text="+" />
    </children>
 </AnchorPane>
