@@ -27,22 +27,19 @@ public class GUI extends Application {
                 "Bitte geben sie ihren Benutzernamen ein.",
                 JOptionPane.DEFAULT_OPTION);
 
-        Parent root;
-        root = FXMLLoader.load(getClass().getResource("/sample.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/sample.fxml"));
+        Parent root = (Parent)fxmlLoader.load();
+        UIController controller = fxmlLoader.<UIController>getController();
+        //controller.test(user);
+
+
         primaryStage.setTitle("Hello World");
         primaryStage.setScene(new Scene(root, 300, 275));
         primaryStage.show();
 
-        UIController ui = new UIController();
-
     }
 
-    public String getUser(){
+    public String getUser() {
         return user;
     }
-
-
-
-
-
 }

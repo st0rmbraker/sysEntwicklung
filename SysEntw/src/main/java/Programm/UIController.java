@@ -18,6 +18,7 @@ public class UIController {
     public Button profile_following;
     public ListView examples;
     public TextField insert_user;
+    public Button plusButton;
 
     Helpers h = new Helpers();
 
@@ -28,6 +29,21 @@ public class UIController {
         System.out.println("Test");
         h.session();
         insert_user.setText(h.outputQueryAcc("SELECT FROM ACCOUNT"));
+    }
+
+    public void whoFollowsMe(ActionEvent actionEvent) {
+
+    }
+
+    public void onClickFollowButton(ActionEvent actionEvent)
+    {
+
+    }
+
+
+    public void test(String test)
+    {
+        System.out.println(test);
     }
 
 
