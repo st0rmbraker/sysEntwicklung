@@ -51,8 +51,21 @@ public class UIController extends Helpers {
         }
     }
 
-    public void setUser(OVertex user) {
-        this.user = user;
+    public void setUser(String user) {
+        if(checkUserExists(user)){
+            this.user = h.getVertexByUsername(user);
+        }
+        else{
+            createUser(
+                JOptionPane.showInputDialog(null,"Firstname:"
+                    JOptionPane.DEFAULT_OPTION),
+                JOptionPane.showInputDialog(null,"Lastname:",
+                    JOptionPane.DEFAULT_OPTION),
+                JOptionPane.showInputDialog(null,"username",
+                    JOptionPane.DEFAULT_OPTION)
+            );
+        }
+
     }
 
 
@@ -83,21 +96,25 @@ public class UIController extends Helpers {
     */
 
     public void onClick_following_button(ActionEvent actionEvent) {
+        System.out.println("onClick_following_button");
         output_follower.setItems(prepareFollowers(user, "OUT"));
     }
 
     public void onClick_me_following_button(ActionEvent actionEvent) {
+        System.out.println("onClick_me_following_button");
         output_follower.setItems(prepareFollowers(user, "IN"));
     }
 
 
     //Der "+"-Button. Aktuell angemeldeter User folgt dem in dem Textfeld "insert_user" eingegeben Benutzernamen, wenn vorhanden.
     public void onClick_to_follow_button(ActionEvent event) {
+        System.out.println("onClick_to_follow_button");
         String userToFollow = insert_user.getText();
         if (getVertexByUsername(userToFollow) != null) {
             OVertex followed = getVertexByUsername(userToFollow);
             followUser(user, followed);
             System.out.println(user.getProperty("username")+" folgt jetzt "+userToFollow);
+            output_follower.setItems(prepareFollowers(user, "OUT"));
         } else {
             System.out.println("Folgen fehlgeschlagen, user "+userToFollow+"nicht vorhanden");
         }

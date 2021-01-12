@@ -30,11 +30,13 @@ public class GUI extends Application {
     public void start(Stage primaryStage) throws Exception{
 
 
+        System.out.println("Loading UI");
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/sample.fxml"));
         Parent root = (Parent)fxmlLoader.load();
         UIController controller = fxmlLoader.<UIController>getController();
+        System.out.println("Loading DB");
         try {
-            controller.setUser(h.getVertexByUsername(user));
+            controller.setUser(user);
             primaryStage.setTitle("OrientDB-Test");
             primaryStage.setScene(new Scene(root, 600, 400));
             primaryStage.show();
