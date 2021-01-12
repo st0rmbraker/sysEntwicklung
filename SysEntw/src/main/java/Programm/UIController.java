@@ -19,40 +19,33 @@ import java.io.IOException;
 
 public class UIController extends Helpers {
 
-    //public Label helloWorld;
-    public Button follows_me;
+
     public ImageView profile_image;
     public MenuButton profile_settings;
-    public ImageView follower_image;
-    public ListView follower_details;
     public TextFlow chat;
-    public Button profile_following;
-    public ListView examples;
     public TextField insert_user;
     public Button plusButton;
-    public Label textfieldFollowsMe;
-    public TextField follows;
+    public ListView output_follower;
+    public Button following_button;
+    public Button me_following_button;
+    public Button to_follow_button;
+    public TextArea own_infos;
+    public TextArea to_follow_infos;
 
     Helpers h = new Helpers();
     OVertex user;
 
-    //public void sayHelloWorld(ActionEvent actionEvent) {helloWorld.setText("Hello World!");}
-
-    public void followingAction(ActionEvent actionEvent) {
-        textfieldFollowsMe.setText(listConnectedVertices(user, "OUT"));
+    public void onClick_following_button(ActionEvent actionEvent) {
+        output_follower.setText(listConnectedVertices(user,"OUT"));
     }
 
-    public void whoFollowsMe(ActionEvent actionEvent) {
-        follows.setText(listConnectedVertices(user,"IN"));
-    }
-
-    public void follows_me_action(ActionEvent actionEvent) {
-        follows.setText(listConnectedVertices(user,"IN"));
+    public void onClick_me_following_button(ActionEvent actionEvent) {
+        output_follower.setText(listConnectedVertices(user,"IN"));
     }
 
 
     //Der "+"-Button. Aktuell angemeldeter User folgt dem in dem Textfeld "insert_user" eingegeben Benutzernamen, wenn vorhanden.
-    public void onClickFollowButton(ActionEvent event) {
+    public void onClick_to_follow_button(ActionEvent event) {
         String userToFollow = insert_user.getText();
         if (getVertexByUsername(userToFollow) != null) {
             OVertex followed = getVertexByUsername(userToFollow);
@@ -61,11 +54,7 @@ public class UIController extends Helpers {
         } else {
             System.out.println("Folgen fehlgeschlagen, user "+userToFollow+"nicht vorhanden");
         }
-
-
     }
-
-
 
     public void setUser(OVertex user) {
         this.user = user;

@@ -224,13 +224,10 @@ public class Helpers {
             user.setProperty("lastName", lastName);
             user.setProperty("userInfos", createUserInfos("Mannheim", "alex@web.de", new Date(1,1,1)));
 
-
             user.save();
             return user;
         }
-
         System.out.println("User bereits vorhanden");
-
         return null;
 
         //ERGÄNZEN: WENN USER VORHANDEN DATEN ZIEHEN
@@ -279,12 +276,10 @@ public class Helpers {
     }
 
 
-    public String getUsersFromLand(String land)
-    {
+    public String getUsersFromLand(String land){
+
         session();
-
         String ret = "User: \n";
-
         OResultSet rs = db.query("SELECT * FROM Account WHERE userInfos.land.kuerzel=?", land);
 
         while(rs.hasNext())

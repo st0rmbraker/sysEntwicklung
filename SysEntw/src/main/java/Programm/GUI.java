@@ -26,20 +26,9 @@ public class GUI extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-
-        JFrame frame = new JFrame("InputDialog Example #1");
-
-        // prompt the user to enter their name
-        String name = JOptionPane.showInputDialog(frame, "What's your name?");
-
-        // get the user's input. note that if they press Cancel, 'name' will be null
-        System.out.printf("The user's name is '%s'.\n", name);
-        System.exit(0);
-
-        //user = JOptionPane.showInputDialog(null,
-        //        "Bitte geben sie ihren Benutzernamen ein.",
-        //        JOptionPane.DEFAULT_OPTION);
-
+        user = JOptionPane.showInputDialog(null,
+                "Bitte geben sie ihren Benutzernamen ein.",
+                JOptionPane.DEFAULT_OPTION);
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/sample.fxml"));
         Parent root = (Parent)fxmlLoader.load();
@@ -52,6 +41,7 @@ public class GUI extends Application {
         }
         catch (ODatabaseException ex){
             System.out.println("Ein Datenbankfehler ist aufgetreten "+ex);
+            System.exit(0);
         }
 
 
