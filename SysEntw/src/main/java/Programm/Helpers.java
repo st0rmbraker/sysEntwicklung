@@ -12,6 +12,7 @@ import com.orientechnologies.orient.core.record.impl.ODocument;
 import com.orientechnologies.orient.core.sql.executor.OResult;
 import com.orientechnologies.orient.core.sql.executor.OResultSet;
 
+import java.lang.reflect.InvocationTargetException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +25,8 @@ public class Helpers {
 
     public void session(){
         orient = new OrientDB("remote:localhost", OrientDBConfig.defaultConfig());
-        db = orient.open("Netzwerk1","root","123456");
+        db = orient.open("Netzwerk1", "root", "123456");
+
     }
 
     public String refreshAcc(){

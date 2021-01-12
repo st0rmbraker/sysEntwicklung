@@ -31,6 +31,7 @@ public class UIController extends Helpers {
     public TextField insert_user;
     public Button plusButton;
     public Label textfieldFollowsMe;
+    public TextField follows;
 
     Helpers h = new Helpers();
     OVertex user;
@@ -42,9 +43,13 @@ public class UIController extends Helpers {
     }
 
     public void whoFollowsMe(ActionEvent actionEvent) {
-        textfieldFollowsMe.setText(listConnectedVertices(user, "IN"));
-
+        follows.setText(listConnectedVertices(user,"IN"));
     }
+
+    public void follows_me_action(ActionEvent actionEvent) {
+        follows.setText(listConnectedVertices(user,"IN"));
+    }
+
 
     //Der "+"-Button. Aktuell angemeldeter User folgt dem in dem Textfeld "insert_user" eingegeben Benutzernamen, wenn vorhanden.
     public void onClickFollowButton(ActionEvent event) {
@@ -52,22 +57,18 @@ public class UIController extends Helpers {
         if (getVertexByUsername(userToFollow) != null) {
             OVertex followed = getVertexByUsername(userToFollow);
             followUser(user, followed);
+            System.out.println(user.getProperty("username")+" folgt jetzt "+userToFollow);
         } else {
-            System.out.println("Folgen fehlgeschlagen, user nicht vorhanden");
+            System.out.println("Folgen fehlgeschlagen, user "+userToFollow+"nicht vorhanden");
         }
 
 
     }
 
+
+
     public void setUser(OVertex user) {
         this.user = user;
     }
-
-
-//lollll
-    //lllooooollll
-    //lalala
-
-
 }
 
