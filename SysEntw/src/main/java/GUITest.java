@@ -43,7 +43,7 @@ public class GUITest {
         addPerson.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                OVertex n = h.createPerson(db,inputLast.getText(), inputFirst.getText(), inputUser.getText());
+                OVertex n = h.createPerson(inputLast.getText(), inputFirst.getText(), inputUser.getText());
                 h.refreshAcc();
             }
         });

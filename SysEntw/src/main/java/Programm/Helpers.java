@@ -24,7 +24,7 @@ public class Helpers {
     public ODatabaseSession db;
 
     public void session(){
-        orient = new OrientDB("remote:localhost", OrientDBConfig.defaultConfig());
+        orient = new OrientDB("remote:wgay.hopto.org", OrientDBConfig.defaultConfig());
         db = orient.open("Netzwerk1", "root", "123456");
 
     }
@@ -96,18 +96,17 @@ public class Helpers {
 
     /**
      * Methode erstellt einen neuen Nutzer mit allen dazugehörigen Attributen in der gegeben Datenbank
-     * @param db: gegebene Datenbank
      * @param nLastName: Nachname des Users
      * @param nFirstName: Vorname des Users
-     * @param nUser: USername des Users
+     * @param nUsername: USername des Users
      * @return: gibt den neu erstellten Nutzer zurück
      */
-    public OVertex createPerson (ODatabaseSession db, String nLastName, String nFirstName, String nUser){
+    public OVertex createPerson ( String nFirstName, String nLastName, String nUsername){
         session();
         OVertex n = db.newVertex("Account");
         n.setProperty("lastName", nLastName);
         n.setProperty("firstName", nFirstName);
-        n.setProperty("inputUser", nUser);
+        n.setProperty("username", nUsername);
         n.save();
         return n;
     }
