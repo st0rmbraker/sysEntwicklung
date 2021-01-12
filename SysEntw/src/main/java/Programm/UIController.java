@@ -62,7 +62,7 @@ public class UIController extends Helpers {
             this.user = h.getVertexByUsername(user);
         }
         else{
-            // Eigener JavaFX Dialog zum Nutzer erstellen
+            // Eigenen JavaFX Dialog zum Nutzer erstellen
             Dialog <String[]> dialog = new Dialog<>();
             dialog.setTitle("Neuen Nutzer erstellen");
             dialog.setHeaderText("Neuen Nutzer erstellen");
@@ -124,7 +124,7 @@ public class UIController extends Helpers {
             Optional<String> userC = dialog.showAndWait();
             user = userC.get();
 */
-            createUser(result.get()[0], result.get()[1], result.get()[2]);
+            createUser(result.get()[2], result.get()[0], result.get()[1]);
         }
 
     }
@@ -176,8 +176,9 @@ public class UIController extends Helpers {
             followUser(user, followed);
             System.out.println(user.getProperty("username")+" folgt jetzt "+userToFollow);
             output_follower.setItems(prepareFollowers(user, "OUT"));
-        } else {
-            System.out.println("Folgen fehlgeschlagen, user "+userToFollow+"nicht vorhanden");
+        }
+        else{
+            System.out.println("Folgen fehlgeschlagen, user "+userToFollow+" nicht vorhanden");
         }
     }
 }
