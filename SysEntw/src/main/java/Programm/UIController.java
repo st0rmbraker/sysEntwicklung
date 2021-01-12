@@ -57,7 +57,7 @@ public class UIController extends Helpers {
         }
         else{
             createUser(
-                JOptionPane.showInputDialog(null,"Firstname:"
+                JOptionPane.showInputDialog(null,"Firstname:",
                     JOptionPane.DEFAULT_OPTION),
                 JOptionPane.showInputDialog(null,"Lastname:",
                     JOptionPane.DEFAULT_OPTION),

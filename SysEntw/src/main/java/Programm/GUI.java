@@ -29,6 +29,11 @@ public class GUI extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
 
+        TextInputDialog dialog = new TextInputDialog("");
+        dialog.setTitle("Benutzername eingeben");
+        dialog.setHeaderText("Bitte geben sie ihren Benutzernamen ein.");
+        dialog.setContentText("Bitte Namen eingeben:");
+        Optional<String> result = dialog.showAndWait();
 
         System.out.println("Loading UI");
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/sample.fxml"));
@@ -46,19 +51,15 @@ public class GUI extends Application {
         }
 
 
-        TextInputDialog dialog = new TextInputDialog("Userinput");
-        dialog.setTitle("Text Input Dialog");
-        dialog.setHeaderText("Look, a Text Input Dialog");
-        dialog.setContentText("Please enter your name:");
+
 
 // Traditional way to get the response value.
-        Optional<String> result = dialog.showAndWait();
+
         if (result.isPresent()){
             user = result.get();
         }
 
-        controller.setUser(h.getVertexByUsername(user));
-
+        controller.setUser(user);
 
     }
 
