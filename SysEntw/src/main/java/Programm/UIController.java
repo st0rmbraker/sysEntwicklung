@@ -22,7 +22,7 @@ public class UIController extends Helpers {
 
     public ImageView profile_image;
     public MenuButton profile_settings;
-    public TextFlow chat;
+    public TextFlow output_chat;
     public TextField insert_user;
     public Button plusButton;
     public ListView output_follower;
