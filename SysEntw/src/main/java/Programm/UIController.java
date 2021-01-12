@@ -1,12 +1,17 @@
 package Programm;
 
 import com.orientechnologies.orient.core.db.document.ODatabaseDocument;
+import com.orientechnologies.orient.core.id.ORecordId;
 import com.orientechnologies.orient.core.record.ODirection;
+import com.orientechnologies.orient.core.record.ORecord;
 import com.orientechnologies.orient.core.record.OVertex;
+import com.orientechnologies.orient.core.record.impl.ODocument;
+import com.orientechnologies.orient.core.record.impl.ORecordBytes;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -15,6 +20,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -24,7 +30,11 @@ import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
 
@@ -180,9 +190,28 @@ public class UIController extends Helpers {
         output_follower.setItems(prepareFollowers(user, "OUT"));
     }
 
-    public void onClick_me_following_button(ActionEvent actionEvent) {
-        System.out.println("onClick_me_following_button");
-        output_follower.setItems(prepareFollowers(user, "IN"));
+    public void onClick_me_following_button(ActionEvent actionEvent) throws IOException {
+//        System.out.println("onClick_me_following_button");
+//        output_follower.setItems(prepareFollowers(user, "IN"));
+
+        File file = new File("C:/Users/Alex/IdeaProjects/sysEntwicklung/SysEntw/src/main/resources/Haus.png");
+        Image image = new Image(file.toURI().toString());
+
+        ORecordId user = new ORecordId("#34:0");
+
+        ;
+
+        ODocument doc = new ODocument("Image");
+        doc.field("binary", "C:/Users/Alex/IdeaProjects/sysEntwicklung/SysEntw/src/main/resources/Haus.png".getBytes());
+
+
+
+
+        ByteArrayInputStream bai = new ByteArrayInputStream("/Haus.png".getBytes());
+
+        BufferedImage bild = ImageIO.read(bai);
+        Image realimage = SwingFXUtils.toFXImage(bild, null);
+        profile_image.setImage(realimage);
     }
 
     //Der "+"-Button. Aktuell angemeldeter User folgt dem in dem Textfeld "insert_user" eingegeben Benutzernamen, wenn vorhanden.
