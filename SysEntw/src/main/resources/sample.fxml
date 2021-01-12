@@ -14,13 +14,13 @@
             <MenuItem mnemonicParsing="false" text="Action 2" />
          </items>
       </MenuButton>
-      <Button fx:id="following_button" layoutX="491.0" layoutY="286.0" mnemonicParsing="false" onAction="#onClick_following_button" prefHeight="46.0" prefWidth="136.0" text="Following" textFill="#211f1f" />
-      <TextField fx:id="insert_user" layoutX="491.0" layoutY="14.0" prefHeight="28.0" prefWidth="88.0" />
-      <Button fx:id="plusButton" layoutX="575.0" layoutY="15.0" mnemonicParsing="false" onAction="#onClick_to_follow_button" prefHeight="26.0" prefWidth="23.0" text="+" />
-      <Button fx:id="to_follow_button" layoutX="575.0" layoutY="15.0" mnemonicParsing="false" onAction="#onClick_to_follow_button" prefHeight="26.0" prefWidth="32.0" text="+" />
-      <TextArea fx:id="own_infos" layoutY="157.0" prefHeight="200.0" prefWidth="200.0" />
+      <Button fx:id="following_button" layoutX="491.0" layoutY="295.0" mnemonicParsing="false" onAction="#onClick_following_button" prefHeight="46.0" prefWidth="136.0" text="Following" textFill="#211f1f" />
+      <TextField fx:id="insert_user" layoutX="491.0" layoutY="14.0" prefHeight="28.0" prefWidth="104.0" />
+      <Button fx:id="to_follow_button" layoutX="595.0" layoutY="15.0" mnemonicParsing="false" onAction="#onClick_to_follow_button" prefHeight="26.0" prefWidth="32.0" text="+" />
+      <TextArea fx:id="own_infos" layoutY="169.0" prefHeight="150.0" prefWidth="200.0" />
       <TextArea fx:id="to_follow_infos" layoutX="214.0" layoutY="14.0" prefHeight="143.0" prefWidth="268.0" />
-      <TextArea fx:id="output_chat" layoutX="217.0" layoutY="164.0" prefHeight="230.0" prefWidth="268.0" />
-      <ListView fx:id="output_follower" layoutX="491.0" layoutY="57.0" prefHeight="200.0" prefWidth="136.0" />
+      <TextArea fx:id="output_chat" layoutX="214.0" layoutY="166.0" prefHeight="230.0" prefWidth="268.0" />
+      <ListView fx:id="output_follower" layoutX="491.0" layoutY="57.0" prefHeight="224.0" prefWidth="136.0" />
+      <Button fx:id="change_info" layoutX="37.0" layoutY="329.0" mnemonicParsing="false" onAction="#onClick_change_info" text="UserInfos bearbeiten" />
    </children>
 </AnchorPane>
