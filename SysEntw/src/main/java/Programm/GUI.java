@@ -19,7 +19,7 @@ import static javafx.fxml.FXMLLoader.load;
 
 public class GUI extends Application {
 
-    String user;
+    Optional<String> user;
     Helpers h = new Helpers();
 
     public static void main(String[] args) {
@@ -33,7 +33,7 @@ public class GUI extends Application {
         dialog.setTitle("Benutzername eingeben");
         dialog.setHeaderText("Bitte geben sie ihren Benutzernamen ein.");
         dialog.setContentText("Bitte Namen eingeben:");
-        Optional<String> result = dialog.showAndWait();
+        user = dialog.showAndWait();
 
         System.out.println("Loading UI");
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/sample.fxml"));
@@ -41,7 +41,7 @@ public class GUI extends Application {
         UIController controller = fxmlLoader.<UIController>getController();
         System.out.println("Loading DB");
         try {
-            controller.setUser(user);
+            controller.setUser(user.get());
             primaryStage.setTitle("OrientDB-Test");
             primaryStage.setScene(new Scene(root, 600, 400));
             primaryStage.show();
@@ -50,20 +50,9 @@ public class GUI extends Application {
             System.out.println("Ein Datenbankfehler ist aufgetreten "+ex);
         }
 
-
-
-
-// Traditional way to get the response value.
-
-        if (result.isPresent()){
-            user = result.get();
-        }
-
-        controller.setUser(user);
-
     }
 
     public String getUser() {
-        return user;
+        return user.get();
     }
 }

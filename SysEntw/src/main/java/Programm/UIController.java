@@ -2,11 +2,13 @@ package Programm;
 
 import com.orientechnologies.orient.core.record.ODirection;
 import com.orientechnologies.orient.core.record.OVertex;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -14,11 +16,15 @@ import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 
 import javax.swing.*;
 import java.io.IOException;
+import java.util.Optional;
 
 public class UIController extends Helpers {
 
@@ -56,14 +62,69 @@ public class UIController extends Helpers {
             this.user = h.getVertexByUsername(user);
         }
         else{
-            createUser(
-                JOptionPane.showInputDialog(null,"Firstname:",
-                    JOptionPane.DEFAULT_OPTION),
-                JOptionPane.showInputDialog(null,"Lastname:",
-                    JOptionPane.DEFAULT_OPTION),
-                JOptionPane.showInputDialog(null,"username",
-                    JOptionPane.DEFAULT_OPTION)
-            );
+            // Eigener JavaFX Dialog zum Nutzer erstellen
+            Dialog <String[]> dialog = new Dialog<>();
+            dialog.setTitle("Neuen Nutzer erstellen");
+            dialog.setHeaderText("Neuen Nutzer erstellen");
+
+            //dialog.setGraphic(new ImageView(this.getClass().getResource("login.png").toString()));
+
+            // Set the button types.
+            ButtonType create = new ButtonType("Login", ButtonBar.ButtonData.OK_DONE);
+            dialog.getDialogPane().getButtonTypes().addAll(create, ButtonType.CANCEL);
+
+            GridPane grid = new GridPane();
+            grid.setHgap(10);
+            grid.setVgap(10);
+            grid.setPadding(new Insets(20, 150, 10, 10));
+
+            TextField nFirstName = new TextField();
+            nFirstName.setPromptText("Vorname");
+            TextField nLastName = new TextField();
+            nLastName.setPromptText("Nachname");
+            TextField nUsername = new TextField();
+            nUsername.setPromptText("Benutzername");
+
+            grid.add(new Label("Vorname:"), 0, 0);
+            grid.add(nFirstName, 1, 0);
+            grid.add(new Label("Nachname:"), 0, 1);
+            grid.add(nLastName, 1, 1);
+            grid.add(new Label("Benutzername:"), 0, 2);
+            grid.add(nUsername, 1, 2);
+
+            // Enable/Disable login button depending on whether a username was entered.
+            Node loginButton = dialog.getDialogPane().lookupButton(create);
+            loginButton.setDisable(true);
+
+            // Do some validation (using the Java 8 lambda syntax).
+            nUsername.textProperty().addListener((observable, oldValue, newValue) -> {
+                loginButton.setDisable(newValue.trim().isEmpty());
+            });
+
+            dialog.getDialogPane().setContent(grid);
+
+            // Request focus on the username field by default.
+            Platform.runLater(() -> nFirstName.requestFocus());
+            nFirstName.getText();
+            // Convert the result to a username-password-pair when the login button is clicked.
+            dialog.setResultConverter(dialogButton -> {
+                if (dialogButton == create) {
+                    return new String[]{nFirstName.getText(), nLastName.getText(), nUsername.getText()};
+                }
+                return null;
+            });
+
+            Optional<String[]> result = dialog.showAndWait();
+
+           /*
+            TextInputDialog dialog = new TextInputDialog("");
+            dialog.setTitle("Benutzername eingeben");
+            dialog.setHeaderText("Bitte geben sie ihren Benutzernamen ein.");
+            dialog.setContentText("Bitte Namen eingeben:");
+            Optional<String> userC = dialog.showAndWait();
+            user = userC.get();
+*/
+            createUser(result.get()[0], result.get()[1], result.get()[2]);
         }
 
     }
