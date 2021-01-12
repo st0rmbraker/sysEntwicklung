@@ -1,6 +1,9 @@
 package Programm;
 
+import com.orientechnologies.orient.core.record.ODirection;
 import com.orientechnologies.orient.core.record.OVertex;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -22,7 +25,6 @@ public class UIController extends Helpers {
 
     public ImageView profile_image;
     public MenuButton profile_settings;
-    public TextFlow output_chat;
     public TextField insert_user;
     public Button plusButton;
     public ListView output_follower;
@@ -31,16 +33,61 @@ public class UIController extends Helpers {
     public Button to_follow_button;
     public TextArea own_infos;
     public TextArea to_follow_infos;
+    public TextArea output_chat;
 
     Helpers h = new Helpers();
     OVertex user;
 
+
+
+    //Der "+"-Button. Aktuell angemeldeter User folgt dem in dem Textfeld "insert_user" eingegeben Benutzernamen, wenn vorhanden.
+    public void onClickFollowButton(ActionEvent event) {
+        String userToFollow = insert_user.getText();
+        if (getVertexByUsername(userToFollow) != null) {
+            OVertex followed = getVertexByUsername(userToFollow);
+            followUser(user, followed);
+        } else {
+            System.out.println("Folgen fehlgeschlagen, user nicht vorhanden");
+        }
+    }
+
+    public void setUser(OVertex user) {
+        this.user = user;
+    }
+
+
+    //Stellt Liste der Follower in Richtung Rein oder Raus bereit
+    public ObservableList<String> prepareFollowers(OVertex element, String direction){
+        session();
+        ObservableList<String> ret = FXCollections.observableArrayList();
+        ret.add("Start");
+        Iterable<OVertex> overtexList;
+        System.out.println("test");
+        if(direction.equals("IN")) {
+            overtexList = element.getVertices(ODirection.IN); //Gibt auch noch IN und BOTH fuer die Richtungen
+        }
+        else {
+            overtexList = element.getVertices(ODirection.OUT); //Gibt auch noch IN und BOTH fuer die Richtungen
+        }
+        for(OVertex v : overtexList) {
+            ret.add("-" + v.getProperty("firstName").toString() + " " + v.getProperty("username").toString());
+        }
+        return ret;
+
+    }
+
+    /*
+    public void onClickFollowerDetails(javafx.scene.input.MouseEvent mouseEvent) {
+        System.out.println("clicked on " + follower_details.getSelectionModel().getSelectedItem());
+    }
+    */
+
     public void onClick_following_button(ActionEvent actionEvent) {
-        output_follower.setText(listConnectedVertices(user,"OUT"));
+        output_follower.setItems(prepareFollowers(user, "OUT"));
     }
 
     public void onClick_me_following_button(ActionEvent actionEvent) {
-        output_follower.setText(listConnectedVertices(user,"IN"));
+        output_follower.setItems(prepareFollowers(user, "IN"));
     }
 
 
@@ -54,10 +101,6 @@ public class UIController extends Helpers {
         } else {
             System.out.println("Folgen fehlgeschlagen, user "+userToFollow+"nicht vorhanden");
         }
-    }
-
-    public void setUser(OVertex user) {
-        this.user = user;
     }
 }
 

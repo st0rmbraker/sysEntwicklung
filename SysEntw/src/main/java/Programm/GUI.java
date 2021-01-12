@@ -26,6 +26,7 @@ public class GUI extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+
         user = JOptionPane.showInputDialog(null,
                 "Bitte geben sie ihren Benutzernamen ein.",
                 JOptionPane.DEFAULT_OPTION);
@@ -41,7 +42,6 @@ public class GUI extends Application {
         }
         catch (ODatabaseException ex){
             System.out.println("Ein Datenbankfehler ist aufgetreten "+ex);
-            System.exit(0);
         }
 
 
