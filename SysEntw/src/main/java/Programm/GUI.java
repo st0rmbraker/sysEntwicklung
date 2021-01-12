@@ -5,11 +5,13 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TextInputDialog;
 import javafx.stage.Stage;
 
 import javax.swing.*;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Optional;
 
 import static javafx.fxml.FXMLLoader.load;
 
@@ -27,9 +29,6 @@ public class GUI extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
 
-        user = JOptionPane.showInputDialog(null,
-                "Bitte geben sie ihren Benutzernamen ein.",
-                JOptionPane.DEFAULT_OPTION);
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/sample.fxml"));
         Parent root = (Parent)fxmlLoader.load();
@@ -43,6 +42,20 @@ public class GUI extends Application {
         catch (ODatabaseException ex){
             System.out.println("Ein Datenbankfehler ist aufgetreten "+ex);
         }
+
+
+        TextInputDialog dialog = new TextInputDialog("Userinput");
+        dialog.setTitle("Text Input Dialog");
+        dialog.setHeaderText("Look, a Text Input Dialog");
+        dialog.setContentText("Please enter your name:");
+
+// Traditional way to get the response value.
+        Optional<String> result = dialog.showAndWait();
+        if (result.isPresent()){
+            user = result.get();
+        }
+
+        controller.setUser(h.getVertexByUsername(user));
 
 
     }
