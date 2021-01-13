@@ -43,11 +43,16 @@ public class GUI extends Application {
         try {
             controller.setUser(user.get());
             primaryStage.setTitle("OrientDB-Test");
-            primaryStage.setScene(new Scene(root, 600, 400));
+            primaryStage.setScene(new Scene(root, 700, 450));
+
+            Thread t = new Background(controller, user.get());
+            t.start();
+
             primaryStage.show();
         }
         catch (ODatabaseException ex){
             System.out.println("Ein Datenbankfehler ist aufgetreten "+ex);
+            System.exit(42);
         }
 
     }

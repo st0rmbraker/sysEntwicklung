@@ -137,7 +137,7 @@ public class Helpers {
 
         Iterable<OVertex> overtexList = follower.getVertices(ODirection.OUT);
         for(OVertex v : overtexList) {
-            if(v.getProperty("username") == followed.getProperty("username"))
+            if(v.getProperty("username").toString().equals(followed.getProperty("username").toString()))
             {
                 System.out.println(follower.getProperty("username") + " folgt bereits " + followed.getProperty("username"));
                 return false;
@@ -159,7 +159,7 @@ public class Helpers {
             if(row.<String>getProperty("username").equals(userID)){
                 ORecordId user = new ORecordId(row.getProperty("@rid").toString());
                 OVertex ret = db.load(user);
-                System.out.println("User "+userID+" gefunden.");
+                //System.out.println("User "+userID+" gefunden.");
                 rs.close();
                 return ret;
             }
@@ -230,7 +230,7 @@ public class Helpers {
         System.out.println("User bereits vorhanden");
         return null;
 
-        //ERGÄNZEN: WENN USER VORHANDEN DATEN ZIEHEN
+        //ERGÄNZEN: WENN USER VORHANDEN DATEN ZIEHEN//ToDo
     }
 
 
@@ -253,26 +253,37 @@ public class Helpers {
         return list;
     }
 
-    public void printTest() {
+    public String printUserInfo(OVertex u) {
         session();
+        String ret;
+        ret = ("Benutzername: " + u.getProperty("username") + "\n");
+        ret = ret.concat("Vorname: " + u.getProperty("firstName") + "\n");
+        ret = ret.concat("Nachname: " + u.getProperty("lastName") + "\n");
+        return ret;
+    }
 
-        OResultSet rs = db.query("SELECT FROM Account WHERE username='atheob'");
+    public String printUserInfo(String user) {
+        return printUserInfo(getVertexByUsername(user));
+
+
+        /*
+        OResultSet rs = db.query("SELECT FROM Account WHERE username="+user);
+        String ret;
         while(rs.hasNext())
         {
             OResult row = rs.next();
-
             OResultSet rsuserInfos = db.query("SELECT FROM userInfos WHERE @rid=?", row.getProperty("userInfos").toString());
-
             if(rsuserInfos.hasNext())
             {
 
                 rsuserInfos.next();
-                //System.out.println(rsuserInfos.);
             }
 
             System.out.println(row.getProperty("userInfos").toString());
 
         }
+        */
+
     }
 
 

@@ -57,6 +57,7 @@ public class UIController extends Helpers {
     Helpers h = new Helpers();
     OVertex user;
     Dialog <String[]> dialog;
+    Dialog <String[]> dialogInfos;
 
 
     //Der "+"-Button. Aktuell angemeldeter User folgt dem in dem Textfeld "insert_user" eingegeben Benutzernamen, wenn vorhanden.
@@ -162,27 +163,77 @@ public class UIController extends Helpers {
     }
     */
 
+    //Button User Infos ändern, startet Dialog zum Daten eingeben und speichert diese in neuem oder vorhandenen Doc ab
     public void onClick_change_info(){
+        session();
         System.out.println("onClick_change_info");
-        if(user.getProperty("userInfos")==null){
-            TextInputDialog dialog = new TextInputDialog("Hier können sie weitere Informationen hinzufügen");
-            dialog.setTitle("User Infos hinzufügen");
-            dialog.setHeaderText("Look, a Text Input Dialog");
-            dialog.setContentText("Please enter your name:");
-            Optional<String> result = dialog.showAndWait();
-            if (result.isPresent()){
-                System.out.println("Your name: " + result.get());
-                ODocument doc = new ODocument("userInfos");
-                doc.field("name", result.get());
-                doc.save();
 
+        dialogInfos = new Dialog<>();
+        dialogInfos.setTitle("Benutzerdaten ändern");
+        dialogInfos.setHeaderText("Ändert die Benutzerdaten.");
+
+        // Set the button types
+        ButtonType okButton = new ButtonType("Bestätigen", ButtonBar.ButtonData.OK_DONE);
+        dialogInfos.getDialogPane().getButtonTypes().addAll(okButton, ButtonType.CANCEL);
+
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(20, 150, 10, 10));
+
+        TextField nVariable = new TextField();
+        nVariable.setPromptText("Eigenschaft:");
+        TextField nValues = new TextField();
+        nValues.setPromptText("Werte:");
+
+
+        grid.add(new Label("Eigenschaft:"), 0, 0);
+        grid.add(nVariable, 1, 0);
+        grid.add(new Label("Werte:"), 0, 1);
+        grid.add(nValues, 1, 1);
+
+        // Enable/Disable login button depending on whether a username was entered.
+        //Node loginButton = dialogInfos.getDialogPane().lookupButton(okButton);
+        //loginButton.setDisable(true);
+
+        // Do some validation (using the Java 8 lambda syntax).
+        //nVariable.textProperty().addListener((observable, oldValue, newValue) -> {
+        //    loginButton.setDisable(newValue.trim().isEmpty());
+        //});
+
+        dialogInfos.getDialogPane().setContent(grid);
+
+        // Request focus on the username field by default.
+        Platform.runLater(() -> nVariable.requestFocus());
+        nVariable.getText();
+        dialogInfos.setResultConverter(dialogButton -> {
+            if (dialogButton == okButton) {
+                return new String[]{nVariable.getText(), nValues.getText()};
+            }
+            return null;
+        });
+
+        Optional<String[]> result = dialogInfos.showAndWait();
+
+        if(user.getProperty("userInfos")==null){
+            if (result.isPresent()){
+                //System.out.println("Eingabe: " + result.get()[0]+result.get()[1]);
+                ODocument doc = new ODocument("userInfos");
+                doc.field(result.get()[0], result.get()[1]);
+                db.save(doc);
+                user.setProperty("userInfos",doc);
+                user.save();
             }
         }
         else{
-            ODatabaseDocument info = user.getProperty("userInfos");
+            if (result.isPresent()) {
+                ODocument doc = user.getProperty("userInfos");
+                doc.field(result.get()[0], result.get()[1]);
+                db.save(doc);
+                user.setProperty("userInfos", doc);
+                user.save();
+            }
         }
-
-
     }
 
     public void onClick_following_button(ActionEvent actionEvent) {
@@ -218,9 +269,9 @@ public class UIController extends Helpers {
     public void onClick_to_follow_button(ActionEvent event) {
         System.out.println("onClick_to_follow_button");
         String userToFollow = insert_user.getText();
-        if (getVertexByUsername(userToFollow) != null) {
-            OVertex followed = getVertexByUsername(userToFollow);
-            if(followUser(user, followed)) {
+        OVertex toFollow = getVertexByUsername(userToFollow);
+        if (toFollow != null) {
+            if(followUser(user, toFollow)) {
                 System.out.println(user.getProperty("username") + " folgt jetzt " + userToFollow);
                 output_follower.setItems(prepareFollowers(user, "OUT"));
             }
