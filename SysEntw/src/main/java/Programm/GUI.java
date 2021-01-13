@@ -1,7 +1,9 @@
 package Programm;
 
 import com.orientechnologies.orient.core.exception.ODatabaseException;
+import com.orientechnologies.orient.core.record.OVertex;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -49,9 +51,47 @@ public class GUI extends Application {
             t.start();
 
             primaryStage.show();
+
+     /*       Thread taskThread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    //Platform.setImplicitExit(false);
+                    //if(isDaemon()) System.out.println("Background-Aktualisierung als daemon gestartet.");
+                    //else System.out.println("Problem");
+                    //int i=0;
+                    while(true){
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        OVertex userV = h.getVertexByUsername(user.get());
+                        h.session();
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                controller.own_infos.setText(h.printUserInfo(userV));
+                                controller.output_chat.setText("Letzte Aktualisierung:\n"+new java.util.Date()+"\n");
+                                if(controller.getMe_Following()){
+                                    controller.output_follower.setItems(controller.prepareFollowers(userV, "OUT"));
+                                }
+                                else{
+                                    controller.output_follower.setItems(controller.prepareFollowers(userV, "IN"));
+                                }
+                            }
+                        });
+
+                    }
+                }
+            });
+
+            taskThread.start();
+
+      */
+
         }
         catch (ODatabaseException ex){
-            System.out.println("Ein Datenbankfehler ist aufgetreten "+ex);
+        System.out.println("Ein Datenbankfehler ist aufgetreten "+ex);
             System.exit(42);
         }
 

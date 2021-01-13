@@ -20,6 +20,11 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -32,6 +37,7 @@ import javafx.util.Pair;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -54,6 +60,7 @@ public class UIController extends Helpers {
     public TextArea output_chat;
     public Button change_info;
 
+    public boolean me_following = false;
     Helpers h = new Helpers();
     OVertex user;
     Dialog <String[]> dialog;
@@ -192,16 +199,7 @@ public class UIController extends Helpers {
         grid.add(new Label("Werte:"), 0, 1);
         grid.add(nValues, 1, 1);
 
-        // Enable/Disable login button depending on whether a username was entered.
-        //Node loginButton = dialogInfos.getDialogPane().lookupButton(okButton);
-        //loginButton.setDisable(true);
-
-        // Do some validation (using the Java 8 lambda syntax).
-        //nVariable.textProperty().addListener((observable, oldValue, newValue) -> {
-        //    loginButton.setDisable(newValue.trim().isEmpty());
-        //});
-
-        dialogInfos.getDialogPane().setContent(grid);
+         dialogInfos.getDialogPane().setContent(grid);
 
         // Request focus on the username field by default.
         Platform.runLater(() -> nVariable.requestFocus());
@@ -215,51 +213,46 @@ public class UIController extends Helpers {
 
         Optional<String[]> result = dialogInfos.showAndWait();
 
-        if(user.getProperty("userInfos")==null){
-            if (result.isPresent()){
-                //System.out.println("Eingabe: " + result.get()[0]+result.get()[1]);
-                ODocument doc = new ODocument("userInfos");
-                doc.field(result.get()[0], result.get()[1]);
-                db.save(doc);
-                user.setProperty("userInfos",doc);
-                user.save();
+        if (result.isPresent()){
+            ODocument doc;
+            if(user.getProperty("userInfos")==null){
+                doc = new ODocument("userInfos");
+            }else {
+                doc = user.getProperty("userInfos");
             }
+            doc.field(result.get()[0], result.get()[1]);
+            db.save(doc);
+            user.setProperty("userInfos", doc);
+            user.save();
         }
-        else{
-            if (result.isPresent()) {
-                ODocument doc = user.getProperty("userInfos");
-                doc.field(result.get()[0], result.get()[1]);
-                db.save(doc);
-                user.setProperty("userInfos", doc);
-                user.save();
-            }
-        }
+
     }
 
     public void onClick_following_button(ActionEvent actionEvent) {
         System.out.println("onClick_following_button");
         output_follower.setItems(prepareFollowers(user, "OUT"));
+        following_button.setDisable(true);
+        me_following_button.setDisable(false);
+        me_following = false;
+    }
+
+    public boolean getMe_Following(){
+        return me_following;
     }
 
     public void onClick_me_following_button(ActionEvent actionEvent) throws IOException {
         System.out.println("onClick_me_following_button");
         output_follower.setItems(prepareFollowers(user, "IN"));
+        me_following_button.setDisable(true);
+        following_button.setDisable(false);
+        me_following = true;
 
 //        File file = new File("C:/Users/Alex/IdeaProjects/sysEntwicklung/SysEntw/src/main/resources/Haus.png");
 //        Image image = new Image(file.toURI().toString());
-//
 //        ORecordId user = new ORecordId("#34:0");
-//
-//        ;
-//
 //        ODocument doc = new ODocument("Image");
 //        doc.field("binary", "C:/Users/Alex/IdeaProjects/sysEntwicklung/SysEntw/src/main/resources/Haus.png".getBytes());
-//
-//
-//
-//
 //        ByteArrayInputStream bai = new ByteArrayInputStream("/Haus.png".getBytes());
-//
 //        BufferedImage bild = ImageIO.read(bai);
 //        Image realimage = SwingFXUtils.toFXImage(bild, null);
 //        profile_image.setImage(realimage);
@@ -274,6 +267,7 @@ public class UIController extends Helpers {
             if(followUser(user, toFollow)) {
                 System.out.println(user.getProperty("username") + " folgt jetzt " + userToFollow);
                 output_follower.setItems(prepareFollowers(user, "OUT"));
+                to_follow_infos.setText(printUserInfo(toFollow));
             }
             else {
                 System.out.println("What the fuck");
