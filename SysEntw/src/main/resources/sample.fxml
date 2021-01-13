@@ -20,7 +20,7 @@
       <TextArea fx:id="own_infos" layoutY="169.0" prefHeight="150.0" prefWidth="200.0" />
       <TextArea fx:id="to_follow_infos" layoutX="214.0" layoutY="14.0" prefHeight="143.0" prefWidth="268.0" />
       <TextArea fx:id="output_chat" layoutX="214.0" layoutY="166.0" prefHeight="230.0" prefWidth="268.0" />
-      <ListView fx:id="output_follower" layoutX="491.0" layoutY="57.0" prefHeight="224.0" prefWidth="136.0" />
+      <ListView fx:id="output_follower" onMouseClicked="#getListViewItem" layoutX="491.0" layoutY="57.0" prefHeight="224.0" prefWidth="136.0" />
       <Button fx:id="change_info" layoutX="37.0" layoutY="329.0" mnemonicParsing="false" onAction="#onClick_change_info" text="UserInfos bearbeiten" />
    </children>
 </AnchorPane>
