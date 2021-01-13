@@ -14,9 +14,7 @@ import com.orientechnologies.orient.core.sql.executor.OResultSet;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class Helpers {
 
@@ -26,14 +24,12 @@ public class Helpers {
     public void session(){
         orient = new OrientDB("remote:wgay.hopto.org", OrientDBConfig.defaultConfig());
         db = orient.open("Netzwerk1", "root", "123456");
-
     }
 
     public String refreshAcc(){
         System.out.println("Refreshing");
         try{
             session();
-            clear();
             String statement = "SELECT FROM Account";
             return outputQueryAcc(statement);
 
@@ -57,26 +53,19 @@ public class Helpers {
     }
 
     /**
-     * Diese Methode überprüft, ob ein User exitsiert. Dafür muss der USername übergeben werden
+     * Diese Methode überprüft, ob ein User existiert
      * @param username: String
-     * @return: es wird ein boolean zurückgegeben
+     * @return: boolean
      */
     public boolean checkUserExists(String username){
         session();
         OResultSet rs = db.query("SELECT FROM Account WHERE username =?", username);
         while (rs.hasNext()) {
             OResult row = rs.next();
-            System.out.println(row.<String>getProperty("username"));
+            //System.out.println(row.<String>getProperty("username"));
             if(row.<String>getProperty("username").equals(username)) return true;
         }
         return false;
-    }
-
-    /**
-     * ???
-     */
-    public void clear(){
-        System.out.println("Macht im Moment nichts.");
     }
 
     public String outputQueryAcc(String statement) {
@@ -129,7 +118,7 @@ public class Helpers {
 
     }
 
-    //Erzeugt Edge "follows" von follower zu followed, wenn Edge noch nicht vorhanden und gibt erstellte Edge zuriecl
+    //Erzeugt Edge "follows" von follower zu followed, wenn Edge noch nicht vorhanden und gibt erstellte Edge zurück
     public boolean followUser(OVertex follower, OVertex followed){
         session();
         boolean followsAlready = false;
@@ -196,7 +185,7 @@ public class Helpers {
      * erstellt Userinfos Objekt in der klasse userInfos mit Stadt, Mail und Geburtstag, letzteres als java.sql.Date
      * @return erstelltes Object der userInfos klasse
      */
-    public ODocument createUserInfos(String city, String mail, Date birthDay)
+    public ODocument createUserDocument(String city, String mail, Date birthDay)
     {
         session();
         ODocument doc = new ODocument("userInfos");
@@ -229,7 +218,7 @@ public class Helpers {
             user.setProperty("username", userName);
             user.setProperty("firstName", firstName);
             user.setProperty("lastName", lastName);
-            user.setProperty("userInfos", createUserInfos("Mannheim", "alex@web.de", new Date(1,1,1)));
+            //user.setProperty("userInfos", createUserDocument("Mannheim", "alex@web.de", new Date(1,1,1)));
 
             user.save();
             return user;
@@ -274,6 +263,13 @@ public class Helpers {
         ret = ("Benutzername: " + u.getProperty("username") + "\n");
         ret = ret.concat("Vorname: " + u.getProperty("firstName") + "\n");
         ret = ret.concat("Nachname: " + u.getProperty("lastName") + "\n");
+        //ret = ret.concat("Dokument: " + u.getProperty("userInfos") + "\n");
+
+        ODocument d = u.getProperty("userInfos");
+        Set<String> s = d.getPropertyNames();
+        for (String temp : s){
+            ret = ret.concat(temp+" : "+d.getProperty(temp.toString()) + "\n");
+        }
         return ret;
     }
 
