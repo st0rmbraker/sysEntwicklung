@@ -220,11 +220,21 @@ public class UIController extends Helpers {
         String userToFollow = insert_user.getText();
         if (getVertexByUsername(userToFollow) != null) {
             OVertex followed = getVertexByUsername(userToFollow);
-            followUser(user, followed);
-            System.out.println(user.getProperty("username")+" folgt jetzt "+userToFollow);
-            output_follower.setItems(prepareFollowers(user, "OUT"));
+            if(followUser(user, followed)) {
+                System.out.println(user.getProperty("username") + " folgt jetzt " + userToFollow);
+                output_follower.setItems(prepareFollowers(user, "OUT"));
+            }
+            else {
+                System.out.println("What the fuck");
+            }
         }
         else{
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Fehler");
+            alert.setHeaderText("Fehler");
+            alert.setContentText("Der User wurde nicht gefunden. Hast du dich vertippt?");
+
+            alert.showAndWait();
             System.out.println("Folgen fehlgeschlagen, user "+userToFollow+" nicht vorhanden");
         }
     }

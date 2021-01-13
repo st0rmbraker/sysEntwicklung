@@ -130,23 +130,24 @@ public class Helpers {
     }
 
     //Erzeugt Edge "follows" von follower zu followed, wenn Edge noch nicht vorhanden und gibt erstellte Edge zuriecl
-    public OEdge followUser(OVertex follower, OVertex followed){
+    public boolean followUser(OVertex follower, OVertex followed){
         session();
         boolean followsAlready = false;
         //checkt ob User bereits folgt damit keine doppelten Edges kommen
 
         Iterable<OVertex> overtexList = follower.getVertices(ODirection.OUT);
         for(OVertex v : overtexList) {
-            if(v.getIdentity() == followed.getIdentity())
+            if(v.getProperty("username") == followed.getProperty("username"))
             {
                 System.out.println(follower.getProperty("username") + " folgt bereits " + followed.getProperty("username"));
-                return null;
+                return false;
             }
         }
 
         OEdge temp = follower.addEdge(followed, "follows");
+        System.out.println("WARUM");
         temp.save();
-        return temp;
+        return true;
     }
 
     //Gibt ein Element passend zur property "username" aus der Tabelle Account zurueck... WICHTIG: Nutzernamen duerfen nur einmalig sein, ansonsten wird erstes gefundenes Element zurueckgegeben => Bei Erstellung beachten
