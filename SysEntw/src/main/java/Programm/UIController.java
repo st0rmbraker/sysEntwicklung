@@ -191,27 +191,27 @@ public class UIController extends Helpers {
     }
 
     public void onClick_me_following_button(ActionEvent actionEvent) throws IOException {
-//        System.out.println("onClick_me_following_button");
-//        output_follower.setItems(prepareFollowers(user, "IN"));
+        System.out.println("onClick_me_following_button");
+        output_follower.setItems(prepareFollowers(user, "IN"));
 
-        File file = new File("C:/Users/Alex/IdeaProjects/sysEntwicklung/SysEntw/src/main/resources/Haus.png");
-        Image image = new Image(file.toURI().toString());
-
-        ORecordId user = new ORecordId("#34:0");
-
-        ;
-
-        ODocument doc = new ODocument("Image");
-        doc.field("binary", "C:/Users/Alex/IdeaProjects/sysEntwicklung/SysEntw/src/main/resources/Haus.png".getBytes());
-
-
-
-
-        ByteArrayInputStream bai = new ByteArrayInputStream("/Haus.png".getBytes());
-
-        BufferedImage bild = ImageIO.read(bai);
-        Image realimage = SwingFXUtils.toFXImage(bild, null);
-        profile_image.setImage(realimage);
+//        File file = new File("C:/Users/Alex/IdeaProjects/sysEntwicklung/SysEntw/src/main/resources/Haus.png");
+//        Image image = new Image(file.toURI().toString());
+//
+//        ORecordId user = new ORecordId("#34:0");
+//
+//        ;
+//
+//        ODocument doc = new ODocument("Image");
+//        doc.field("binary", "C:/Users/Alex/IdeaProjects/sysEntwicklung/SysEntw/src/main/resources/Haus.png".getBytes());
+//
+//
+//
+//
+//        ByteArrayInputStream bai = new ByteArrayInputStream("/Haus.png".getBytes());
+//
+//        BufferedImage bild = ImageIO.read(bai);
+//        Image realimage = SwingFXUtils.toFXImage(bild, null);
+//        profile_image.setImage(realimage);
     }
 
     //Der "+"-Button. Aktuell angemeldeter User folgt dem in dem Textfeld "insert_user" eingegeben Benutzernamen, wenn vorhanden.
