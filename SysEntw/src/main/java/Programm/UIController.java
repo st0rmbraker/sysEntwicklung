@@ -37,12 +37,14 @@ import javafx.util.Pair;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.event.MouseEvent;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 public class UIController extends Helpers {
 
@@ -70,7 +72,7 @@ public class UIController extends Helpers {
     //Der "+"-Button. Aktuell angemeldeter User folgt dem in dem Textfeld "insert_user" eingegeben Benutzernamen, wenn vorhanden.
     public void onClickFollowButton(ActionEvent event) {
         String userToFollow = insert_user.getText();
-        if (getVertexByUsername(userToFollow) != null) {
+        if (getVertexByUsername(userToFollow) != null && getVertexByUsername(userToFollow) !=user) {
             OVertex followed = getVertexByUsername(userToFollow);
             followUser(user, followed);
         } else {
@@ -158,7 +160,7 @@ public class UIController extends Helpers {
             overtexList = element.getVertices(ODirection.OUT); //Gibt auch noch IN und BOTH fuer die Richtungen
         }
         for(OVertex v : overtexList) {
-            ret.add("-" + v.getProperty("firstName").toString() + " " + v.getProperty("username").toString());
+            ret.add("-" + v.getProperty("firstName").toString() + " "+v.getProperty("lastName")+ " |" + v.getProperty("username").toString()+"|");
         }
         return ret;
 
@@ -270,18 +272,31 @@ public class UIController extends Helpers {
                 to_follow_infos.setText(printUserInfo(toFollow));
             }
             else {
-                System.out.println("What the fuck");
+                createAlert("Fehler", "Fehler", "Sich selbst folgen ist echt traurig");
             }
         }
         else{
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Fehler");
-            alert.setHeaderText("Fehler");
-            alert.setContentText("Der User wurde nicht gefunden. Hast du dich vertippt?");
-
-            alert.showAndWait();
-            System.out.println("Folgen fehlgeschlagen, user "+userToFollow+" nicht vorhanden");
+            createAlert("Fehler", "Fehler", "Gib einen existierenden Benutzernamen ein");
         }
+    }
+
+    public void createAlert(String title, String header, String text)
+    {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(text);
+
+        alert.showAndWait();
+    }
+
+    public String getListViewItem(javafx.scene.input.MouseEvent mouseEvent) {
+        String string = output_follower.getSelectionModel().getSelectedItem().toString();
+
+        String[] result = string.split(Pattern.quote("|"));
+
+        System.out.println("Clicked on: " + result[1]);
+        return result[1];
     }
 }
 
