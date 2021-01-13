@@ -214,6 +214,13 @@ public class Helpers {
         orient.close();
     }
 
+    /**
+     * Erstellt einen neuen User, wenn der User noch nicht existiert
+     * @param userName
+     * @param firstName
+     * @param lastName
+     * @return
+     */
     public OVertex createUser(String userName, String firstName, String lastName)
     {
         if(checkUserExists(userName) == false)
@@ -233,11 +240,14 @@ public class Helpers {
         //ERGÄNZEN: WENN USER VORHANDEN DATEN ZIEHEN//ToDo
     }
 
-
+    /**
+     * ToDo
+     * @param city
+     * @return
+     */
     public List<Optional<OVertex>> getUsersByCity(String city)
     {
         session();
-
         List<Optional<OVertex>> list = new ArrayList<>();
 
         OResultSet rs = db.query("SELECT FROM Account");
@@ -253,6 +263,11 @@ public class Helpers {
         return list;
     }
 
+    /**
+     * Gibt die User-properties als String zurück
+     * @param u Vertex des Benutzers
+     * @return user-properties
+     */
     public String printUserInfo(OVertex u) {
         session();
         String ret;
@@ -262,11 +277,17 @@ public class Helpers {
         return ret;
     }
 
+    /**
+     * Wie printUserInfo, jedoch mit Benutzernamen anstatt Objekt
+     * @param user
+     * @return
+     */
     public String printUserInfo(String user) {
         return printUserInfo(getVertexByUsername(user));
+    }
 
-
-        /*
+    //Dieser Code muss noch in eine Funktion übernommen werden ToDo
+     /*
         OResultSet rs = db.query("SELECT FROM Account WHERE username="+user);
         String ret;
         while(rs.hasNext())
@@ -284,9 +305,7 @@ public class Helpers {
         }
         */
 
-    }
-
-
+    //ToDo
     public String getUsersFromLand(String land){
 
         session();

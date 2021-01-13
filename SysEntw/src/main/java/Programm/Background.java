@@ -19,15 +19,19 @@ public class Background extends Thread {
         userV = h.getVertexByUsername(user);
     }
 
+
+    //Die Methode, die synchron im Hintergrund läuft
+    //Läuft als Daemon, aktualisiert alle zwei Sekunden
+    //http://openbook.rheinwerk-verlag.de/javainsel9/javainsel_14_003.htm#mjd0f19999270d6e1fbfd4af3a16273eef
     @Override
     public void run() {
         if(isDaemon()) System.out.println("Background-Aktualisierung als daemon gestartet.");
         else System.out.println("Problem");
-        int i=0;
+        //int i=0;
         while(true){
             try {
                 //if(i=5){
-                    userV = h.getVertexByUsername(user);
+                userV = h.getVertexByUsername(user);
                 //  i=0;
                 //}
                 h.session();
