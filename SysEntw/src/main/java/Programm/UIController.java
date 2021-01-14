@@ -65,6 +65,7 @@ public class UIController extends Helpers {
     public boolean me_following = false;
     Helpers h = new Helpers();
     OVertex user;
+    OVertex chatPartner;
     Dialog <String[]> dialog;
     Dialog <String[]> dialogInfos;
 
@@ -290,13 +291,18 @@ public class UIController extends Helpers {
         alert.showAndWait();
     }
 
-    public String getListViewItem(javafx.scene.input.MouseEvent mouseEvent) {
+    public void getListViewItem(javafx.scene.input.MouseEvent mouseEvent) {
+
+        //Holt Textinhalt von ListView click
         String string = output_follower.getSelectionModel().getSelectedItem().toString();
 
+        //Splittet den String bei den | vor und nach dem usernamen => result[1] ist der nutzername
         String[] result = string.split(Pattern.quote("|"));
 
         System.out.println("Clicked on: " + result[1]);
-        return result[1];
+
+        //chatPartner wird aktualisiert
+        chatPartner = getVertexByUsername(result[1]);
     }
 }
 

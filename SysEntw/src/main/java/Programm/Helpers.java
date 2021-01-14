@@ -337,7 +337,7 @@ public class Helpers {
         try {
             //bild konvertieren
             System.out.println("superman");
-            BufferedImage sourceimage = ImageIO.read(new File("/Users/maximilianfink/Downloads/hakan-nural-gQd4SRfKs40-unsplash.jpg"));
+            BufferedImage sourceimage = ImageIO.read(new File("C:\\Users\\Alex\\IdeaProjects\\sysEntwicklung\\SysEntw\\src\\main\\resources\\Screenshot_1.jpg"));
             ByteArrayOutputStream bytes = new ByteArrayOutputStream();
             ImageIO.write(sourceimage, "jpg", bytes);
             byte[] jpgByteArray = bytes.toByteArray();
@@ -363,9 +363,9 @@ public class Helpers {
      */
     public void saveImage(byte[] bild){
         session();
-        OVertex n = db.newVertex("Bild");
-        n.setProperty("bild", bild, OType.BINARY);
-        n.setProperty("Name", "test2");
+        ODocument n = new ODocument("Bild");
+        n.field("bild", bild, OType.BINARY);
+        n.field("Name", "test7");
         n.save();
     }
 
@@ -381,7 +381,7 @@ public class Helpers {
             BufferedImage img = ImageIO.read(in);
             System.out.println(img);
             ImageIO.write(img, "jpg",
-                    new File("/Users/maximilianfink/Desktop/est/testbild.jpg"));
+                    new File("C:\\Users\\Alex\\IdeaProjects\\sysEntwicklung\\SysEntw\\src\\main\\resources\\Screenshot.jpg"));
         }catch(Exception e){
             System.out.println("Fehler");
         }
