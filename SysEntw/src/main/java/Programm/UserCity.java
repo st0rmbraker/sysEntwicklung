@@ -12,8 +12,8 @@ public class UserCity {
 
     public static void main(String[] args) {
         Helpers h = new Helpers();
-        byte[] x = h.convertToBinary();
-        h.saveImage(h.convertToBinary());
+//        byte[] x = h.convertToBinary();
+//        h.saveImage(h.convertToBinary());
         System.out.println("Fertig");
        // h.convertToImg(x);
         System.out.println("abc");

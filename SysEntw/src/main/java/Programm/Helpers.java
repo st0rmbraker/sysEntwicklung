@@ -278,9 +278,11 @@ public class Helpers {
         //ret = ret.concat("Dokument: " + u.getProperty("userInfos") + "\n");
 
         ODocument d = u.getProperty("userInfos");
-        Set<String> s = d.getPropertyNames();
-        for (String temp : s){
-            ret = ret.concat(temp+" : "+d.getProperty(temp.toString()) + "\n");
+        if(u.getProperty("userInfos") != null) {
+            Set<String> s = d.getPropertyNames();
+            for (String temp : s) {
+                ret = ret.concat(temp + " : " + d.getProperty(temp.toString()) + "\n");
+            }
         }
         return ret;
     }
@@ -420,7 +422,20 @@ public class Helpers {
                 return content;
             }
         }
-        return null;
+        return null;    }
+
+    public byte[] getPictureByUser(OVertex currentUser)
+    {
+        if(currentUser.getProperty("profile") != null)
+        {
+            ODocument bild = currentUser.getProperty("profile");
+            byte[] content = bild.getProperty("bild");
+            return content;
+        }
+
+        else {
+            return null;
+        }
     }
 
     /**

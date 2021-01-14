@@ -264,7 +264,7 @@ public class UIController extends Helpers {
 //        ByteArrayInputStream bai = new ByteArrayInputStream("/Haus.png".getBytes());
 //        BufferedImage bild = ImageIO.read(bai);
 //        Image realimage = SwingFXUtils.toFXImage(bild, null);
-        profile_image.setImage(convertToImg(getPictureByName("test8")));
+        profile_image.setImage(convertToImg(getPictureByUser(user)));
     }
 
     //Der "+"-Button. Aktuell angemeldeter User folgt dem in dem Textfeld "insert_user" eingegeben Benutzernamen, wenn vorhanden.
