@@ -412,8 +412,6 @@ public class Helpers {
 //            byte[] content = record.toStream();
 //            return content;
 //        }
-
-
         for(ODocument images : db.browseClass("Bild")) {
             //System.out.println(images.field("name").toString());
             if(images.field("Name").toString().equals(bildname)) {
@@ -421,11 +419,7 @@ public class Helpers {
                 byte[] content = images.getProperty("bild");
                 return content;
             }
-
         }
-
-
-
         return null;
     }
 
