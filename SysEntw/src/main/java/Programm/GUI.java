@@ -4,11 +4,13 @@ import com.orientechnologies.orient.core.exception.ODatabaseException;
 import com.orientechnologies.orient.core.record.OVertex;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextInputDialog;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import javax.swing.*;
 
@@ -23,6 +25,7 @@ public class GUI extends Application {
 
     Optional<String> user;
     Helpers h = new Helpers();
+    boolean isWindowOpen = true;
 
     public static void main(String[] args) {
         launch(args);
@@ -37,20 +40,29 @@ public class GUI extends Application {
         dialog.setContentText("Bitte Namen eingeben:");
         user = dialog.showAndWait();
 
+
         System.out.println("Loading UI");
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/sample.fxml"));
         Parent root = (Parent)fxmlLoader.load();
         UIController controller = fxmlLoader.<UIController>getController();
         System.out.println("Loading DB");
-        try {
-            controller.setUser(user.get());
-            primaryStage.setTitle("OrientDB-Test");
-            primaryStage.setScene(new Scene(root, 700, 450));
+        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                isWindowOpen = false;
+                System.exit(0);
+            }
+        });
+        if(isWindowOpen) {
+            try {
+                controller.setUser(user.get());
+                primaryStage.setTitle("OrientDB-Test");
+                primaryStage.setScene(new Scene(root, 700, 450));
 
-            Thread t = new Background(controller, user.get());
-            t.start();
+                Thread t = new Background(controller, user.get());
+                t.start();
 
-            primaryStage.show();
+                primaryStage.show();
 
      /*       Thread taskThread = new Thread(new Runnable() {
                 @Override
@@ -89,10 +101,10 @@ public class GUI extends Application {
 
       */
 
-        }
-        catch (ODatabaseException ex){
-        System.out.println("Ein Datenbankfehler ist aufgetreten "+ex);
-            System.exit(42);
+            } catch (ODatabaseException ex) {
+                System.out.println("Ein Datenbankfehler ist aufgetreten " + ex);
+                System.exit(42);
+            }
         }
 
     }
@@ -100,4 +112,11 @@ public class GUI extends Application {
     public String getUser() {
         return user.get();
     }
+
+    private void closeWindowEvent(WindowEvent event) {
+        System.out.println("Window close request ...");
+        isWindowOpen = false;
+
+    }
+
 }
