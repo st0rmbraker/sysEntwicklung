@@ -4,12 +4,14 @@ import com.orientechnologies.orient.core.db.ODatabaseSession;
 import com.orientechnologies.orient.core.db.OrientDB;
 import com.orientechnologies.orient.core.db.OrientDBConfig;
 import com.orientechnologies.orient.core.exception.ODatabaseException;
+import com.orientechnologies.orient.core.id.ORID;
 import com.orientechnologies.orient.core.id.ORecordId;
 import com.orientechnologies.orient.core.metadata.schema.OType;
 import com.orientechnologies.orient.core.record.ODirection;
 import com.orientechnologies.orient.core.record.OEdge;
 import com.orientechnologies.orient.core.record.OVertex;
 import com.orientechnologies.orient.core.record.impl.ODocument;
+import com.orientechnologies.orient.core.record.impl.ORecordBytes;
 import com.orientechnologies.orient.core.sql.executor.OResult;
 import com.orientechnologies.orient.core.sql.executor.OResultSet;
 
@@ -390,12 +392,17 @@ public class Helpers {
      * @param bildname
      * @return
      */
-    public byte[] getPictureByName(String bildname){
+    public byte[] getPictureByName2(String bildname){
         session();
         OResultSet rs = db.query("SELECT bild FROM Bild WHERE Name = ?", bildname);
         if(rs.hasNext()) {
-            OResult result = rs.next();
-            return result.getProperty("bild");
+            OResult row = rs.next();
+            ORecordId rid = new ORecordId(row.getProperty("@rid").toString());
+            ODocument doc = db.load(rid);
+
+            ORecordBytes record = doc.field("bild");
+            byte[] content = record.toStream();
+            return content;
         }
 
 
