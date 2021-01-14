@@ -393,6 +393,11 @@ public class Helpers {
     public byte[] getPictureByName(String bildname){
         session();
         OResultSet rs = db.query("SELECT bild FROM Bild WHERE Name = ?", bildname);
+        if(rs.hasNext()) {
+            OResult result = rs.next();
+            return result.getProperty("bild");
+        }
+
 
 
 
