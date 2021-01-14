@@ -45,6 +45,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
@@ -64,7 +65,7 @@ public class UIController extends Helpers {
     public TextArea output_chat;
     public Button change_info;
 
-    public boolean me_following = false;
+    public boolean me_following = true;
     Helpers h = new Helpers();
     OVertex user;
     OVertex chatPartner;
@@ -86,6 +87,10 @@ public class UIController extends Helpers {
     public void setUser(String user) {
         if(checkUserExists(user)){
             this.user = h.getVertexByUsername(user);
+            if(this.user.getProperty("bild") != null) {
+                profile_image.setImage(convertToImg(getPictureByUser(this.user)));
+            }
+
         }
         else{
             prepareCreateUser();
@@ -242,7 +247,8 @@ public class UIController extends Helpers {
         output_follower.setItems(prepareFollowers(user, "OUT"));
         following_button.setDisable(true);
         me_following_button.setDisable(false);
-        me_following = false;
+        me_following = true;
+        System.out.println("Button");
     }
 
     public boolean getMe_Following(){
@@ -254,7 +260,7 @@ public class UIController extends Helpers {
         output_follower.setItems(prepareFollowers(user, "IN"));
         me_following_button.setDisable(true);
         following_button.setDisable(false);
-        me_following = true;
+        me_following = false;
 
 //        File file = new File("C:/Users/Alex/IdeaProjects/sysEntwicklung/SysEntw/src/main/resources/Haus.png");
 //        Image image = new Image(file.toURI().toString());
@@ -264,7 +270,7 @@ public class UIController extends Helpers {
 //        ByteArrayInputStream bai = new ByteArrayInputStream("/Haus.png".getBytes());
 //        BufferedImage bild = ImageIO.read(bai);
 //        Image realimage = SwingFXUtils.toFXImage(bild, null);
-        profile_image.setImage(convertToImg(getPictureByUser(user)));
+
     }
 
     //Der "+"-Button. Aktuell angemeldeter User folgt dem in dem Textfeld "insert_user" eingegeben Benutzernamen, wenn vorhanden.

@@ -315,7 +315,7 @@ public class Helpers {
         }
         */
 
-    //ToDo
+    //Holt alle User die das Land in den Userinfos angegeben haben
     public String getUsersFromLand(String land){
 
         session();
@@ -383,15 +383,15 @@ public class Helpers {
         //byte[] original = obj.orig_seq.getBytes();
 
         Image img = new Image(new ByteArrayInputStream(bild));
-        InputStream in = new ByteArrayInputStream(bild);
-        try {
-            BufferedImage img2 = ImageIO.read(in);
-            System.out.println(img2);
-            ImageIO.write(img2, "jpg",
-                    new File("C:\\Users\\Alex\\IdeaProjects\\sysEntwicklung\\SysEntw\\src\\main\\resources\\Screenshot.jpg"));
-        }catch(Exception e){
-            System.out.println("Fehler");
-        }
+//        InputStream in = new ByteArrayInputStream(bild);
+//        try {
+//            BufferedImage img2 = ImageIO.read(in);
+//            System.out.println(img2);
+//            ImageIO.write(img2, "jpg",
+//                    new File("C:\\Users\\Alex\\IdeaProjects\\sysEntwicklung\\SysEntw\\src\\main\\resources\\Screenshot.jpg"));
+//        }catch(Exception e){
+//            System.out.println("Fehler");
+//        }
 
         return img;
     }
@@ -424,6 +424,12 @@ public class Helpers {
         }
         return null;    }
 
+
+    /**
+     * Abgesehen von parameter wie getPictureByName
+     * @param currentUser
+     * @return das bytearray des Profilbildes des mitgegebenen nutzers
+     */
     public byte[] getPictureByUser(OVertex currentUser)
     {
         if(currentUser.getProperty("profile") != null)
