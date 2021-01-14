@@ -50,7 +50,7 @@ public class GUI extends Application {
             @Override
             public void handle(WindowEvent event) {
                 isWindowOpen = false;
-                System.exit(0);
+                System.exit(42);
             }
         });
         if(isWindowOpen) {

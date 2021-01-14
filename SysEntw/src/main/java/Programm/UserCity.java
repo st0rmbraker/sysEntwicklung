@@ -14,10 +14,12 @@ public class UserCity {
         Helpers h = new Helpers();
 //        byte[] x = h.convertToBinary();
 //        h.saveImage(h.convertToBinary());
-        System.out.println("Fertig");
-       // h.convertToImg(x);
-        System.out.println("abc");
-        h.convertToImg(h.getPictureByName("test4"));
+//        System.out.println("Fertig");
+//       // h.convertToImg(x);
+//        System.out.println("abc");
+//        h.convertToImg(h.getPictureByName("test4"));
+
+        h.getChat(h.getVertexByUsername("atheob"), h.getVertexByUsername("berndbrot"));
     }
 
 

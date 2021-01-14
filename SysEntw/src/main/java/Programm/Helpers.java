@@ -6,6 +6,7 @@ import com.orientechnologies.orient.core.db.OrientDBConfig;
 import com.orientechnologies.orient.core.exception.ODatabaseException;
 import com.orientechnologies.orient.core.id.ORID;
 import com.orientechnologies.orient.core.id.ORecordId;
+import com.orientechnologies.orient.core.metadata.schema.OClass;
 import com.orientechnologies.orient.core.metadata.schema.OType;
 import com.orientechnologies.orient.core.record.ODirection;
 import com.orientechnologies.orient.core.record.OEdge;
@@ -452,5 +453,64 @@ public class Helpers {
      */
     public ODocument uploadImage(String path){
         return saveImage(convertToBinary(path));
+    }
+
+    /**
+     *
+     * @param sendBy user that sent the message,
+     * @param text text from that message
+     * @return the message object that was created
+     */
+    public ODocument createMessage(OVertex sendBy, String text)
+    {
+        session();
+        OClass messages = db.getClass("Message");
+        int messageID = (int)messages.count() +1;
+        java.util.Date date = new java.util.Date();
+
+
+        ODocument doc = new ODocument("Message");
+        doc.field( "date", date);
+        doc.field( "messageID", messageID );
+        doc.field( "sendBy", sendBy);
+        doc.field("text", text);
+
+        db.save(doc);
+
+        return doc;
+    }
+
+    /**
+     * TODO: In andere Richtung muss noch berücksichtigt werden!!!!!!!!
+     * @param user1 user1 mit dem der Chat gespeichert wird
+     * @param user2 user2 mit dem der Chat gespeichert wird
+     * @return der bestehende Chat oder ein neu erstellter
+     */
+    public ODocument getChat(OVertex user1, OVertex user2)
+    {
+        session();
+        OResultSet rs = db.query("SELECT COUNT(*) FROM Chat WHERE user1.@rid="+user1.getProperty("@rid").toString() + " AND user2.@rid="
+                + user2.getProperty("@rid").toString());
+        OResult row = rs.next();
+
+        if(!row.getProperty("COUNT(*)").toString().equals("0"))
+        {
+            ORecordId orid = new ORecordId(row.getProperty("@rid").toString());
+            ODocument doc = db.load(orid);
+            return doc;
+        }
+
+        else {
+            OClass chats = db.getClass("Chat");
+            int chatID = (int)chats.count() +1;
+
+            ODocument doc = new ODocument("Chat");
+            doc.field( "user1", user1);
+            doc.field( "user2", user2 );
+            doc.field( "chatID", chatID);
+            db.save(doc);
+
+            return doc;
+        }
     }
 }

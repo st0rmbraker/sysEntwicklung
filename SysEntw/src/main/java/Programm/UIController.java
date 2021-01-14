@@ -316,5 +316,7 @@ public class UIController extends Helpers {
         //chatPartner wird aktualisiert
         chatPartner = getVertexByUsername(result[1]);
     }
+
+
 }
 
