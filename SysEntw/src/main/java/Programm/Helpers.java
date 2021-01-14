@@ -229,7 +229,7 @@ public class Helpers {
             user.setProperty("firstName", firstName);
             user.setProperty("lastName", lastName);
 
-            //convertToBinary()
+            user.setProperty("profile", uploadImage(filePath));
             //user.setProperty("userInfos", createUserDocument("Mannheim", "alex@web.de", new Date(1,1,1)));
 
             user.save();
@@ -368,7 +368,7 @@ public class Helpers {
         session();
         ODocument n = new ODocument("Bild");
         n.field("bild", bild, OType.BINARY);
-        n.field("Name", "test7");
+        n.field("Name", "test10");
         n.save();
         return n;
     }

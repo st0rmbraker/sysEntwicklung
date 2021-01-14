@@ -310,31 +310,5 @@ public class UIController extends Helpers {
         //chatPartner wird aktualisiert
         chatPartner = getVertexByUsername(result[1]);
     }
-
-    /**
-     * @return: Das ist nur ein test
-     */
-    public String getImagePath()
-    {
-        String res = "Kein Ergebnis";
-        TextInputDialog userinput = new TextInputDialog("Tran");
-
-        dialog.setTitle("o7planning");
-        dialog.setHeaderText("Enter your name:");
-        dialog.setContentText("Name:");
-
-        Optional<String> result = userinput.showAndWait();
-
-        result.ifPresent(name -> {
-            System.out.println(name.toString());;
-            res = name.toString();
-        });
-
-        result.get()
-
-
-    }
-
-
 }
 
