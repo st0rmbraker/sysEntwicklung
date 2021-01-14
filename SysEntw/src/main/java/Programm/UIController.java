@@ -23,6 +23,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -32,6 +33,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
@@ -89,7 +91,7 @@ public class UIController extends Helpers {
             prepareCreateUser();
             Optional<String[]> result = dialog.showAndWait();
 
-            createUser(result.get()[2], result.get()[0], result.get()[1]);
+            createUser(result.get()[2], result.get()[0], result.get()[1], result.get()[3]);
         }
     }
 
@@ -116,6 +118,8 @@ public class UIController extends Helpers {
         nLastName.setPromptText("Nachname");
         TextField nUsername = new TextField();
         nUsername.setPromptText("Benutzername");
+        TextField nFilePath = new TextField();
+        nFilePath.setPromptText("Benutzername");
 
         grid.add(new Label("Vorname:"), 0, 0);
         grid.add(nFirstName, 1, 0);
@@ -123,6 +127,8 @@ public class UIController extends Helpers {
         grid.add(nLastName, 1, 1);
         grid.add(new Label("Benutzername:"), 0, 2);
         grid.add(nUsername, 1, 2);
+        grid.add(new Label("Dateipfad:"), 0, 3);
+        grid.add(nFilePath, 1, 3);
 
         // Enable/Disable login button depending on whether a username was entered.
         Node loginButton = dialog.getDialogPane().lookupButton(create);
@@ -141,7 +147,7 @@ public class UIController extends Helpers {
         // Convert the result to a username-password-pair when the login button is clicked.
         dialog.setResultConverter(dialogButton -> {
             if (dialogButton == create) {
-                return new String[]{nFirstName.getText(), nLastName.getText(), nUsername.getText()};
+                return new String[]{nFirstName.getText(), nLastName.getText(), nUsername.getText(), nFilePath.getText()};
             }
             return null;
         });
@@ -304,5 +310,31 @@ public class UIController extends Helpers {
         //chatPartner wird aktualisiert
         chatPartner = getVertexByUsername(result[1]);
     }
+
+    /**
+     * @return: Das ist nur ein test
+     */
+    public String getImagePath()
+    {
+        String res = "Kein Ergebnis";
+        TextInputDialog userinput = new TextInputDialog("Tran");
+
+        dialog.setTitle("o7planning");
+        dialog.setHeaderText("Enter your name:");
+        dialog.setContentText("Name:");
+
+        Optional<String> result = userinput.showAndWait();
+
+        result.ifPresent(name -> {
+            System.out.println(name.toString());;
+            res = name.toString();
+        });
+
+        result.get()
+
+
+    }
+
+
 }
 

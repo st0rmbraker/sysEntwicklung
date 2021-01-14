@@ -220,7 +220,7 @@ public class Helpers {
      * @param lastName
      * @return
      */
-    public OVertex createUser(String userName, String firstName, String lastName)
+    public OVertex createUser(String userName, String firstName, String lastName, String filePath)
     {
         if(checkUserExists(userName) == false)
         {
@@ -228,6 +228,8 @@ public class Helpers {
             user.setProperty("username", userName);
             user.setProperty("firstName", firstName);
             user.setProperty("lastName", lastName);
+
+            convertToBinary()
             //user.setProperty("userInfos", createUserDocument("Mannheim", "alex@web.de", new Date(1,1,1)));
 
             user.save();
@@ -334,11 +336,11 @@ public class Helpers {
      */
     //https://www.codespeedy.com/how-to-convert-an-image-to-binary-data-in-java/
     //https://stackoverflow.com/questions/6702423/convert-image-and-audio-files-to-binary-in-java/43427851
-    public byte[] convertToBinary(){
+    public byte[] convertToBinary(String filepath){
         try {
             //bild konvertieren
             System.out.println("superman");
-            BufferedImage sourceimage = ImageIO.read(new File("C:\\Users\\Alex\\IdeaProjects\\sysEntwicklung\\SysEntw\\src\\main\\resources\\Screenshot_1.jpg"));
+            BufferedImage sourceimage = ImageIO.read(new File(filepath));
             ByteArrayOutputStream bytes = new ByteArrayOutputStream();
             ImageIO.write(sourceimage, "jpg", bytes);
             byte[] jpgByteArray = bytes.toByteArray();
@@ -426,4 +428,7 @@ public class Helpers {
         return null;
     }
 
+    /**
+     * @return: String
+     */
 }
