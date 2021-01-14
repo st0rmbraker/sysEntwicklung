@@ -392,7 +392,7 @@ public class Helpers {
      * @param bildname
      * @return
      */
-    public byte[] getPictureByName2(String bildname){
+    public byte[] getPictureByName(String bildname){
         session();
         OResultSet rs = db.query("SELECT bild FROM Bild WHERE Name = ?", bildname);
         if(rs.hasNext()) {

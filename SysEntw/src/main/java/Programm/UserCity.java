@@ -15,7 +15,9 @@ public class UserCity {
         byte[] x = h.convertToBinary();
         h.saveImage(h.convertToBinary());
         System.out.println("Fertig");
-        h.convertToImg(x);
+        //h.convertToImg(x);
+        System.out.println("abc");
+        h.convertToImg(h.getPictureByName("test4"));
     }
 
 
