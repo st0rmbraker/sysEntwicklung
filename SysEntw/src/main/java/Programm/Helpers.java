@@ -23,6 +23,7 @@ import java.util.*;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
+import javafx.scene.image.Image;
 
 public class Helpers {
 
@@ -370,21 +371,24 @@ public class Helpers {
     }
 
     /**
-     * Mathoede konvertiert bild von binary datei in jpg.
+     * Mathoede konvertiert bild von binary datei in Image-objekt für JavaFX.
      * @param bild: bild in binary version
      */
-    public void convertToImg(byte[] bild) {
+    public Image convertToImg(byte[] bild) {
         //byte[] original = obj.orig_seq.getBytes();
 
+        Image img = new Image(new ByteArrayInputStream(bild));
         InputStream in = new ByteArrayInputStream(bild);
         try {
-            BufferedImage img = ImageIO.read(in);
-            System.out.println(img);
-            ImageIO.write(img, "jpg",
+            BufferedImage img2 = ImageIO.read(in);
+            System.out.println(img2);
+            ImageIO.write(img2, "jpg",
                     new File("C:\\Users\\Alex\\IdeaProjects\\sysEntwicklung\\SysEntw\\src\\main\\resources\\Screenshot.jpg"));
         }catch(Exception e){
             System.out.println("Fehler");
         }
+
+        return img;
     }
 
     /**
@@ -394,17 +398,28 @@ public class Helpers {
      */
     public byte[] getPictureByName(String bildname){
         session();
-        OResultSet rs = db.query("SELECT bild FROM Bild WHERE Name = ?", bildname);
-        if(rs.hasNext()) {
-            OResult row = rs.next();
-            ORecordId rid = new ORecordId(row.getProperty("@rid").toString());
-            ODocument doc = db.load(rid);
+//        OResultSet rs = db.query("SELECT FROM Bild WHERE Name = ?", bildname);
+//        if(rs.hasNext()) {
+//            OResult row = rs.next();
+//            //System.out.println(row.getProperty("name").toString());
+//            ORecordId rid = new ORecordId("#51:0");
+//            ODocument doc = db.load(rid);
+//
+//            ORecordBytes record = doc.getProperty("bild");
+//            byte[] content = record.toStream();
+//            return content;
+//        }
 
-            ORecordBytes record = doc.field("bild");
-            byte[] content = record.toStream();
-            return content;
+
+        for(ODocument images : db.browseClass("Bild")) {
+            //System.out.println(images.field("name").toString());
+            if(images.field("Name").toString().equals(bildname)) {
+                System.out.println(images.getProperty("Name").toString());
+                byte[] content = images.getProperty("bild");
+                return content;
+            }
+
         }
-
 
 
 
