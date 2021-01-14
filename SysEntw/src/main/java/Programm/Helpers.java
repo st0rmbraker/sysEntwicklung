@@ -327,7 +327,7 @@ public class Helpers {
     /**
      * Methode konvertiert von .jpg Datei in binary array
      * So kann das Bild in Orient DB gespeichert werden
-     * @return: Es wird der Binary stream returned
+     * @return: Es wird der Binary Array returned
      */
     //https://www.codespeedy.com/how-to-convert-an-image-to-binary-data-in-java/
     //https://stackoverflow.com/questions/6702423/convert-image-and-audio-files-to-binary-in-java/43427851
@@ -383,6 +383,20 @@ public class Helpers {
         }catch(Exception e){
             System.out.println("Fehler");
         }
+    }
+
+    /**
+     * Methode lädt das Bild byte[] herunter und gibt es zurück
+     * @param bildname
+     * @return
+     */
+    public byte[] getPictureByName(String bildname){
+        session();
+        OResultSet rs = db.query("SELECT bild FROM Bild WHERE Name = ?", bildname);
+
+
+
+        return null;
     }
 
 }
