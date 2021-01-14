@@ -229,7 +229,7 @@ public class Helpers {
             user.setProperty("firstName", firstName);
             user.setProperty("lastName", lastName);
 
-            convertToBinary()
+            //convertToBinary()
             //user.setProperty("userInfos", createUserDocument("Mannheim", "alex@web.de", new Date(1,1,1)));
 
             user.save();
@@ -364,12 +364,13 @@ public class Helpers {
      * Bild in Form einer Binary Arrays wird in DB gespeichert
      * @param bild: vorher duch convertToBinary() aufrufen, um Format anzupassen
      */
-    public void saveImage(byte[] bild){
+    public ODocument saveImage(byte[] bild){
         session();
         ODocument n = new ODocument("Bild");
         n.field("bild", bild, OType.BINARY);
         n.field("Name", "test7");
         n.save();
+        return n;
     }
 
     /**
@@ -396,7 +397,7 @@ public class Helpers {
     /**
      * Methode lädt das Bild byte[] herunter und gibt es zurück
      * @param bildname
-     * @return
+     * @return: Datensatz mit dem neuen Bild
      */
     public byte[] getPictureByName(String bildname){
         session();
@@ -429,6 +430,12 @@ public class Helpers {
     }
 
     /**
-     * @return: String
+     * Methode konvertiert das am Pfad gegebene Bild in Binary
+     * Lädt es in Orient DB und gibt das neue Dokumetn zurück
+     * @param path: Pfad zum Bild welches hochgeladen werden soll
+     * @return
      */
+    public ODocument uploadImage(String path){
+        return saveImage(convertToBinary(path));
+    }
 }
