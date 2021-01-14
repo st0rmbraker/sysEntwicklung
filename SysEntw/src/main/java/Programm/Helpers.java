@@ -5,6 +5,7 @@ import com.orientechnologies.orient.core.db.OrientDB;
 import com.orientechnologies.orient.core.db.OrientDBConfig;
 import com.orientechnologies.orient.core.exception.ODatabaseException;
 import com.orientechnologies.orient.core.id.ORecordId;
+import com.orientechnologies.orient.core.metadata.schema.OType;
 import com.orientechnologies.orient.core.record.ODirection;
 import com.orientechnologies.orient.core.record.OEdge;
 import com.orientechnologies.orient.core.record.OVertex;
@@ -12,14 +13,20 @@ import com.orientechnologies.orient.core.record.impl.ODocument;
 import com.orientechnologies.orient.core.sql.executor.OResult;
 import com.orientechnologies.orient.core.sql.executor.OResultSet;
 
+import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Date;
 import java.util.*;
+//benötigt um bilder in binary data zu konvertieren
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
+import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 
 public class Helpers {
 
     public OrientDB orient;
     public ODatabaseSession db;
+
 
     public void session(){
         orient = new OrientDB("remote:wgay.hopto.org", OrientDBConfig.defaultConfig());
@@ -316,4 +323,66 @@ public class Helpers {
         System.out.println(ret);
         return ret;
     }
+
+    /**
+     * Methode konvertiert von .jpg Datei in binary array
+     * So kann das Bild in Orient DB gespeichert werden
+     * @return: Es wird der Binary stream returned
+     */
+    //https://www.codespeedy.com/how-to-convert-an-image-to-binary-data-in-java/
+    //https://stackoverflow.com/questions/6702423/convert-image-and-audio-files-to-binary-in-java/43427851
+    public byte[] convertToBinary(){
+        try {
+            //bild konvertieren
+            System.out.println("superman");
+            BufferedImage sourceimage = ImageIO.read(new File("/Users/maximilianfink/Downloads/hakan-nural-gQd4SRfKs40-unsplash.jpg"));
+            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+            ImageIO.write(sourceimage, "jpg", bytes);
+            byte[] jpgByteArray = bytes.toByteArray();
+            //String resultantimage = Base64.encode(bytes.toByteArray());
+            //System.out.println(resultantimage);
+            //return bytes;
+            //dieser Teil konvertiert es in einen String, aus 0en und 1en
+            StringBuilder sb = new StringBuilder();
+            for (byte by : jpgByteArray) {
+                sb.append(Integer.toBinaryString(by & 0xFF));
+            }
+            System.out.println(sb);
+            return jpgByteArray;
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * Bild in Form einer Binary Arrays wird in DB gespeichert
+     * @param bild: vorher duch convertToBinary() aufrufen, um Format anzupassen
+     */
+    public void saveImage(byte[] bild){
+        session();
+        OVertex n = db.newVertex("Bild");
+        n.setProperty("bild", bild, OType.BINARY);
+        n.setProperty("Name", "test2");
+        n.save();
+    }
+
+    /**
+     * Mathoede konvertiert bild von binary datei in jpg.
+     * @param bild: bild in binary version
+     */
+    public void convertToImg(byte[] bild) {
+        //byte[] original = obj.orig_seq.getBytes();
+
+        InputStream in = new ByteArrayInputStream(bild);
+        try {
+            BufferedImage img = ImageIO.read(in);
+            System.out.println(img);
+            ImageIO.write(img, "jpg",
+                    new File("/Users/maximilianfink/Desktop/est/testbild.jpg"));
+        }catch(Exception e){
+            System.out.println("Fehler");
+        }
+    }
+
 }
