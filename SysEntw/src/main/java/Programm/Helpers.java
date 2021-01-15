@@ -34,7 +34,7 @@ public class Helpers {
 
 
     public void session(){
-        orient = new OrientDB("remote:wgay.hopto.org", OrientDBConfig.defaultConfig());
+        orient = new OrientDB("remote:192.168.178.53", OrientDBConfig.defaultConfig());
         db = orient.open("Netzwerk1", "root", "123456");
     }
 

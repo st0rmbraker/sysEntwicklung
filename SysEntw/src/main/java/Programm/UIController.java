@@ -282,7 +282,6 @@ public class UIController extends Helpers {
             if(followUser(user, toFollow)) {
                 System.out.println(user.getProperty("username") + " folgt jetzt " + userToFollow);
                 output_follower.setItems(prepareFollowers(user, "OUT"));
-                to_follow_infos.setText(printUserInfo(toFollow));
             }
             else {
                 createAlert("Fehler", "Fehler", "Sich selbst folgen ist echt traurig");
@@ -315,6 +314,7 @@ public class UIController extends Helpers {
 
         //chatPartner wird aktualisiert
         chatPartner = getVertexByUsername(result[1]);
+        to_follow_infos.setText(printUserInfo(chatPartner));
     }
 
 
