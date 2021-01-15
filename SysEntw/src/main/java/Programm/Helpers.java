@@ -3,6 +3,7 @@ package Programm;
 import com.orientechnologies.orient.core.db.ODatabaseSession;
 import com.orientechnologies.orient.core.db.OrientDB;
 import com.orientechnologies.orient.core.db.OrientDBConfig;
+import com.orientechnologies.orient.core.db.record.OIdentifiable;
 import com.orientechnologies.orient.core.exception.ODatabaseException;
 import com.orientechnologies.orient.core.id.ORID;
 import com.orientechnologies.orient.core.id.ORecordId;
@@ -481,6 +482,7 @@ public class Helpers {
     }
 
     /**
+     * Erstellt Chat wenn noch keiner vorhanden, ansonsten wird vorhandener zurückgegeben. Reihenfolge der Inputs egal
      * @param user1 user1 mit dem der Chat gespeichert wird
      * @param user2 user2 mit dem der Chat gespeichert wird
      * @return der bestehende Chat oder ein neu erstellter
@@ -525,5 +527,31 @@ public class Helpers {
 
             return doc;
         }
+    }
+
+    /**
+     * Fügt Nachrichten zu bestehender Linklist in Chats hinzu oder erstellt die Liste falls noch keine Nachrichten vorhanden
+     * @param message Nachricht die an die Linklist in Chat angehängt werden soll
+     * @param chat der Chat der user zu dem die Nachricht gehört
+     * @return
+     */
+    public boolean addMessageToChat(ODocument message, ODocument chat) {
+        session();
+
+        if(chat.field("messages") == null)
+        {
+            List<OIdentifiable> linklist = new ArrayList();
+            linklist.add(message);
+            chat.field("messages", linklist, OType.LINKLIST);
+        }
+        else {
+            List children = chat.field("messages");
+            children.add(message);
+            chat.field("messages", children);
+        }
+        chat.save();
+
+        return true;
+
     }
 }

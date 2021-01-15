@@ -5,6 +5,8 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import javax.imageio.ImageIO;
+
+import com.orientechnologies.orient.core.record.impl.ODocument;
 import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 
 
@@ -19,7 +21,10 @@ public class UserCity extends Helpers{
 //        System.out.println("abc");
 //        h.convertToImg(h.getPictureByName("test4"));
 
-        h.getChat(h.getVertexByUsername("atheob"), h.getVertexByUsername("Sophie"));
+        ODocument chat = h.getChat(h.getVertexByUsername("atheob"), h.getVertexByUsername("Sophie"));
+        ODocument message = h.createMessage(h.getVertexByUsername("atheob"), "Das hier ist ja schon ein richtiger Chat");
+
+        System.out.println(h.addMessageToChat(message, chat));
     }
 
 
