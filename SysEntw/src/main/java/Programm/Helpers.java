@@ -533,9 +533,8 @@ public class Helpers {
      * Fügt Nachrichten zu bestehender Linklist in Chats hinzu oder erstellt die Liste falls noch keine Nachrichten vorhanden
      * @param message Nachricht die an die Linklist in Chat angehängt werden soll
      * @param chat der Chat der user zu dem die Nachricht gehört
-     * @return
      */
-    public boolean addMessageToChat(ODocument message, ODocument chat) {
+    public void addMessageToChat(ODocument message, ODocument chat) {
         session();
 
         if(chat.field("messages") == null)
@@ -551,7 +550,6 @@ public class Helpers {
         }
         chat.save();
 
-        return true;
 
     }
 }

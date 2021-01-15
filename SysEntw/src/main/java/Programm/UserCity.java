@@ -24,7 +24,7 @@ public class UserCity extends Helpers{
         ODocument chat = h.getChat(h.getVertexByUsername("atheob"), h.getVertexByUsername("Sophie"));
         ODocument message = h.createMessage(h.getVertexByUsername("atheob"), "Das hier ist ja schon ein richtiger Chat");
 
-        System.out.println(h.addMessageToChat(message, chat));
+        h.addMessageToChat(message, chat);
     }
 
 
