@@ -87,7 +87,7 @@ public class UIController extends Helpers {
     public void setUser(String user) {
         if(checkUserExists(user)){
             this.user = h.getVertexByUsername(user);
-            if(this.user.getProperty("bild") != null) {
+            if(getPictureByUser(this.user) != null) {
                 profile_image.setImage(convertToImg(getPictureByUser(this.user)));
             }
 
