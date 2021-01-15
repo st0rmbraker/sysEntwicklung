@@ -19,7 +19,7 @@ public class UserCity extends Helpers{
 //        System.out.println("abc");
 //        h.convertToImg(h.getPictureByName("test4"));
 
-        h.getChat(h.getVertexByUsername("lsimpson"), h.getVertexByUsername("atheob"));
+        h.getChat(h.getVertexByUsername("atheob"), h.getVertexByUsername("Sophie"));
     }
 
 

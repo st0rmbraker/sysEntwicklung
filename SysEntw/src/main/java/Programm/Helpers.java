@@ -487,7 +487,6 @@ public class Helpers {
      */
     public ODocument getChat(OVertex user1, OVertex user2)
     {
-        session();
         OResultSet rs = db.query("SELECT COUNT(*) FROM Chat WHERE user1.@rid="+user1.getProperty("@rid").toString() + " AND user2.@rid="
                 + user2.getProperty("@rid").toString());
         OResultSet rs2 = db.query("SELECT COUNT(*) FROM Chat WHERE user1.@rid="+user2.getProperty("@rid").toString() + " AND user2.@rid="
@@ -497,23 +496,19 @@ public class Helpers {
 
         if(!row.getProperty("COUNT(*)").toString().equals("0") || !row2.getProperty("COUNT(*)").toString().equals("0"))
         {
-            String firstUser;
-            String secondUser;
+            String firstUser = user1.getProperty("@rid").toString();
+            String secondUser = secondUser = user2.getProperty("@rid").toString();
             if(!row2.getProperty("COUNT(*)").toString().equals("0")) {
                 secondUser = user1.getProperty("@rid").toString();
                 firstUser = user2.getProperty("@rid").toString();;
             }
 
-            else {
-                secondUser = user2.getProperty("@rid").toString();;
-                firstUser = user1.getProperty("@rid").toString();
-            }
             System.out.println(firstUser + ", " + secondUser);
-            OResultSet rs3 = db.query("SELECT FROM Chat WHERE user1.@rid="+ firstUser +" AND user2.@rid="+secondUser);
-            OResult row3 = rs3.next();
-            ORecordId orid = new ORecordId(row3.getProperty("@rid").toString());
+            rs = db.query("SELECT FROM Chat WHERE user1.@rid="+ firstUser +" AND user2.@rid="+secondUser);
+            row = rs.next();
+            ORecordId orid = new ORecordId(row.getProperty("@rid").toString());
             ODocument doc = db.load(orid);
-            System.out.println("Erfolg");
+            System.out.println("Neuer Chat erstellt");
             return doc;
         }
 
@@ -525,7 +520,7 @@ public class Helpers {
             doc.field( "user1", user1);
             doc.field( "user2", user2 );
             doc.field( "chatID", chatID);
-            System.out.println("Kein Erfolg");
+            System.out.println("Chat existierte bereits");
             db.save(doc);
 
             return doc;
