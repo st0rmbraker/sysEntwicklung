@@ -481,7 +481,6 @@ public class Helpers {
     }
 
     /**
-     * TODO: In andere Richtung muss noch berücksichtigt werden!!!!!!!!
      * @param user1 user1 mit dem der Chat gespeichert wird
      * @param user2 user2 mit dem der Chat gespeichert wird
      * @return der bestehende Chat oder ein neu erstellter
@@ -491,12 +490,30 @@ public class Helpers {
         session();
         OResultSet rs = db.query("SELECT COUNT(*) FROM Chat WHERE user1.@rid="+user1.getProperty("@rid").toString() + " AND user2.@rid="
                 + user2.getProperty("@rid").toString());
+        OResultSet rs2 = db.query("SELECT COUNT(*) FROM Chat WHERE user1.@rid="+user2.getProperty("@rid").toString() + " AND user2.@rid="
+                + user1.getProperty("@rid").toString());
         OResult row = rs.next();
+        OResult row2 = rs2.next();
 
-        if(!row.getProperty("COUNT(*)").toString().equals("0"))
+        if(!row.getProperty("COUNT(*)").toString().equals("0") || !row2.getProperty("COUNT(*)").toString().equals("0"))
         {
-            ORecordId orid = new ORecordId(row.getProperty("@rid").toString());
+            String firstUser;
+            String secondUser;
+            if(!row2.getProperty("COUNT(*)").toString().equals("0")) {
+                secondUser = user1.getProperty("@rid").toString();
+                firstUser = user2.getProperty("@rid").toString();;
+            }
+
+            else {
+                secondUser = user2.getProperty("@rid").toString();;
+                firstUser = user1.getProperty("@rid").toString();
+            }
+            System.out.println(firstUser + ", " + secondUser);
+            OResultSet rs3 = db.query("SELECT FROM Chat WHERE user1.@rid="+ firstUser +" AND user2.@rid="+secondUser);
+            OResult row3 = rs3.next();
+            ORecordId orid = new ORecordId(row3.getProperty("@rid").toString());
             ODocument doc = db.load(orid);
+            System.out.println("Erfolg");
             return doc;
         }
 
@@ -508,6 +525,7 @@ public class Helpers {
             doc.field( "user1", user1);
             doc.field( "user2", user2 );
             doc.field( "chatID", chatID);
+            System.out.println("Kein Erfolg");
             db.save(doc);
 
             return doc;

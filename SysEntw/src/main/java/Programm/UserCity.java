@@ -8,7 +8,7 @@ import javax.imageio.ImageIO;
 import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 
 
-public class UserCity {
+public class UserCity extends Helpers{
 
     public static void main(String[] args) {
         Helpers h = new Helpers();
@@ -19,7 +19,7 @@ public class UserCity {
 //        System.out.println("abc");
 //        h.convertToImg(h.getPictureByName("test4"));
 
-        h.getChat(h.getVertexByUsername("atheob"), h.getVertexByUsername("berndbrot"));
+        h.getChat(h.getVertexByUsername("lsimpson"), h.getVertexByUsername("atheob"));
     }
 
 

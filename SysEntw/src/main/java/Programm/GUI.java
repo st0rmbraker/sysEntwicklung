@@ -46,6 +46,8 @@ public class GUI extends Application {
         Parent root = (Parent)fxmlLoader.load();
         UIController controller = fxmlLoader.<UIController>getController();
         System.out.println("Loading DB");
+
+        //beendet Programm wenn Fenster geschlossen wird
         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent event) {
