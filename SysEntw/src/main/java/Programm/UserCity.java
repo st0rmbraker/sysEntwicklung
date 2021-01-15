@@ -21,10 +21,17 @@ public class UserCity extends Helpers{
 //        System.out.println("abc");
 //        h.convertToImg(h.getPictureByName("test4"));
 
-        ODocument chat = h.getChat(h.getVertexByUsername("atheob"), h.getVertexByUsername("Sophie"));
-        ODocument message = h.createMessage(h.getVertexByUsername("atheob"), "Das hier ist ja schon ein richtiger Chat");
+        ODocument chat = h.getChat(h.getVertexByUsername("lsimpson"), h.getVertexByUsername("atheob"));
+        ODocument message1 = h.createMessage(h.getVertexByUsername("lsimpson"), "Erste Nachricht an Alex von Lisa");
+        ODocument message2 = h.createMessage(h.getVertexByUsername("atheob"), "Zweite Nachricht von Alex zurück");
+        ODocument message3 = h.createMessage(h.getVertexByUsername("atheob"), "Dritte Nachricht von Alex");
 
-        h.addMessageToChat(message, chat);
+        h.addMessageToChat(message1, chat);
+        h.addMessageToChat(message2, chat);
+        h.addMessageToChat(message3, chat);
+
+
+        h.printMessagesFromChat(chat);
     }
 
 

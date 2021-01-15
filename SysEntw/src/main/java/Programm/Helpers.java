@@ -458,9 +458,9 @@ public class Helpers {
 
     /**
      *
-     * @param sendBy user that sent the message,
-     * @param text text from that message
-     * @return the message object that was created
+     * @param sendBy Sender der Nachricht,
+     * @param text Nachrichteninhalt
+     * @return Messageobjekt, das erzeugt wurde
      */
     public ODocument createMessage(OVertex sendBy, String text)
     {
@@ -510,7 +510,7 @@ public class Helpers {
             row = rs.next();
             ORecordId orid = new ORecordId(row.getProperty("@rid").toString());
             ODocument doc = db.load(orid);
-            System.out.println("Neuer Chat erstellt");
+            System.out.println("Chat existierte bereits");
             return doc;
         }
 
@@ -522,7 +522,7 @@ public class Helpers {
             doc.field( "user1", user1);
             doc.field( "user2", user2 );
             doc.field( "chatID", chatID);
-            System.out.println("Chat existierte bereits");
+            System.out.println("Neuer Chat erstellt");
             db.save(doc);
 
             return doc;
@@ -551,5 +551,24 @@ public class Helpers {
         chat.save();
 
 
+    }
+
+    /**
+     * Gibt alle Nachrihcten inklusive Sender eines Chats aus
+     * @param chat der Chat dessen Nachrichten ausgegeben werden
+     */
+    public void printMessagesFromChat(ODocument chat)
+    {
+        if(chat.field("messages") != null)
+        {
+            List children = chat.field("messages");
+
+            for(Object messages : children)
+            {
+                ODocument currentMessage = (ODocument) messages;
+                OVertex sendBy = currentMessage.getProperty("sendBy");
+                System.out.println("-"+sendBy.getProperty("firstName") + ": " + currentMessage.getProperty("text").toString());
+            }
+        }
     }
 }
