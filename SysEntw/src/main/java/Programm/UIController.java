@@ -164,7 +164,7 @@ public class UIController extends Helpers {
         ObservableList<String> ret = FXCollections.observableArrayList();
         ret.add("Start");
         Iterable<OVertex> overtexList;
-        System.out.println("test");
+        //System.out.println("test");
         if(direction.equals("IN")) {
             overtexList = element.getVertices(ODirection.IN); //Gibt auch noch IN und BOTH fuer die Richtungen
         }
