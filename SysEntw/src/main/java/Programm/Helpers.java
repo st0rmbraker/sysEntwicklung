@@ -508,8 +508,7 @@ public class Helpers {
      */
     public String printMessagesFromChat(ODocument chat)
     {
-
-        String ret = "";
+        String ret = " ";
         if(chat.field("messages") != null)
         {
             List children = chat.field("messages");
@@ -518,7 +517,8 @@ public class Helpers {
             {
                 ODocument currentMessage = (ODocument) messages;
                 OVertex sendBy = currentMessage.getProperty("sendBy");
-                ret.concat("-"+sendBy.getProperty("firstName") + ": " + currentMessage.getProperty("text").toString());
+                ret = ret+("-"+sendBy.getProperty("firstName") + ": " + currentMessage.getProperty("text").toString()+"\n");
+                //System.out.println("-"+sendBy.getProperty("firstName") + ": " + currentMessage.getProperty("text").toString());
             }
         }
         return ret;

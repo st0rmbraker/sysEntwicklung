@@ -2,6 +2,7 @@ package Programm;
 
 import com.orientechnologies.orient.core.record.OVertex;
 import com.orientechnologies.orient.core.record.impl.ODocument;
+import com.sun.deploy.association.utility.WinAppAssociationWriter;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -44,7 +45,7 @@ public class Background extends Thread {
                 h.session();
                 userV = h.getVertexByUsername(user);
                 own_infos = (h.printUserInfo(userV));
-                output_chat = ("Letzte Aktualisierung:\n" + new java.util.Date() + "\n");
+                own_infos = own_infos+(("\nLetzte Aktualisierung:\n" + new java.util.Date() + "\n"));
                 if (u.getMe_Following()) {
                     //output_follower.add(h.countFollowers(userV, "OUT"));
                     output_follower = (u.prepareFollowers(userV, "OUT"));
@@ -53,8 +54,10 @@ public class Background extends Thread {
                     output_follower = (u.prepareFollowers(userV, "IN"));
                 }
                 if (u.chatPartner != null){
+                    //System.out.println("Chatpartner= "+u.chatPartner);
                     ODocument chat = h.getChat(userV, u.chatPartner);
-                    output_chat.concat(h.printMessagesFromChat(chat));
+                    output_chat = (h.printMessagesFromChat(chat));
+                    //System.out.println(output_chat);
                 }
                 Thread.sleep(1000);
             }
