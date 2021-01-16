@@ -196,7 +196,8 @@ public class UIController extends Helpers {
 
     public void onClick_send_button(ActionEvent actionEvent){
         if(chatPartner!=null && input_chat.getText()!=null){
-            createMessage(user, input_chat.getText());
+            ODocument chat = getChat(user, chatPartner);
+            createMessage(user, input_chat.getText(), chat);
         }
         else if(input_chat.getText()==null){
             createAlert("Senden fehlgeschlagen", "Senden fehlgeschlagen", "Sie können keine leeren Nachrichten schicken.");

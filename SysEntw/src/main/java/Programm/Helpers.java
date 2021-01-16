@@ -407,7 +407,7 @@ public class Helpers {
      * @param text Nachrichteninhalt
      * @return Messageobjekt, das erzeugt wurde
      */
-    public ODocument createMessage(OVertex sendBy, String text)
+    public ODocument createMessage(OVertex sendBy, String text, ODocument chat)
     {
         session();
         OClass messages = db.getClass("Message");
@@ -421,6 +421,8 @@ public class Helpers {
         doc.field("text", text);
 
         db.save(doc);
+
+        addMessageToChat(doc, chat);
 
         return doc;
     }
@@ -506,6 +508,7 @@ public class Helpers {
      */
     public String printMessagesFromChat(ODocument chat)
     {
+
         String ret = "";
         if(chat.field("messages") != null)
         {
