@@ -2,6 +2,8 @@ package Programm;
 
 import com.orientechnologies.orient.core.record.OVertex;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class Background extends Thread {
 
@@ -9,6 +11,9 @@ public class Background extends Thread {
     String user;
     OVertex userV;
     Helpers h;
+    String own_infos;
+    String output_chat;
+    ObservableList<String> output_follower = FXCollections.observableArrayList();
 
     public Background(UIController nU, String nUser){
         setDaemon( true );
@@ -31,70 +36,41 @@ public class Background extends Thread {
         Platform.setImplicitExit(false);
         if(isDaemon()) System.out.println("Background-Aktualisierung als daemon gestartet.");
         else System.out.println("Problem");
-        //int i=0;
-       /* while(true){
+        while(true){
             try {
-                //if(i=5){
-                userV = h.getVertexByUsername(user);
-                //  i=0;
-                //}
                 h.session();
-                u.own_infos.setText(h.printUserInfo(userV));
-                u.output_chat.setText("Letzte Aktualisierung:\n"+new java.util.Date()+"\n");
+                userV = h.getVertexByUsername(user);
+                own_infos=(h.printUserInfo(userV));
+                output_chat=("Letzte Aktualisierung:\n"+new java.util.Date()+"\n");
                 try{
                     if(u.getMe_Following()){
-                        u.output_follower.setItems(u.prepareFollowers(userV, "OUT"));
+                        output_follower= (u.prepareFollowers(userV, "OUT"));
 
                     }
                     else{
-                        u.output_follower.setItems(u.prepareFollowers(userV, "IN"));
+                        output_follower = (u.prepareFollowers(userV, "IN"));
                     }
                 }
                 catch (Exception ex){
                     System.out.print("Fehler: "+ex);
                 }
 
-                Thread.sleep(2000);
+                Thread.sleep(1000);
                 //i++;
             } catch (InterruptedException e) {
                e.printStackTrace();
             }
+
+            Thread taskThread = new Thread(() -> Platform.runLater(() -> {
+                u.own_infos.setText(own_infos);
+                u.output_chat.setText(output_chat);
+                u.output_follower.setItems(output_follower);
+            }));
+            taskThread.start();
+
         }
 
-        */
-
         //https://riptutorial.com/javafx/example/7291/updating-the-ui-using-platform-runlater
-        Thread taskThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                //Platform.setImplicitExit(false);
-                //if(isDaemon()) System.out.println("Background-Aktualisierung als daemon gestartet.");
-                //else System.out.println("Problem");
-                //int i=0;
-                while(true){
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    OVertex userV = h.getVertexByUsername(user);
-                    h.session();
-                    Platform.runLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            u.own_infos.setText(h.printUserInfo(userV));
-                            u.output_chat.setText("Letzte Aktualisierung:\n"+new java.util.Date()+"\n");
-                            if(u.getMe_Following()){
-                                u.output_follower.setItems(u.prepareFollowers(userV, "OUT"));
-                            }
-                            else{
-                                u.output_follower.setItems(u.prepareFollowers(userV, "IN"));
-                            }
-                        }
-                    });
-                }
-            }
-        });
-        taskThread.start();
+
     }
 }
