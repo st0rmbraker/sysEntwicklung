@@ -51,7 +51,6 @@ public class Helpers {
             return null;
         }
         finally{
-            db.close();
             System.out.println("Refreshing complete");
         }
     }
@@ -70,7 +69,6 @@ public class Helpers {
             if(row.<String>getProperty("username").equals(username)) return true;
         }
         rs.close();
-        db.close();
         return false;
     }
 
@@ -86,7 +84,6 @@ public class Helpers {
         }
 
         rs.close();
-        db.close();
         return ret;
     }
 
@@ -104,7 +101,6 @@ public class Helpers {
         n.setProperty("firstName", nFirstName);
         n.setProperty("username", nUsername);
         n.save();
-        db.close();
         return n;
     }
 
@@ -122,7 +118,6 @@ public class Helpers {
         for(OVertex v : overtexList) {
             ret += ("-" + v.getProperty("firstName").toString() + System.lineSeparator());
         }
-        db.close();
         return ret;
 
     }
@@ -145,7 +140,6 @@ public class Helpers {
         OEdge temp = follower.addEdge(followed, "follows");
         System.out.println("WARUM");
         temp.save();
-        db.close();
         return true;
     }
 
@@ -163,7 +157,6 @@ public class Helpers {
             }
         }
         rs.close();
-        db.close();
         System.out.println("User "+userID+" nicht gefunden.");
         return null;
     }
@@ -183,7 +176,6 @@ public class Helpers {
         for(OVertex v : list) {
             counter++;
         }
-        db.close();
         return Integer.toString(counter);
     }
 
@@ -199,7 +191,6 @@ public class Helpers {
         doc.field( "mail", mail );
         doc.field( "birthday", birthDay);
         db.save(doc);
-        db.close();
         return doc;
     }
 
@@ -248,7 +239,6 @@ public class Helpers {
 
         }
         rs.close();
-        db.close();
         return list;
     }
 
@@ -271,7 +261,6 @@ public class Helpers {
                 ret = ret.concat(temp + " : " + d.getProperty(temp.toString()) + "\n");
             }
         }
-        db.close();
         return ret;
     }
 
@@ -317,7 +306,6 @@ public class Helpers {
         }
         System.out.println(ret);
         rs.close();
-        db.close();
         return ret;
     }
 
@@ -356,7 +344,6 @@ public class Helpers {
         n.field("bild", bild, OType.BINARY);
         n.field("Name", "test10");
         n.save();
-        db.close();
         return n;
     }
 
@@ -438,7 +425,6 @@ public class Helpers {
         db.save(doc);
 
         addMessageToChat(doc, chat);
-        db.close();
         return doc;
     }
 
@@ -475,7 +461,6 @@ public class Helpers {
             ODocument doc = db.load(orid);
             //System.out.println("Chat existierte bereits");
             rs3.close();
-            db.close();
             return doc;
         }
 
@@ -489,7 +474,6 @@ public class Helpers {
             doc.field( "chatID", chatID);
             System.out.println("Neuer Chat erstellt");
             db.save(doc);
-            db.close();
             return doc;
         }
     }
@@ -514,7 +498,6 @@ public class Helpers {
             chat.field("messages", children);
         }
         chat.save();
-        db.close();
 
     }
 

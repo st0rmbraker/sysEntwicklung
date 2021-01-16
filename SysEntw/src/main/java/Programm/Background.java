@@ -58,7 +58,6 @@ public class Background extends Thread {
                     output_chat = (h.printMessagesFromChat(chat));
                     //System.out.println(output_chat);
                 }
-                h.db.close();
                 Thread.sleep(1000);
             }
             catch (InterruptedException e) {
