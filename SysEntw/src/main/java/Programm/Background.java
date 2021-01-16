@@ -1,6 +1,8 @@
 package Programm;
 
 import com.orientechnologies.orient.core.record.OVertex;
+import com.orientechnologies.orient.core.record.impl.ODocument;
+import com.sun.deploy.association.utility.WinAppAssociationWriter;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -25,11 +27,13 @@ public class Background extends Thread {
         userV = h.getVertexByUsername(user);
     }
 
-
     /**
      * Die Methode, die synchron im Hintergrund läuft
      * Läuft als Daemon, aktualisiert alle zwei Sekunden
      * http://openbook.rheinwerk-verlag.de/javainsel9/javainsel_14_003.htm#mjd0f19999270d6e1fbfd4af3a16273eef
+     * https://riptutorial.com/javafx/example/7291/updating-the-ui-using-platform-runlater
+     * Ausgabe getrennt als platform runlater, da aktualisierung der UI nicht im Hintergrund möglich ist,
+     * aber die DB aktualisierung die UI sonst unresponsive macht
      */
     @Override
     public void run() {
@@ -40,24 +44,24 @@ public class Background extends Thread {
             try {
                 h.session();
                 userV = h.getVertexByUsername(user);
-                own_infos=(h.printUserInfo(userV));
-                output_chat=("Letzte Aktualisierung:\n"+new java.util.Date()+"\n");
-                try{
-                    if(u.getMe_Following()){
-                        output_follower= (u.prepareFollowers(userV, "OUT"));
-
-                    }
-                    else{
-                        output_follower = (u.prepareFollowers(userV, "IN"));
-                    }
+                own_infos = (h.printUserInfo(userV));
+                own_infos = own_infos+(("\nLetzte Aktualisierung:\n" + new java.util.Date() + "\n"));
+                if (u.getMe_Following()) {
+                    //output_follower.add(h.countFollowers(userV, "OUT"));
+                    output_follower = (u.prepareFollowers(userV, "OUT"));
+                } else {
+                    //output_follower.add(h.countFollowers(userV, "IN"));
+                    output_follower = (u.prepareFollowers(userV, "IN"));
                 }
-                catch (Exception ex){
-                    System.out.print("Fehler: "+ex);
+                if (u.chatPartner != null){
+                    //System.out.println("Chatpartner= "+u.chatPartner);
+                    ODocument chat = h.getChat(userV, u.chatPartner);
+                    output_chat = (h.printMessagesFromChat(chat));
+                    //System.out.println(output_chat);
                 }
-
                 Thread.sleep(1000);
-                //i++;
-            } catch (InterruptedException e) {
+            }
+            catch (InterruptedException e) {
                e.printStackTrace();
             }
 
@@ -67,10 +71,9 @@ public class Background extends Thread {
                 u.output_follower.setItems(output_follower);
             }));
             taskThread.start();
-
         }
 
-        //https://riptutorial.com/javafx/example/7291/updating-the-ui-using-platform-runlater
+
 
     }
 }

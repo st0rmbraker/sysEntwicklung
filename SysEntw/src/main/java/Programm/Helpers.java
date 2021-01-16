@@ -44,16 +44,6 @@ public class Helpers {
             session();
             String statement = "SELECT FROM Account";
             return outputQueryAcc(statement);
-
-            //statement = "SELECT FROM Account WHERE @rid="+ownID.getText();
-            //outputQueryAcc(statement, outputOwn);
-
-            /*String statement2 = "SELECT FROM follows";
-            OResultSet rs2 = db.query(statement2);
-            while (rs2.hasNext()) {
-                OResult row = rs2.next();
-                outputAll.append(row.getProperty("in").toString());
-            }*/
         }
         catch (ODatabaseException ex) {
             System.out.println("Ein Datenbankfehler ist aufgetreten:"+ex);
@@ -172,25 +162,20 @@ public class Helpers {
     public String countFollowers(OVertex user, String direction)
     {
         session();
-
         Iterable<OVertex> list;
-
         if(direction.equals("IN"))
         {
             list = user.getVertices(ODirection.IN);
         }
-
         else {
             list = user.getVertices(ODirection.OUT);
         }
-
         int counter = 0;
         for(OVertex v : list) {
             counter++;
         }
 
         return Integer.toString(counter);
-
     }
 
     /**
@@ -204,15 +189,8 @@ public class Helpers {
         doc.field( "city", city );
         doc.field( "mail", mail );
         doc.field( "birthday", birthDay);
-
         db.save(doc);
-
         return doc;
-    }
-
-    public void close(){
-        db.close();
-        orient.close();
     }
 
     /**
@@ -232,15 +210,12 @@ public class Helpers {
             user.setProperty("lastName", lastName);
 
             user.setProperty("profile", uploadImage(filePath));
-            //user.setProperty("userInfos", createUserDocument("Mannheim", "alex@web.de", new Date(1,1,1)));
 
             user.save();
             return user;
         }
         System.out.println("User bereits vorhanden");
         return null;
-
-        //ERGÄNZEN: WENN USER VORHANDEN DATEN ZIEHEN//ToDo
     }
 
     /**
@@ -277,7 +252,6 @@ public class Helpers {
         ret = ("Benutzername: " + u.getProperty("username") + "\n");
         ret = ret.concat("Vorname: " + u.getProperty("firstName") + "\n");
         ret = ret.concat("Nachname: " + u.getProperty("lastName") + "\n");
-        //ret = ret.concat("Dokument: " + u.getProperty("userInfos") + "\n");
 
         ODocument d = u.getProperty("userInfos");
         if(u.getProperty("userInfos") != null) {
@@ -336,22 +310,16 @@ public class Helpers {
     /**
      * Methode konvertiert von .jpg Datei in binary array
      * So kann das Bild in Orient DB gespeichert werden
-     * @return: Es wird der Binary Array returned
+     * @return: Binary Array des Bildes
      */
     //https://www.codespeedy.com/how-to-convert-an-image-to-binary-data-in-java/
     //https://stackoverflow.com/questions/6702423/convert-image-and-audio-files-to-binary-in-java/43427851
     public byte[] convertToBinary(String filepath){
         try {
-            //bild konvertieren
-            System.out.println("superman");
             BufferedImage sourceimage = ImageIO.read(new File(filepath));
             ByteArrayOutputStream bytes = new ByteArrayOutputStream();
             ImageIO.write(sourceimage, "jpg", bytes);
             byte[] jpgByteArray = bytes.toByteArray();
-            //String resultantimage = Base64.encode(bytes.toByteArray());
-            //System.out.println(resultantimage);
-            //return bytes;
-            //dieser Teil konvertiert es in einen String, aus 0en und 1en
             StringBuilder sb = new StringBuilder();
             for (byte by : jpgByteArray) {
                 sb.append(Integer.toBinaryString(by & 0xFF));
@@ -382,19 +350,7 @@ public class Helpers {
      * @param bild: bild in binary version
      */
     public Image convertToImg(byte[] bild) {
-        //byte[] original = obj.orig_seq.getBytes();
-
         Image img = new Image(new ByteArrayInputStream(bild));
-//        InputStream in = new ByteArrayInputStream(bild);
-//        try {
-//            BufferedImage img2 = ImageIO.read(in);
-//            System.out.println(img2);
-//            ImageIO.write(img2, "jpg",
-//                    new File("C:\\Users\\Alex\\IdeaProjects\\sysEntwicklung\\SysEntw\\src\\main\\resources\\Screenshot.jpg"));
-//        }catch(Exception e){
-//            System.out.println("Fehler");
-//        }
-
         return img;
     }
 
@@ -405,17 +361,6 @@ public class Helpers {
      */
     public byte[] getPictureByName(String bildname){
         session();
-//        OResultSet rs = db.query("SELECT FROM Bild WHERE Name = ?", bildname);
-//        if(rs.hasNext()) {
-//            OResult row = rs.next();
-//            //System.out.println(row.getProperty("name").toString());
-//            ORecordId rid = new ORecordId("#51:0");
-//            ODocument doc = db.load(rid);
-//
-//            ORecordBytes record = doc.getProperty("bild");
-//            byte[] content = record.toStream();
-//            return content;
-//        }
         for(ODocument images : db.browseClass("Bild")) {
             //System.out.println(images.field("name").toString());
             if(images.field("Name").toString().equals(bildname)) {
@@ -462,13 +407,12 @@ public class Helpers {
      * @param text Nachrichteninhalt
      * @return Messageobjekt, das erzeugt wurde
      */
-    public ODocument createMessage(OVertex sendBy, String text)
+    public ODocument createMessage(OVertex sendBy, String text, ODocument chat)
     {
         session();
         OClass messages = db.getClass("Message");
         int messageID = (int)messages.count() +1;
         java.util.Date date = new java.util.Date();
-
 
         ODocument doc = new ODocument("Message");
         doc.field( "date", date);
@@ -477,6 +421,8 @@ public class Helpers {
         doc.field("text", text);
 
         db.save(doc);
+
+        addMessageToChat(doc, chat);
 
         return doc;
     }
@@ -489,28 +435,31 @@ public class Helpers {
      */
     public ODocument getChat(OVertex user1, OVertex user2)
     {
+        session();
         OResultSet rs = db.query("SELECT COUNT(*) FROM Chat WHERE user1.@rid="+user1.getProperty("@rid").toString() + " AND user2.@rid="
                 + user2.getProperty("@rid").toString());
         OResultSet rs2 = db.query("SELECT COUNT(*) FROM Chat WHERE user1.@rid="+user2.getProperty("@rid").toString() + " AND user2.@rid="
                 + user1.getProperty("@rid").toString());
         OResult row = rs.next();
         OResult row2 = rs2.next();
-
+        rs.close();
+        rs2.close();
         if(!row.getProperty("COUNT(*)").toString().equals("0") || !row2.getProperty("COUNT(*)").toString().equals("0"))
         {
             String firstUser = user1.getProperty("@rid").toString();
-            String secondUser = secondUser = user2.getProperty("@rid").toString();
+            String secondUser = user2.getProperty("@rid").toString();
             if(!row2.getProperty("COUNT(*)").toString().equals("0")) {
                 secondUser = user1.getProperty("@rid").toString();
                 firstUser = user2.getProperty("@rid").toString();;
             }
 
             System.out.println(firstUser + ", " + secondUser);
-            rs = db.query("SELECT FROM Chat WHERE user1.@rid="+ firstUser +" AND user2.@rid="+secondUser);
-            row = rs.next();
-            ORecordId orid = new ORecordId(row.getProperty("@rid").toString());
+            OResultSet rs3 = db.query("SELECT FROM Chat WHERE user1.@rid="+ firstUser +" AND user2.@rid="+secondUser);
+            OResult row3 = rs3.next();
+            ORecordId orid = new ORecordId(row3.getProperty("@rid").toString());
             ODocument doc = db.load(orid);
             System.out.println("Chat existierte bereits");
+            rs3.close();
             return doc;
         }
 
@@ -557,8 +506,9 @@ public class Helpers {
      * Gibt alle Nachrihcten inklusive Sender eines Chats aus
      * @param chat der Chat dessen Nachrichten ausgegeben werden
      */
-    public void printMessagesFromChat(ODocument chat)
+    public String printMessagesFromChat(ODocument chat)
     {
+        String ret = " ";
         if(chat.field("messages") != null)
         {
             List children = chat.field("messages");
@@ -567,8 +517,10 @@ public class Helpers {
             {
                 ODocument currentMessage = (ODocument) messages;
                 OVertex sendBy = currentMessage.getProperty("sendBy");
-                System.out.println("-"+sendBy.getProperty("firstName") + ": " + currentMessage.getProperty("text").toString());
+                ret = ret+("-"+sendBy.getProperty("firstName") + ": " + currentMessage.getProperty("text").toString()+"\n");
+                //System.out.println("-"+sendBy.getProperty("firstName") + ": " + currentMessage.getProperty("text").toString());
             }
         }
+        return ret;
     }
 }

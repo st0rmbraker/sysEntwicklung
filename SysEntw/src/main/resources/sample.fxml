@@ -4,23 +4,24 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Programm.UIController">
+<AnchorPane prefHeight="450.0" prefWidth="700.0" stylesheets="style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Programm.UIController">
    <children>
-      <Button fx:id="me_following_button" layoutX="491.0" layoutY="347.0" onAction="#onClick_me_following_button" prefHeight="46.0" prefWidth="136.0" text="Follows me" />
-      <ImageView id="profile_details" fx:id="profile_image" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="433.0" />
-      <MenuButton fx:id="profile_settings" layoutY="357.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="200.0" text="Settings">
+      <Button fx:id="me_following_button" layoutX="491.0" layoutY="393.0" onAction="#onClick_me_following_button" prefHeight="46.0" prefWidth="200.0" text="Follows me" />
+      <ImageView id="profile_details" fx:id="profile_image" fitHeight="150.0" fitWidth="200.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="433.0" />
+      <MenuButton fx:id="profile_settings" layoutY="396.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="200.0" text="Einstellungen">
          <items>
-            <MenuItem mnemonicParsing="false" text="Action 1" />
-            <MenuItem mnemonicParsing="false" text="Action 2" />
+            <MenuItem fx:id="setting_1" mnemonicParsing="false" onAction="#onClick_setting_1" text="Benutzerdaten bearbeiten" />
+            <MenuItem fx:id="setting_2" mnemonicParsing="false" onAction="#onClick_setting_2" text="Action 2" />
          </items>
       </MenuButton>
-      <Button fx:id="following_button" disable="true" layoutX="491.0" layoutY="295.0" mnemonicParsing="false" onAction="#onClick_following_button" prefHeight="46.0" prefWidth="136.0" text="Following" textFill="#211f1f" />
-      <TextField fx:id="insert_user" layoutX="491.0" layoutY="14.0" prefHeight="28.0" prefWidth="104.0" />
-      <Button fx:id="to_follow_button" layoutX="595.0" layoutY="15.0" mnemonicParsing="false" onAction="#onClick_to_follow_button" prefHeight="26.0" prefWidth="32.0" text="+" />
-      <TextArea fx:id="own_infos" layoutY="169.0" prefHeight="150.0" prefWidth="200.0" />
+      <Button fx:id="following_button" disable="true" layoutX="491.0" layoutY="350.0" mnemonicParsing="false" onAction="#onClick_following_button" prefHeight="46.0" prefWidth="200.0" text="Following" textFill="#211f1f" />
+      <TextField fx:id="insert_user" layoutX="491.0" layoutY="14.0" prefHeight="28.0" prefWidth="165.0" />
+      <Button fx:id="to_follow_button" layoutX="654.0" layoutY="15.0" mnemonicParsing="false" onAction="#onClick_to_follow_button" prefHeight="26.0" prefWidth="32.0" text="+" />
+      <TextArea fx:id="own_infos" layoutY="169.0" prefHeight="230.0" prefWidth="200.0" />
       <TextArea fx:id="to_follow_infos" layoutX="214.0" layoutY="14.0" prefHeight="143.0" prefWidth="268.0" />
-      <TextArea fx:id="output_chat" layoutX="214.0" layoutY="166.0" prefHeight="230.0" prefWidth="268.0" />
-      <ListView fx:id="output_follower" onMouseClicked="#getListViewItem" layoutX="491.0" layoutY="57.0" prefHeight="224.0" prefWidth="136.0" />
-      <Button fx:id="change_info" layoutX="37.0" layoutY="329.0" mnemonicParsing="false" onAction="#onClick_change_info" text="UserInfos bearbeiten" />
+      <TextArea fx:id="output_chat" layoutX="214.0" layoutY="166.0" prefHeight="230.0" prefWidth="268.0" text="Ladevorgang..." />
+      <ListView fx:id="output_follower" layoutX="491.0" layoutY="57.0" onMouseClicked="#getListViewItem" prefHeight="290.0" prefWidth="200.0" />
+      <TextField fx:id="input_chat" layoutX="214.0" layoutY="396.0" prefHeight="39.0" prefWidth="212.0" promptText="Geben sie hier ihre Nachricht ein." />
+      <Button fx:id="send_button" disable="true" layoutX="426.0" layoutY="396.0" mnemonicParsing="false" onAction="#onClick_send_button" prefHeight="39.0" prefWidth="57.0" text="Senden" />
    </children>
 </AnchorPane>

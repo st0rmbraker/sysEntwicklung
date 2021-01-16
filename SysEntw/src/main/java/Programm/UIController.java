@@ -1,51 +1,24 @@
 package Programm;
 
-import com.orientechnologies.orient.core.db.document.ODatabaseDocument;
-import com.orientechnologies.orient.core.id.ORecordId;
 import com.orientechnologies.orient.core.record.ODirection;
-import com.orientechnologies.orient.core.record.ORecord;
 import com.orientechnologies.orient.core.record.OVertex;
-import com.orientechnologies.orient.core.record.impl.ODocument;
-import com.orientechnologies.orient.core.record.impl.ORecordBytes;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextFlow;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
-import javafx.util.Pair;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.event.MouseEvent;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
@@ -55,7 +28,6 @@ public class UIController extends Helpers {
     public ImageView profile_image;
     public MenuButton profile_settings;
     public TextField insert_user;
-    public Button plusButton;
     public ListView output_follower;
     public Button following_button;
     public Button me_following_button;
@@ -63,7 +35,10 @@ public class UIController extends Helpers {
     public TextArea own_infos;
     public TextArea to_follow_infos;
     public TextArea output_chat;
-    public Button change_info;
+    public MenuItem setting_1;
+    public MenuItem setting_2;
+    public Button send_button;
+    public TextField input_chat;
 
     public boolean me_following = true;
     Helpers h = new Helpers();
@@ -73,24 +48,12 @@ public class UIController extends Helpers {
     Dialog <String[]> dialogInfos;
 
 
-    //Der "+"-Button. Aktuell angemeldeter User folgt dem in dem Textfeld "insert_user" eingegeben Benutzernamen, wenn vorhanden.
-    public void onClickFollowButton(ActionEvent event) {
-        String userToFollow = insert_user.getText();
-        if (getVertexByUsername(userToFollow) != null && getVertexByUsername(userToFollow) !=user) {
-            OVertex followed = getVertexByUsername(userToFollow);
-            followUser(user, followed);
-        } else {
-            System.out.println("Folgen fehlgeschlagen, user nicht vorhanden");
-        }
-    }
-
     public void setUser(String user) {
         if(checkUserExists(user)){
             this.user = h.getVertexByUsername(user);
             if(getPictureByUser(this.user) != null) {
                 profile_image.setImage(convertToImg(getPictureByUser(this.user)));
             }
-
         }
         else{
             prepareCreateUser();
@@ -157,14 +120,11 @@ public class UIController extends Helpers {
             return null;
         });
     }
-
     //Stellt Liste der Follower in Richtung Rein oder Raus bereit
     public ObservableList<String> prepareFollowers(OVertex element, String direction){
         session();
         ObservableList<String> ret = FXCollections.observableArrayList();
-        ret.add("Start");
         Iterable<OVertex> overtexList;
-        //System.out.println("test");
         if(direction.equals("IN")) {
             overtexList = element.getVertices(ODirection.IN); //Gibt auch noch IN und BOTH fuer die Richtungen
         }
@@ -178,14 +138,7 @@ public class UIController extends Helpers {
 
     }
 
-    /*
-    public void onClickFollowerDetails(javafx.scene.input.MouseEvent mouseEvent) {
-        System.out.println("clicked on " + follower_details.getSelectionModel().getSelectedItem());
-    }
-    */
-
-    //Button User Infos ändern, startet Dialog zum Daten eingeben und speichert diese in neuem oder vorhandenen Doc ab
-    public void onClick_change_info(){
+    public void onClick_setting_1(ActionEvent actionEvent){
         session();
         System.out.println("onClick_change_info");
 
@@ -213,7 +166,7 @@ public class UIController extends Helpers {
         grid.add(new Label("Werte:"), 0, 1);
         grid.add(nValues, 1, 1);
 
-         dialogInfos.getDialogPane().setContent(grid);
+        dialogInfos.getDialogPane().setContent(grid);
 
         // Request focus on the username field by default.
         Platform.runLater(() -> nVariable.requestFocus());
@@ -239,7 +192,16 @@ public class UIController extends Helpers {
             user.setProperty("userInfos", doc);
             user.save();
         }
+    }
 
+    public void onClick_send_button(ActionEvent actionEvent){
+        if(chatPartner!=null && input_chat.getText()!=null){
+            ODocument chat = getChat(user, chatPartner);
+            createMessage(user, input_chat.getText(), chat);
+        }
+        else if(input_chat.getText()==null){
+            createAlert("Senden fehlgeschlagen", "Senden fehlgeschlagen", "Sie können keine leeren Nachrichten schicken.");
+        }
     }
 
     public void onClick_following_button(ActionEvent actionEvent) {
@@ -261,16 +223,6 @@ public class UIController extends Helpers {
         me_following_button.setDisable(true);
         following_button.setDisable(false);
         me_following = false;
-
-//        File file = new File("C:/Users/Alex/IdeaProjects/sysEntwicklung/SysEntw/src/main/resources/Haus.png");
-//        Image image = new Image(file.toURI().toString());
-//        ORecordId user = new ORecordId("#34:0");
-//        ODocument doc = new ODocument("Image");
-//        doc.field("binary", "C:/Users/Alex/IdeaProjects/sysEntwicklung/SysEntw/src/main/resources/Haus.png".getBytes());
-//        ByteArrayInputStream bai = new ByteArrayInputStream("/Haus.png".getBytes());
-//        BufferedImage bild = ImageIO.read(bai);
-//        Image realimage = SwingFXUtils.toFXImage(bild, null);
-
     }
 
     //Der "+"-Button. Aktuell angemeldeter User folgt dem in dem Textfeld "insert_user" eingegeben Benutzernamen, wenn vorhanden.
@@ -303,20 +255,28 @@ public class UIController extends Helpers {
     }
 
     public void getListViewItem(javafx.scene.input.MouseEvent mouseEvent) {
-
         //Holt Textinhalt von ListView click
-        String string = output_follower.getSelectionModel().getSelectedItem().toString();
+        if(output_follower.getSelectionModel().getSelectedItem()!=null){
+            send_button.setDisable(false);
+            String string = output_follower.getSelectionModel().getSelectedItem().toString();
 
-        //Splittet den String bei den | vor und nach dem usernamen => result[1] ist der nutzername
-        String[] result = string.split(Pattern.quote("|"));
+            //Splittet den String bei den | vor und nach dem usernamen => result[1] ist der nutzername
+            String[] result = string.split(Pattern.quote("|"));
+            System.out.println("Clicked on: " + result[1]);
 
-        System.out.println("Clicked on: " + result[1]);
-
-        //chatPartner wird aktualisiert
-        chatPartner = getVertexByUsername(result[1]);
-        to_follow_infos.setText(printUserInfo(chatPartner));
+            //chatPartner wird aktualisiert
+            chatPartner = getVertexByUsername(result[1]);
+            to_follow_infos.setText(printUserInfo(chatPartner));
+        }
+        else {
+            chatPartner = null;
+            to_follow_infos.setText("");
+            send_button.setDisable(true);
+        }
     }
 
 
+    public void onClick_setting_2(ActionEvent actionEvent) {
+    }
 }
 
