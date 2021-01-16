@@ -62,6 +62,8 @@ public class Background extends Thread {
         }
 
         */
+
+        //https://riptutorial.com/javafx/example/7291/updating-the-ui-using-platform-runlater
         Thread taskThread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -90,7 +92,6 @@ public class Background extends Thread {
                             }
                         }
                     });
-
                 }
             }
         });
