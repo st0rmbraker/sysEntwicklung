@@ -453,12 +453,12 @@ public class Helpers {
                 firstUser = user2.getProperty("@rid").toString();;
             }
 
-            System.out.println(firstUser + ", " + secondUser);
+            //System.out.println(firstUser + ", " + secondUser);
             OResultSet rs3 = db.query("SELECT FROM Chat WHERE user1.@rid="+ firstUser +" AND user2.@rid="+secondUser);
             OResult row3 = rs3.next();
             ORecordId orid = new ORecordId(row3.getProperty("@rid").toString());
             ODocument doc = db.load(orid);
-            System.out.println("Chat existierte bereits");
+            //System.out.println("Chat existierte bereits");
             rs3.close();
             return doc;
         }
