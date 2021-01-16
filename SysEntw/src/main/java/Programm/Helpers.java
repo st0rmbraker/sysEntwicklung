@@ -44,7 +44,6 @@ public class Helpers {
             session();
             String statement = "SELECT FROM Account";
             return outputQueryAcc(statement);
-
         }
         catch (ODatabaseException ex) {
             System.out.println("Ein Datenbankfehler ist aufgetreten:"+ex);
@@ -415,7 +414,6 @@ public class Helpers {
         int messageID = (int)messages.count() +1;
         java.util.Date date = new java.util.Date();
 
-
         ODocument doc = new ODocument("Message");
         doc.field( "date", date);
         doc.field( "messageID", messageID );
@@ -435,6 +433,7 @@ public class Helpers {
      */
     public ODocument getChat(OVertex user1, OVertex user2)
     {
+        session();
         OResultSet rs = db.query("SELECT COUNT(*) FROM Chat WHERE user1.@rid="+user1.getProperty("@rid").toString() + " AND user2.@rid="
                 + user2.getProperty("@rid").toString());
         OResultSet rs2 = db.query("SELECT COUNT(*) FROM Chat WHERE user1.@rid="+user2.getProperty("@rid").toString() + " AND user2.@rid="

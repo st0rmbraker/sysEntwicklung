@@ -56,14 +56,11 @@ public class Background extends Thread {
                     ODocument chat = h.getChat(userV, u.chatPartner);
                     output_chat.concat(h.printMessagesFromChat(chat));
                 }
-
                 Thread.sleep(1000);
-
             }
             catch (InterruptedException e) {
                e.printStackTrace();
             }
-
 
             Thread taskThread = new Thread(() -> Platform.runLater(() -> {
                 u.own_infos.setText(own_infos);
