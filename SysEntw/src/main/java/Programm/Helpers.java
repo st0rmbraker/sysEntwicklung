@@ -30,13 +30,13 @@ import javafx.scene.image.Image;
 
 public class Helpers {
 
-    public OrientDB orient;
+    //public OrientDB orient;
     public ODatabaseSession db;
 
 
     public void session(){
-        orient = new OrientDB("remote:wgay.hopto.org", OrientDBConfig.defaultConfig());
-        db = orient.open("Netzwerk1", "root", "123456");
+        DBcon con = new DBcon();
+        db = con.getDb();
     }
 
     public String refreshAcc(){
@@ -51,6 +51,7 @@ public class Helpers {
             return null;
         }
         finally{
+
             System.out.println("Refreshing complete");
         }
     }
@@ -68,7 +69,8 @@ public class Helpers {
             //System.out.println(row.<String>getProperty("username"));
             if(row.<String>getProperty("username").equals(username)) return true;
         }
-        rs.close();
+//        rs.close();
+
         return false;
     }
 
@@ -83,7 +85,8 @@ public class Helpers {
             ret = ret+("Name: " + row.getProperty("firstName").toString() + " " + row.getProperty("lastName").toString() + "\n");
         }
 
-        rs.close();
+//        rs.close();
+
         return ret;
     }
 
@@ -101,6 +104,7 @@ public class Helpers {
         n.setProperty("firstName", nFirstName);
         n.setProperty("username", nUsername);
         n.save();
+
         return n;
     }
 
@@ -118,6 +122,7 @@ public class Helpers {
         for(OVertex v : overtexList) {
             ret += ("-" + v.getProperty("firstName").toString() + System.lineSeparator());
         }
+
         return ret;
 
     }
@@ -140,6 +145,7 @@ public class Helpers {
         OEdge temp = follower.addEdge(followed, "follows");
         System.out.println("WARUM");
         temp.save();
+
         return true;
     }
 
@@ -156,7 +162,8 @@ public class Helpers {
                 return ret;
             }
         }
-        rs.close();
+//       // rs.close();
+
         System.out.println("User "+userID+" nicht gefunden.");
         return null;
     }
@@ -176,6 +183,7 @@ public class Helpers {
         for(OVertex v : list) {
             counter++;
         }
+
         return Integer.toString(counter);
     }
 
@@ -191,6 +199,7 @@ public class Helpers {
         doc.field( "mail", mail );
         doc.field( "birthday", birthDay);
         db.save(doc);
+
         return doc;
     }
 
@@ -238,7 +247,8 @@ public class Helpers {
             System.out.println(row.<String>getProperty("username"));
 
         }
-        rs.close();
+//        rs.close();
+
         return list;
     }
 
@@ -261,6 +271,7 @@ public class Helpers {
                 ret = ret.concat(temp + " : " + d.getProperty(temp.toString()) + "\n");
             }
         }
+
         return ret;
     }
 
@@ -305,7 +316,8 @@ public class Helpers {
             ret = ret + "\n - " +row.getProperty("username").toString();
         }
         System.out.println(ret);
-        rs.close();
+//        rs.close();
+
         return ret;
     }
 
@@ -344,6 +356,7 @@ public class Helpers {
         n.field("bild", bild, OType.BINARY);
         n.field("Name", "test10");
         n.save();
+
         return n;
     }
 
@@ -425,6 +438,7 @@ public class Helpers {
         db.save(doc);
 
         addMessageToChat(doc, chat);
+
         return doc;
     }
 
@@ -443,8 +457,8 @@ public class Helpers {
                 + user1.getProperty("@rid").toString());
         OResult row = rs.next();
         OResult row2 = rs2.next();
-        rs.close();
-        rs2.close();
+//        rs.close();
+//        rs2.close();
         if(!row.getProperty("COUNT(*)").toString().equals("0") || !row2.getProperty("COUNT(*)").toString().equals("0"))
         {
             String firstUser = user1.getProperty("@rid").toString();
@@ -460,7 +474,8 @@ public class Helpers {
             ORecordId orid = new ORecordId(row3.getProperty("@rid").toString());
             ODocument doc = db.load(orid);
             //System.out.println("Chat existierte bereits");
-            rs3.close();
+//            rs3.close();
+
             return doc;
         }
 
@@ -474,6 +489,7 @@ public class Helpers {
             doc.field( "chatID", chatID);
             System.out.println("Neuer Chat erstellt");
             db.save(doc);
+
             return doc;
         }
     }
@@ -499,14 +515,16 @@ public class Helpers {
         }
         chat.save();
 
+
     }
 
     /**
      * Gibt alle Nachrihcten inklusive Sender eines Chats aus
      * @param chat der Chat dessen Nachrichten ausgegeben werden
      */
-    public String printMessagesFromChat(ODocument chat)
-    {
+    public String printMessagesFromChat(ODocument chat){
+
+        session();
         String ret = " ";
         if(chat.field("messages") != null)
         {

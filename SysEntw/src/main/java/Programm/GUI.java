@@ -52,6 +52,7 @@ public class GUI extends Application {
             @Override
             public void handle(WindowEvent event) {
                 isWindowOpen = false;
+                //DBcon.close();
                 System.exit(42);
             }
         });
@@ -64,8 +65,9 @@ public class GUI extends Application {
                 Thread t = new Background(controller, user.get());
                 t.start();
 
-                primaryStage.show();
+                //System.out.println(DBcon.getDb());
 
+                primaryStage.show();
 
             } catch (ODatabaseException ex) {
                 System.out.println("Ein Datenbankfehler ist aufgetreten " + ex);

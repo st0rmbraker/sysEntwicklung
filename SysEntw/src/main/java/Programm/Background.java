@@ -22,7 +22,7 @@ public class Background extends Thread {
         this.u = nU;
         this.user = nUser;
 
-        h = new Helpers();
+        h = u.getHelpers();
         userV = h.getVertexByUsername(user);
     }
 
@@ -41,7 +41,7 @@ public class Background extends Thread {
         else System.out.println("Problem");
         while(true){
             try {
-                h.session();
+                //h.session();
                 userV = h.getVertexByUsername(user);
                 own_infos = (h.printUserInfo(userV));
                 own_infos = own_infos+(("\nLetzte Aktualisierung:\n" + new java.util.Date() + "\n"));
@@ -62,6 +62,7 @@ public class Background extends Thread {
             }
             catch (InterruptedException e) {
                e.printStackTrace();
+               System.exit(18);
             }
 
             Thread taskThread = new Thread(() -> Platform.runLater(() -> {

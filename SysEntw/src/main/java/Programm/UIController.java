@@ -47,6 +47,9 @@ public class UIController extends Helpers {
     Dialog <String[]> dialog;
     Dialog <String[]> dialogInfos;
 
+    public Helpers getHelpers(){
+        return h;
+    }
 
     public void setUser(String user) {
         if(checkUserExists(user)){
@@ -139,7 +142,7 @@ public class UIController extends Helpers {
     }
 
     public void onClick_setting_1(ActionEvent actionEvent){
-        session();
+
         System.out.println("onClick_change_info");
 
         dialogInfos = new Dialog<>();
@@ -181,6 +184,7 @@ public class UIController extends Helpers {
         Optional<String[]> result = dialogInfos.showAndWait();
 
         if (result.isPresent()){
+            session();
             ODocument doc;
             if(user.getProperty("userInfos")==null){
                 doc = new ODocument("userInfos");
