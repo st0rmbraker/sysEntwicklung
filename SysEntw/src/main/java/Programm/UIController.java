@@ -72,9 +72,14 @@ public class UIController extends Helpers {
         else{
             prepareCreateUser();
             Optional<String[]> result = dialog.showAndWait();
-
             createUser(result.get()[2], result.get()[0], result.get()[1], result.get()[3], db);
+            Thread.sleep(1500);
+            this.user = h.getVertexByUsername(result.get()[2], db);
         }
+    }
+    public String getUser()
+    {
+        return this.user.getProperty("username").toString();
     }
 
     public void prepareCreateUser(){

@@ -64,9 +64,9 @@ public class GUI extends Application {
                 controller.setUser(user.get());
                 primaryStage.setTitle("OrientDB-Test");
                 primaryStage.setScene(new Scene(root, 800, 460));
+                String userNew = controller.getUser();
 
-                Thread.sleep(2000);
-                Thread t = new Background(controller, user.get());
+                Thread t = new Background(controller, userNew);
                 t.start();
 
                 //System.out.println(DBcon.getDb());
