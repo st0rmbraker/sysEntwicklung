@@ -1,4 +1,28 @@
-.textfeld {
-    -fx-text-fill: #FF2D00;
-    -fx-background-color: pink;
+.button {
+    -fx-background-color: #4682B4  ;
 }
+.menu-button{
+    -fx-background-color: #4682B4  ;
+}
+
+.menu-item{
+    -fx-background-color: #4682B4  ;
+}
+
+.text-field
+{
+    -fx-background-color: #ADD8e6  ;
+}
+
+.text-area{
+    -fx-border-color: #4682B4  ;
+    -fx-background-color: #4682B4  ;
+}
+
+.list-view
+{
+    -fx-border-color: #4682B4 ;
+}
+
+
+

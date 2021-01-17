@@ -94,6 +94,8 @@ public class Helpers {
         return ret;
     }
 
+
+
     /**
      * Methode erstellt einen neuen Nutzer mit allen dazugehörigen Attributen in der gegeben Datenbank
      * @param nLastName: Nachname des Users
@@ -111,6 +113,7 @@ public class Helpers {
 
         return n;
     }
+
 
     //Gibt alle Knoten aus, denen der User folgt.
     public String listConnectedVertices(OVertex element, String direction, ODatabaseSession db){
