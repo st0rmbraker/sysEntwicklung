@@ -26,7 +26,7 @@ public class DBcon {
                 e.printStackTrace();
             }
         }
-//        System.out.println("DB abgefragt");
+//      System.out.println("DB1 abgefragt");
         return db;
     }
 
@@ -41,14 +41,8 @@ public class DBcon {
                 e.printStackTrace();
             }
         }
-//        System.out.println("DB abgefragt");
+//      System.out.println("DB2 abgefragt");
         return db2;
     }
 
-    protected void finalize() throws Throwable {
-        System.out.println("DB geschlossen"+closed);
-        System.out.println("Active"+(count-closed));
-        db.close();
-        orient.close();
-    }
 }

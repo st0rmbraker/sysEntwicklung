@@ -30,13 +30,9 @@ import javafx.scene.image.Image;
 
 public class Helpers {
 
-    //public OrientDB orient;
     public ODatabaseSession db;
-    DBcon con;
-
 
     public void session(){
-        //con = new DBcon();
         try{
             db = DBcon.getDb();
         }
@@ -45,12 +41,6 @@ public class Helpers {
         }
 
     }
-
-    public void close() {
-        con.close();
-        con = null;
-    }
-
 
     public String refreshAcc(ODatabaseSession db){
         db.activateOnCurrentThread();
