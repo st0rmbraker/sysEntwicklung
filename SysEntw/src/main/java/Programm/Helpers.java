@@ -251,6 +251,7 @@ public class Helpers {
      */
     public String printUserInfo(OVertex u, ODatabaseSession db) {
         session();
+        db.activateOnCurrentThread();
         String ret;
         ret = ("Benutzername: " + u.getProperty("username") + "\n");
         ret = ret.concat("Vorname: " + u.getProperty("firstName") + "\n");
