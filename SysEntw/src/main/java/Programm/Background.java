@@ -22,7 +22,7 @@ public class Background extends Thread {
         this.u = nU;
         this.user = nUser;
 
-        h = u.getHelpers();
+        h = new Helpers();
         userV = h.getVertexByUsername(user);
     }
 
@@ -45,19 +45,20 @@ public class Background extends Thread {
                 userV = h.getVertexByUsername(user);
                 own_infos = (h.printUserInfo(userV));
                 own_infos = own_infos+(("\nLetzte Aktualisierung:\n" + new java.util.Date() + "\n"));
-                if (u.getMe_Following()) {
+                //if (u.getMe_Following()) {
                     //output_follower.add(h.countFollowers(userV, "OUT"));
-                    output_follower = (u.prepareFollowers(userV, "OUT"));
-                } else {
+                  //  output_follower = (u.prepareFollowers(userV, "OUT"));
+                //} else {
                     //output_follower.add(h.countFollowers(userV, "IN"));
-                    output_follower = (u.prepareFollowers(userV, "IN"));
-                }
+                 //   output_follower = (u.prepareFollowers(userV, "IN"));
+                //}
                 if (u.chatPartner != null){
                     //System.out.println("Chatpartner= "+u.chatPartner);
                     ODocument chat = h.getChat(userV, u.chatPartner);
                     output_chat = (h.printMessagesFromChat(chat));
                     //System.out.println(output_chat);
                 }
+                //h.close();
                 Thread.sleep(2000);
             }
             catch (InterruptedException e) {

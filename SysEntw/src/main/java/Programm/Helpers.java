@@ -32,18 +32,24 @@ public class Helpers {
 
     //public OrientDB orient;
     public ODatabaseSession db;
+    DBcon con;
 
 
     public void session(){
-        DBcon con = new DBcon();
+        con = new DBcon();
         try{
             db = con.getDb();
         }
         catch(Exception ex){
             System.out.println("Fehler");
         }
-
     }
+
+    public void close() {
+        con.close();
+        con = null;
+    }
+
 
     public String refreshAcc(){
         System.out.println("Refreshing");
