@@ -90,7 +90,7 @@ public class UIController extends Helpers {
         TextField nUsername = new TextField();
         nUsername.setPromptText("Benutzername");
         TextField nFilePath = new TextField();
-        nFilePath.setPromptText("Benutzername");
+        nFilePath.setPromptText("Dateipfad zu Profilbild");
 
         grid.add(new Label("Vorname:"), 0, 0);
         grid.add(nFirstName, 1, 0);

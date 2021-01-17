@@ -36,7 +36,13 @@ public class Helpers {
 
     public void session(){
         DBcon con = new DBcon();
-        db = con.getDb();
+        try{
+            db = con.getDb();
+        }
+        catch(Exception ex){
+            System.out.println("Fehler");
+        }
+
     }
 
     public String refreshAcc(){
@@ -51,7 +57,6 @@ public class Helpers {
             return null;
         }
         finally{
-
             System.out.println("Refreshing complete");
         }
     }
@@ -329,21 +334,24 @@ public class Helpers {
     //https://www.codespeedy.com/how-to-convert-an-image-to-binary-data-in-java/
     //https://stackoverflow.com/questions/6702423/convert-image-and-audio-files-to-binary-in-java/43427851
     public byte[] convertToBinary(String filepath){
-        try {
-            BufferedImage sourceimage = ImageIO.read(new File(filepath));
-            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-            ImageIO.write(sourceimage, "jpg", bytes);
-            byte[] jpgByteArray = bytes.toByteArray();
-            StringBuilder sb = new StringBuilder();
-            for (byte by : jpgByteArray) {
-                sb.append(Integer.toBinaryString(by & 0xFF));
+        if(!filepath.isEmpty()) {
+            try {
+                BufferedImage sourceimage = ImageIO.read(new File(filepath));
+                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                ImageIO.write(sourceimage, "jpg", bytes);
+                byte[] jpgByteArray = bytes.toByteArray();
+                StringBuilder sb = new StringBuilder();
+                for (byte by : jpgByteArray) {
+                    sb.append(Integer.toBinaryString(by & 0xFF));
+                }
+                System.out.println(sb);
+                return jpgByteArray;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
             }
-            System.out.println(sb);
-            return jpgByteArray;
-        }catch(Exception e){
-            e.printStackTrace();
-            return null;
         }
+        else return null;
     }
 
     /**
