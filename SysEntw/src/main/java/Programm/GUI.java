@@ -54,7 +54,6 @@ public class GUI extends Application {
             @Override
             public void handle(WindowEvent event) {
                 isWindowOpen = false;
-                DBcon.close();
                 System.exit(42);
             }
         });
