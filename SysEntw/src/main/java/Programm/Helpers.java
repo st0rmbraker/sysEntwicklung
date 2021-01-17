@@ -32,12 +32,13 @@ public class Helpers {
 
     //public OrientDB orient;
     public ODatabaseSession db;
+    DBcon con;
 
 
     public void session(){
-        DBcon con = new DBcon();
+        //con = new DBcon();
         try{
-            db = con.getDb();
+            db = DBcon.getDb();
         }
         catch(Exception ex){
             System.out.println("Fehler");
@@ -45,12 +46,19 @@ public class Helpers {
 
     }
 
-    public String refreshAcc(){
+    public void close() {
+        con.close();
+        con = null;
+    }
+
+
+    public String refreshAcc(ODatabaseSession db){
+        db.activateOnCurrentThread();
         System.out.println("Refreshing");
         try{
             session();
             String statement = "SELECT FROM Account";
-            return outputQueryAcc(statement);
+            return outputQueryAcc(statement, db);
         }
         catch (ODatabaseException ex) {
             System.out.println("Ein Datenbankfehler ist aufgetreten:"+ex);
@@ -66,21 +74,23 @@ public class Helpers {
      * @param username: String
      * @return: boolean
      */
-    public boolean checkUserExists(String username){
+    public boolean checkUserExists(String username, ODatabaseSession db){
         session();
+        db.activateOnCurrentThread();
         OResultSet rs = db.query("SELECT FROM Account WHERE username =?", username);
         while (rs.hasNext()) {
             OResult row = rs.next();
             //System.out.println(row.<String>getProperty("username"));
             if(row.<String>getProperty("username").equals(username)) return true;
         }
-//        rs.close();
+        rs.close();
 
         return false;
     }
 
-    public String outputQueryAcc(String statement) {
+    public String outputQueryAcc(String statement, ODatabaseSession db) {
         session();
+        db.activateOnCurrentThread();
         String ret = "Nutzer in der Datenbank:\n";
         OResultSet rs = db.query(statement);
 
@@ -90,7 +100,7 @@ public class Helpers {
             ret = ret+("Name: " + row.getProperty("firstName").toString() + " " + row.getProperty("lastName").toString() + "\n");
         }
 
-//        rs.close();
+        rs.close();
 
         return ret;
     }
@@ -102,7 +112,7 @@ public class Helpers {
      * @param nUsername: USername des Users
      * @return: gibt den neu erstellten Nutzer zurück
      */
-    public OVertex createPerson ( String nFirstName, String nLastName, String nUsername){
+    public OVertex createPerson ( String nFirstName, String nLastName, String nUsername, ODatabaseSession db){
         session();
         OVertex n = db.newVertex("Account");
         n.setProperty("lastName", nLastName);
@@ -114,7 +124,7 @@ public class Helpers {
     }
 
     //Gibt alle Knoten aus, denen der User folgt.
-    public String listConnectedVertices(OVertex element, String direction){
+    public String listConnectedVertices(OVertex element, String direction, ODatabaseSession db){
         session();
         String ret = "";
         Iterable<OVertex> overtexList;
@@ -133,8 +143,9 @@ public class Helpers {
     }
 
     //Erzeugt Edge "follows" von follower zu followed, wenn Edge noch nicht vorhanden und gibt erstellte Edge zurück
-    public boolean followUser(OVertex follower, OVertex followed){
+    public boolean followUser(OVertex follower, OVertex followed, ODatabaseSession db){
         session();
+        db.activateOnCurrentThread();
         boolean followsAlready = false;
         //checkt ob User bereits folgt damit keine doppelten Edges kommen
 
@@ -155,8 +166,9 @@ public class Helpers {
     }
 
     //Gibt ein Element passend zur property "username" aus der Tabelle Account zurueck... WICHTIG: Nutzernamen duerfen nur einmalig sein, ansonsten wird erstes gefundenes Element zurueckgegeben => Bei Erstellung beachten
-    public OVertex getVertexByUsername(String userID){
+    public OVertex getVertexByUsername(String userID, ODatabaseSession db){
         session();
+        db.activateOnCurrentThread();
         OResultSet rs = db.query("SELECT FROM Account WHERE username = ?", userID);
         while(rs.hasNext()){
             OResult row = rs.next();
@@ -167,15 +179,16 @@ public class Helpers {
                 return ret;
             }
         }
-//       // rs.close();
+        rs.close();
 
         System.out.println("User "+userID+" nicht gefunden.");
         return null;
     }
 
-    public String countFollowers(OVertex user, String direction)
+    public String countFollowers(OVertex user, String direction, ODatabaseSession db)
     {
         session();
+        db.activateOnCurrentThread();
         Iterable<OVertex> list;
         if(direction.equals("IN"))
         {
@@ -192,21 +205,6 @@ public class Helpers {
         return Integer.toString(counter);
     }
 
-    /**
-     * erstellt Userinfos Objekt in der klasse userInfos mit Stadt, Mail und Geburtstag, letzteres als java.sql.Date
-     * @return erstelltes Object der userInfos klasse
-     */
-    public ODocument createUserDocument(String city, String mail, Date birthDay)
-    {
-        session();
-        ODocument doc = new ODocument("userInfos");
-        doc.field( "city", city );
-        doc.field( "mail", mail );
-        doc.field( "birthday", birthDay);
-        db.save(doc);
-
-        return doc;
-    }
 
     /**
      * Erstellt einen neuen User, wenn der User noch nicht existiert
@@ -215,9 +213,8 @@ public class Helpers {
      * @param lastName
      * @return
      */
-    public OVertex createUser(String userName, String firstName, String lastName, String filePath)
-    {
-        if(checkUserExists(userName) == false)
+    public OVertex createUser(String userName, String firstName, String lastName, String filePath, ODatabaseSession db){
+        if(checkUserExists(userName, db) == false)
         {
             OVertex user = db.newVertex("Account");
             user.setProperty("username", userName);
@@ -252,7 +249,7 @@ public class Helpers {
             System.out.println(row.<String>getProperty("username"));
 
         }
-//        rs.close();
+        rs.close();
 
         return list;
     }
@@ -262,7 +259,7 @@ public class Helpers {
      * @param u Vertex des Benutzers
      * @return user-properties
      */
-    public String printUserInfo(OVertex u) {
+    public String printUserInfo(OVertex u, ODatabaseSession db) {
         session();
         String ret;
         ret = ("Benutzername: " + u.getProperty("username") + "\n");
@@ -286,7 +283,7 @@ public class Helpers {
      * @return
      */
     public String printUserInfo(String user) {
-        return printUserInfo(getVertexByUsername(user));
+        return printUserInfo(getVertexByUsername(user, db), db);
     }
 
     //Dieser Code muss noch in eine Funktion übernommen werden ToDo
@@ -309,9 +306,10 @@ public class Helpers {
         */
 
     //Holt alle User die das Land in den Userinfos angegeben haben
-    public String getUsersFromLand(String land){
+    public String getUsersFromLand(String land, ODatabaseSession db){
 
         session();
+        db.activateOnCurrentThread();
         String ret = "User: \n";
         OResultSet rs = db.query("SELECT * FROM Account WHERE userInfos.land.kuerzel=?", land);
 
@@ -321,7 +319,7 @@ public class Helpers {
             ret = ret + "\n - " +row.getProperty("username").toString();
         }
         System.out.println(ret);
-//        rs.close();
+        rs.close();
 
         return ret;
     }
@@ -358,8 +356,9 @@ public class Helpers {
      * Bild in Form einer Binary Arrays wird in DB gespeichert
      * @param bild: vorher duch convertToBinary() aufrufen, um Format anzupassen
      */
-    public ODocument saveImage(byte[] bild){
+    public ODocument saveImage(byte[] bild, ODatabaseSession db){
         session();
+        db.activateOnCurrentThread();
         ODocument n = new ODocument("Bild");
         n.field("bild", bild, OType.BINARY);
         n.field("Name", "test10");
@@ -382,8 +381,9 @@ public class Helpers {
      * @param bildname
      * @return: Datensatz mit dem neuen Bild
      */
-    public byte[] getPictureByName(String bildname){
+    public byte[] getPictureByName(String bildname, ODatabaseSession db){
         session();
+        db.activateOnCurrentThread();
         for(ODocument images : db.browseClass("Bild")) {
             //System.out.println(images.field("name").toString());
             if(images.field("Name").toString().equals(bildname)) {
@@ -392,7 +392,8 @@ public class Helpers {
                 return content;
             }
         }
-        return null;    }
+        return null;
+    }
 
 
     /**
@@ -421,7 +422,7 @@ public class Helpers {
      * @return
      */
     public ODocument uploadImage(String path){
-        return saveImage(convertToBinary(path));
+        return saveImage(convertToBinary(path), db);
     }
 
     /**
@@ -430,9 +431,10 @@ public class Helpers {
      * @param text Nachrichteninhalt
      * @return Messageobjekt, das erzeugt wurde
      */
-    public ODocument createMessage(OVertex sendBy, String text, ODocument chat)
+    public ODocument createMessage(OVertex sendBy, String text, ODocument chat, ODatabaseSession db)
     {
         session();
+        db.activateOnCurrentThread();
         OClass messages = db.getClass("Message");
         int messageID = (int)messages.count() +1;
         java.util.Date date = new java.util.Date();
@@ -445,7 +447,7 @@ public class Helpers {
 
         db.save(doc);
 
-        addMessageToChat(doc, chat);
+        addMessageToChat(doc, chat, db);
 
         return doc;
     }
@@ -456,17 +458,18 @@ public class Helpers {
      * @param user2 user2 mit dem der Chat gespeichert wird
      * @return der bestehende Chat oder ein neu erstellter
      */
-    public ODocument getChat(OVertex user1, OVertex user2)
+    public ODocument getChat(OVertex user1, OVertex user2, ODatabaseSession db)
     {
         session();
+        db.activateOnCurrentThread();
         OResultSet rs = db.query("SELECT COUNT(*) FROM Chat WHERE user1.@rid="+user1.getProperty("@rid").toString() + " AND user2.@rid="
                 + user2.getProperty("@rid").toString());
         OResultSet rs2 = db.query("SELECT COUNT(*) FROM Chat WHERE user1.@rid="+user2.getProperty("@rid").toString() + " AND user2.@rid="
                 + user1.getProperty("@rid").toString());
         OResult row = rs.next();
         OResult row2 = rs2.next();
-//        rs.close();
-//        rs2.close();
+        rs.close();
+        rs2.close();
         if(!row.getProperty("COUNT(*)").toString().equals("0") || !row2.getProperty("COUNT(*)").toString().equals("0"))
         {
             String firstUser = user1.getProperty("@rid").toString();
@@ -482,7 +485,7 @@ public class Helpers {
             ORecordId orid = new ORecordId(row3.getProperty("@rid").toString());
             ODocument doc = db.load(orid);
             //System.out.println("Chat existierte bereits");
-//            rs3.close();
+           rs3.close();
 
             return doc;
         }
@@ -507,9 +510,9 @@ public class Helpers {
      * @param message Nachricht die an die Linklist in Chat angehängt werden soll
      * @param chat der Chat der user zu dem die Nachricht gehört
      */
-    public void addMessageToChat(ODocument message, ODocument chat) {
+    public void addMessageToChat(ODocument message, ODocument chat, ODatabaseSession db) {
         session();
-
+        db.activateOnCurrentThread();
         if(chat.field("messages") == null)
         {
             List<OIdentifiable> linklist = new ArrayList();
@@ -530,9 +533,9 @@ public class Helpers {
      * Gibt alle Nachrihcten inklusive Sender eines Chats aus
      * @param chat der Chat dessen Nachrichten ausgegeben werden
      */
-    public String printMessagesFromChat(ODocument chat){
-
+    public String printMessagesFromChat(ODocument chat, ODatabaseSession db){
         session();
+        db.activateOnCurrentThread();
         String ret = " ";
         if(chat.field("messages") != null)
         {

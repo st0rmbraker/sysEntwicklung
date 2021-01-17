@@ -5,37 +5,57 @@ import com.orientechnologies.orient.core.db.*;
 
 public class DBcon {
 
-    private OrientDB orient;
-    private ODatabaseSession db;
-    private boolean firstTime = true;
-    private ODatabasePool pool;
+    private static OrientDB orient;
+    private static ODatabaseSession db;
+    private static OrientDB orient2;
+    private static ODatabaseSession db2;
+    private static boolean firstTime = true;
+    private static boolean firstTime2 = true;
+    private static ODatabasePool pool;
+    private static int count;
+    private static int closed;
 
-
-    public ODatabaseSession getDb() throws InterruptedException {
-
-       // if (firstTime){
+    public static ODatabaseSession getDb() throws InterruptedException {
+        if (firstTime) {
             try {
                 orient = new OrientDB("remote:wgay.hopto.org", OrientDBConfig.defaultConfig());
                 db = orient.open("Netzwerk1", "root", "123456");
                 firstTime = false;
+                System.out.println("Neue Verbindung hergestellt.");
             } catch (Exception e) {
                 e.printStackTrace();
-                Thread.sleep(3000);
-                orient = new OrientDB("remote:wgay.hopto.org", OrientDBConfig.defaultConfig());
-                db = orient.open("Netzwerk1", "root", "123456");
-                firstTime = false;
             }
-            System.out.println("DB zugriff");
-      //  }
+        }
+        System.out.println("DB abgefragt");
         return db;
     }
 
-    public void close(){
+    public static ODatabaseSession getDb2() throws InterruptedException {
+        if (firstTime2) {
+            try {
+                orient2 = new OrientDB("remote:wgay.hopto.org", OrientDBConfig.defaultConfig());
+                db2 = orient.open("Netzwerk1", "root", "123456");
+                firstTime2 = false;
+                System.out.println("Neue Verbindung hergestellt.");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        System.out.println("DB abgefragt");
+        return db2;
+    }
+
+    public static void close(){
         db.close();
+        orient.close();
+        db2.close();
+        orient2.close();
     }
 
     protected void finalize() throws Throwable {
-        System.out.println("DB geschlossen");
+        closed++;
+        System.out.println("DB geschlossen"+closed);
+        System.out.println("Active"+(count-closed));
         db.close();
         orient.close();
     }

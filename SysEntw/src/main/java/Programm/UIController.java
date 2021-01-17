@@ -1,5 +1,6 @@
 package Programm;
 
+import com.orientechnologies.orient.core.db.ODatabaseSession;
 import com.orientechnologies.orient.core.record.ODirection;
 import com.orientechnologies.orient.core.record.OVertex;
 import com.orientechnologies.orient.core.record.impl.ODocument;
@@ -46,14 +47,21 @@ public class UIController extends Helpers {
     OVertex chatPartner;
     Dialog <String[]> dialog;
     Dialog <String[]> dialogInfos;
+    ODatabaseSession db;
 
     public Helpers getHelpers(){
         return h;
     }
 
-    public void setUser(String user) {
-        if(checkUserExists(user)){
-            this.user = h.getVertexByUsername(user);
+    public void dbcon() throws InterruptedException {
+        db = new DBcon().getDb();
+    }
+
+
+    public void setUser(String user) throws InterruptedException {
+        db = new DBcon().getDb();
+        if(checkUserExists(user, db)){
+            this.user = h.getVertexByUsername(user, db);
             if(getPictureByUser(this.user) != null) {
                 profile_image.setImage(convertToImg(getPictureByUser(this.user)));
             }
@@ -62,7 +70,7 @@ public class UIController extends Helpers {
             prepareCreateUser();
             Optional<String[]> result = dialog.showAndWait();
 
-            createUser(result.get()[2], result.get()[0], result.get()[1], result.get()[3]);
+            createUser(result.get()[2], result.get()[0], result.get()[1], result.get()[3], db);
         }
     }
 
@@ -185,6 +193,7 @@ public class UIController extends Helpers {
 
         if (result.isPresent()){
             session();
+            db.activateOnCurrentThread();
             ODocument doc;
             if(user.getProperty("userInfos")==null){
                 doc = new ODocument("userInfos");
@@ -200,8 +209,8 @@ public class UIController extends Helpers {
 
     public void onClick_send_button(ActionEvent actionEvent){
         if(chatPartner!=null && input_chat.getText()!=null){
-            ODocument chat = getChat(user, chatPartner);
-            createMessage(user, input_chat.getText(), chat);
+            ODocument chat = getChat(user, chatPartner, db);
+            createMessage(user, input_chat.getText(), chat, db);
         }
         else if(input_chat.getText()==null){
             createAlert("Senden fehlgeschlagen", "Senden fehlgeschlagen", "Sie können keine leeren Nachrichten schicken.");
@@ -233,9 +242,9 @@ public class UIController extends Helpers {
     public void onClick_to_follow_button(ActionEvent event) {
         System.out.println("onClick_to_follow_button");
         String userToFollow = insert_user.getText();
-        OVertex toFollow = getVertexByUsername(userToFollow);
+        OVertex toFollow = getVertexByUsername(userToFollow, db);
         if (toFollow != null) {
-            if(followUser(user, toFollow)) {
+            if(followUser(user, toFollow, db)) {
                 System.out.println(user.getProperty("username") + " folgt jetzt " + userToFollow);
                 output_follower.setItems(prepareFollowers(user, "OUT"));
             }
@@ -269,8 +278,8 @@ public class UIController extends Helpers {
             System.out.println("Clicked on: " + result[1]);
 
             //chatPartner wird aktualisiert
-            chatPartner = getVertexByUsername(result[1]);
-            to_follow_infos.setText(printUserInfo(chatPartner));
+            chatPartner = getVertexByUsername(result[1], db);
+            to_follow_infos.setText(printUserInfo(chatPartner, db));
         }
         else {
             chatPartner = null;

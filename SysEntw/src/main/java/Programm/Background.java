@@ -1,5 +1,7 @@
 package Programm;
 
+import com.orientechnologies.orient.core.db.ODatabaseSession;
+import com.orientechnologies.orient.core.db.document.ODatabaseDocument;
 import com.orientechnologies.orient.core.record.OVertex;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 import javafx.application.Platform;
@@ -22,8 +24,7 @@ public class Background extends Thread {
         this.u = nU;
         this.user = nUser;
 
-        h = u.getHelpers();
-        userV = h.getVertexByUsername(user);
+        h = new Helpers();
     }
 
     /**
@@ -41,9 +42,9 @@ public class Background extends Thread {
         else System.out.println("Problem");
         while(true){
             try {
-                //h.session();
-                userV = h.getVertexByUsername(user);
-                own_infos = (h.printUserInfo(userV));
+                ODatabaseSession db = new DBcon().getDb2();
+                userV = h.getVertexByUsername(user, db);
+                own_infos = (h.printUserInfo(userV, db));
                 own_infos = own_infos+(("\nLetzte Aktualisierung:\n" + new java.util.Date() + "\n"));
                 if (u.getMe_Following()) {
                     //output_follower.add(h.countFollowers(userV, "OUT"));
@@ -54,10 +55,11 @@ public class Background extends Thread {
                 }
                 if (u.chatPartner != null){
                     //System.out.println("Chatpartner= "+u.chatPartner);
-                    ODocument chat = h.getChat(userV, u.chatPartner);
-                    output_chat = (h.printMessagesFromChat(chat));
+                    ODocument chat = h.getChat(userV, u.chatPartner, db);
+                    output_chat = (h.printMessagesFromChat(chat, db));
                     //System.out.println(output_chat);
                 }
+                //h.close();
                 Thread.sleep(2000);
             }
             catch (InterruptedException e) {
