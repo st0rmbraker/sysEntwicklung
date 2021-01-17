@@ -1,5 +1,7 @@
 package Programm;
 
+import com.orientechnologies.orient.core.db.ODatabaseSession;
+import com.orientechnologies.orient.core.db.document.ODatabaseDocument;
 import com.orientechnologies.orient.core.record.OVertex;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 import javafx.application.Platform;
@@ -23,7 +25,6 @@ public class Background extends Thread {
         this.user = nUser;
 
         h = new Helpers();
-        userV = h.getVertexByUsername(user);
     }
 
     /**
@@ -42,20 +43,21 @@ public class Background extends Thread {
         while(true){
             try {
                 //h.session();
-                userV = h.getVertexByUsername(user);
-                own_infos = (h.printUserInfo(userV));
+                ODatabaseSession db = new DBcon().getDb();
+                userV = h.getVertexByUsername(user, db);
+                own_infos = (h.printUserInfo(userV, db));
                 own_infos = own_infos+(("\nLetzte Aktualisierung:\n" + new java.util.Date() + "\n"));
-                //if (u.getMe_Following()) {
+                if (u.getMe_Following()) {
                     //output_follower.add(h.countFollowers(userV, "OUT"));
-                  //  output_follower = (u.prepareFollowers(userV, "OUT"));
-                //} else {
+                    output_follower = (u.prepareFollowers(userV, "OUT"));
+                } else {
                     //output_follower.add(h.countFollowers(userV, "IN"));
-                 //   output_follower = (u.prepareFollowers(userV, "IN"));
-                //}
+                    output_follower = (u.prepareFollowers(userV, "IN"));
+                }
                 if (u.chatPartner != null){
                     //System.out.println("Chatpartner= "+u.chatPartner);
-                    ODocument chat = h.getChat(userV, u.chatPartner);
-                    output_chat = (h.printMessagesFromChat(chat));
+                    ODocument chat = h.getChat(userV, u.chatPartner, db);
+                    output_chat = (h.printMessagesFromChat(chat, db));
                     //System.out.println(output_chat);
                 }
                 //h.close();

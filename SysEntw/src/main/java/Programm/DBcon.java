@@ -13,11 +13,12 @@ public class DBcon {
 
     public ODatabaseSession getDb() throws InterruptedException {
 
-        if (firstTime){
+       // if (firstTime){
             try {
                 orient = new OrientDB("remote:wgay.hopto.org", OrientDBConfig.defaultConfig());
                 db = orient.open("Netzwerk1", "root", "123456");
                 firstTime = false;
+                System.out.println("DB zugriff");
             } catch (Exception e) {
                 e.printStackTrace();
                 Thread.sleep(3000);
@@ -25,8 +26,8 @@ public class DBcon {
                 db = orient.open("Netzwerk1", "root", "123456");
                 firstTime = false;
             }
-            System.out.println("DB zugriff");
-        }
+
+       // }
         return db;
     }
 

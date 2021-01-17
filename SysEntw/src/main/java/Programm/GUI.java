@@ -1,5 +1,6 @@
 package Programm;
 
+import com.orientechnologies.orient.core.db.ODatabaseSession;
 import com.orientechnologies.orient.core.exception.ODatabaseException;
 import com.orientechnologies.orient.core.record.OVertex;
 import javafx.application.Application;
@@ -46,6 +47,7 @@ public class GUI extends Application {
         Parent root = (Parent)fxmlLoader.load();
         UIController controller = fxmlLoader.<UIController>getController();
         System.out.println("Loading DB");
+        controller.dbcon();
 
         //beendet Programm wenn Fenster geschlossen wird
         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
@@ -58,6 +60,7 @@ public class GUI extends Application {
         });
         if(isWindowOpen) {
             try {
+                //ODatabaseSession db = new DBcon().getDb();
                 controller.setUser(user.get());
                 primaryStage.setTitle("OrientDB-Test");
                 primaryStage.setScene(new Scene(root, 700, 450));
