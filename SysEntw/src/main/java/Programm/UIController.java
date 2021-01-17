@@ -8,6 +8,7 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -42,8 +43,10 @@ public class UIController extends Helpers {
     public TextField input_chat;
 
     public boolean me_following = true;
+    public ImageView chat_Partner;
     Helpers h = new Helpers();
     OVertex user;
+    @FXML
     OVertex chatPartner;
     Dialog <String[]> dialog;
     Dialog <String[]> dialogInfos;
@@ -279,6 +282,18 @@ public class UIController extends Helpers {
 
             //chatPartner wird aktualisiert
             chatPartner = getVertexByUsername(result[1], db);
+            try {
+                if (convertToImg(getPictureByUser(chatPartner)) != null) {
+                    chat_Partner.setImage(convertToImg(getPictureByUser(chatPartner)));
+                    chat_Partner.setVisible(true);
+                } else {
+                    chat_Partner.setVisible(false);
+                }
+            }
+            catch (Exception e)
+            {
+                chat_Partner.setVisible(false);
+            }
             to_follow_infos.setText(printUserInfo(chatPartner, db));
         }
         else {

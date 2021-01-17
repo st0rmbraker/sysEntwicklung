@@ -4,24 +4,25 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="450.0" prefWidth="700.0" stylesheets="style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Programm.UIController">
+<AnchorPane prefHeight="467.0" prefWidth="808.0" stylesheets="style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Programm.UIController">
    <children>
-      <Button fx:id="me_following_button" layoutX="491.0" layoutY="393.0" onAction="#onClick_me_following_button" prefHeight="46.0" prefWidth="200.0" text="Follows me" />
-      <ImageView id="profile_details" fx:id="profile_image" fitHeight="150.0" fitWidth="200.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="433.0" />
-      <MenuButton fx:id="profile_settings" layoutY="396.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="200.0" text="Einstellungen">
+      <Button fx:id="me_following_button" layoutX="600.0" layoutY="412.0" onAction="#onClick_me_following_button" prefHeight="46.0" prefWidth="200.0" text="Follows me" />
+      <ImageView id="profile_details" fx:id="profile_image" fitHeight="150.0" fitWidth="166.0" layoutX="25.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="617.0" />
+      <MenuButton fx:id="profile_settings" layoutX="8.0" layoutY="415.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="200.0" text="Einstellungen">
          <items>
             <MenuItem fx:id="setting_1" mnemonicParsing="false" onAction="#onClick_setting_1" text="Benutzerdaten bearbeiten" />
             <MenuItem fx:id="setting_2" mnemonicParsing="false" onAction="#onClick_setting_2" text="Action 2" />
          </items>
       </MenuButton>
-      <Button fx:id="following_button" disable="true" layoutX="491.0" layoutY="350.0" mnemonicParsing="false" onAction="#onClick_following_button" prefHeight="46.0" prefWidth="200.0" text="Following" textFill="#211f1f" />
-      <TextField fx:id="insert_user" layoutX="491.0" layoutY="14.0" prefHeight="28.0" prefWidth="165.0" />
-      <Button fx:id="to_follow_button" layoutX="654.0" layoutY="15.0" mnemonicParsing="false" onAction="#onClick_to_follow_button" prefHeight="26.0" prefWidth="32.0" text="+" />
-      <TextArea fx:id="own_infos" layoutY="169.0" prefHeight="230.0" prefWidth="200.0" />
-      <TextArea fx:id="to_follow_infos" layoutX="214.0" layoutY="14.0" prefHeight="143.0" prefWidth="268.0" />
-      <TextArea fx:id="output_chat" layoutX="214.0" layoutY="166.0" prefHeight="230.0" prefWidth="268.0" text="Ladevorgang..." />
-      <ListView fx:id="output_follower" layoutX="491.0" layoutY="57.0" onMouseClicked="#getListViewItem" prefHeight="290.0" prefWidth="200.0" />
-      <TextField fx:id="input_chat" layoutX="214.0" layoutY="396.0" prefHeight="39.0" prefWidth="212.0" promptText="Geben sie hier ihre Nachricht ein." />
-      <Button fx:id="send_button" disable="true" layoutX="426.0" layoutY="396.0" mnemonicParsing="false" onAction="#onClick_send_button" prefHeight="39.0" prefWidth="57.0" text="Senden" />
+      <Button fx:id="following_button" disable="true" layoutX="600.0" layoutY="356.0" mnemonicParsing="false" onAction="#onClick_following_button" prefHeight="46.0" prefWidth="200.0" text="Following" textFill="#211f1f" />
+      <TextField fx:id="insert_user" layoutX="600.0" layoutY="15.0" prefHeight="28.0" prefWidth="165.0" />
+      <Button fx:id="to_follow_button" layoutX="768.0" layoutY="15.0" mnemonicParsing="false" onAction="#onClick_to_follow_button" prefHeight="26.0" prefWidth="32.0" text="+" />
+      <TextArea fx:id="own_infos" layoutX="8.0" layoutY="173.0" prefHeight="230.0" prefWidth="200.0" />
+      <TextArea fx:id="to_follow_infos" layoutX="214.0" layoutY="14.0" prefHeight="143.0" prefWidth="220.0" />
+      <TextArea fx:id="output_chat" layoutX="214.0" layoutY="173.0" prefHeight="241.0" prefWidth="380.0" text="Ladevorgang..." />
+      <ListView fx:id="output_follower" layoutX="600.0" layoutY="59.0" onMouseClicked="#getListViewItem" prefHeight="290.0" prefWidth="200.0" />
+      <TextField fx:id="input_chat" layoutX="214.0" layoutY="415.0" prefHeight="39.0" prefWidth="318.0" promptText="Geben sie hier ihre Nachricht ein." />
+      <Button fx:id="send_button" disable="true" layoutX="532.0" layoutY="415.0" mnemonicParsing="false" onAction="#onClick_send_button" prefHeight="39.0" prefWidth="57.0" text="Senden" />
+      <ImageView fx:id="chat_Partner" fitHeight="143.0" fitWidth="155.0" layoutX="442.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </AnchorPane>

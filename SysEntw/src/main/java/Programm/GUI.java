@@ -60,10 +60,12 @@ public class GUI extends Application {
         if(isWindowOpen) {
             try {
                 //ODatabaseSession db = new DBcon().getDb();
+
                 controller.setUser(user.get());
                 primaryStage.setTitle("OrientDB-Test");
-                primaryStage.setScene(new Scene(root, 700, 450));
+                primaryStage.setScene(new Scene(root, 800, 460));
 
+                Thread.sleep(2000);
                 Thread t = new Background(controller, user.get());
                 t.start();
 

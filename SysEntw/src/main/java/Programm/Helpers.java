@@ -171,6 +171,7 @@ public class Helpers {
                 ORecordId user = new ORecordId(row.getProperty("@rid").toString());
                 OVertex ret = db.load(user);
                 //System.out.println("User "+userID+" gefunden.");
+                rs.close();
                 return ret;
             }
         }
@@ -261,7 +262,10 @@ public class Helpers {
         ret = ret.concat("Vorname: " + u.getProperty("firstName") + "\n");
         ret = ret.concat("Nachname: " + u.getProperty("lastName") + "\n");
 
-        ODocument d = u.getProperty("userInfos");
+        ODocument dt = u.getProperty("userInfos");
+        ORecordId d2 = new ORecordId(dt.getProperty("@rid").toString());
+        ODocument d = db.load(d2);
+        db.load(d);
         if(u.getProperty("userInfos") != null) {
             Set<String> s = d.getPropertyNames();
             for (String temp : s) {
