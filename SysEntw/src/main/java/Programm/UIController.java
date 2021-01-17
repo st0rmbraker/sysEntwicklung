@@ -252,8 +252,12 @@ public class UIController extends Helpers {
         System.out.println("onClick_to_follow_button");
         String userToFollow = insert_user.getText();
         OVertex toFollow = getVertexByUsername(userToFollow, db);
-        if (toFollow != null || !toFollow.getProperty("username").toString().equals(toFollow.getProperty("username").toString())) {
-            if(followUser(user, toFollow, db)) {
+        if (toFollow != null) {
+
+            if(user.getProperty("username").toString().equals(userToFollow)) {
+                createAlert("Fehler", "Fehler", "Sich selbst folgen ist traurig. Nummer gegen Kummer: 116111");
+            }
+            else if(followUser(user, toFollow, db)) {
                 System.out.println(user.getProperty("username") + " folgt jetzt " + userToFollow);
                 output_follower.setItems(prepareFollowers(user, "OUT"));
             }
@@ -262,7 +266,7 @@ public class UIController extends Helpers {
             }
         }
         else{
-            createAlert("Fehler", "Fehler", "Selbst folgen ist traurig, hol dir Freunde");
+            createAlert("Fehler", "Fehler", "User nicht gefunden");
         }
 
         insert_user.clear();
@@ -322,8 +326,12 @@ public class UIController extends Helpers {
         System.out.println("onClick_to_follow_button");
         String userToFollow = insert_user.getText();
         OVertex toFollow = getVertexByUsername(userToFollow, db);
-        if (toFollow != null || !toFollow.getProperty("username").toString().equals(toFollow.getProperty("username").toString())) {
-            if(followUser(user, toFollow, db)) {
+        if (toFollow != null) {
+
+            if(user.getProperty("username").toString().equals(userToFollow)) {
+                createAlert("Fehler", "Fehler", "Sich selbst folgen ist traurig. Nummer gegen Kummer: 116111");
+            }
+            else if(followUser(user, toFollow, db)) {
                 System.out.println(user.getProperty("username") + " folgt jetzt " + userToFollow);
                 output_follower.setItems(prepareFollowers(user, "OUT"));
             }
@@ -332,7 +340,7 @@ public class UIController extends Helpers {
             }
         }
         else{
-            createAlert("Fehler", "Fehler", "Selbst folgen ist traurig, hol dir Freunde");
+            createAlert("Fehler", "Fehler", "User nicht gefunden");
         }
 
         insert_user.clear();
