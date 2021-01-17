@@ -36,9 +36,9 @@ public class Helpers {
 
 
     public void session(){
-        con = new DBcon();
+        //con = new DBcon();
         try{
-            db = con.getDb();
+            db = DBcon.getDb();
         }
         catch(Exception ex){
             System.out.println("Fehler");
