@@ -1,0 +1,30 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="testjar">
+    <output-path>$PROJECT_DIR$/out/artifacts/testjar</output-path>
+    <root id="archive" name="testjar.jar">
+      <element id="module-output" name="SysEntw" />
+      <element id="library" level="project" name="com.orientechnologies:orientdb-object:2.0.8" />
+      <element id="library" level="project" name="org.jfxtras:javafx-maven-plugin:1.0.0" />
+      <element id="library" level="project" name="Maven: com.orientechnologies:orientdb-client:3.1.5" />
+      <element id="library" level="project" name="Maven: com.orientechnologies:orientdb-core:3.1.5" />
+      <element id="library" level="project" name="Maven: com.github.jnr:jnr-posix:3.0.50" />
+      <element id="library" level="project" name="Maven: com.github.jnr:jnr-ffi:2.1.10" />
+      <element id="library" level="project" name="Maven: com.github.jnr:jffi:1.2.19" />
+      <element id="library" level="project" name="Maven: com.github.jnr:jffi:native:1.2.19" />
+      <element id="library" level="project" name="Maven: org.ow2.asm:asm:7.1" />
+      <element id="library" level="project" name="Maven: org.ow2.asm:asm-commons:7.1" />
+      <element id="library" level="project" name="Maven: org.ow2.asm:asm-analysis:7.1" />
+      <element id="library" level="project" name="Maven: org.ow2.asm:asm-tree:7.1" />
+      <element id="library" level="project" name="Maven: org.ow2.asm:asm-util:7.1" />
+      <element id="library" level="project" name="Maven: com.github.jnr:jnr-a64asm:1.0.0" />
+      <element id="library" level="project" name="Maven: com.github.jnr:jnr-x86asm:1.0.2" />
+      <element id="library" level="project" name="Maven: com.github.jnr:jnr-constants:0.9.12" />
+      <element id="library" level="project" name="Maven: com.googlecode.concurrentlinkedhashmap:concurrentlinkedhashmap-lru:1.4.2" />
+      <element id="library" level="project" name="Maven: org.lz4:lz4-java:1.4.0" />
+      <element id="library" level="project" name="Maven: com.ibm.icu:icu4j:65.1" />
+      <element id="library" level="project" name="Maven: commons-lang:commons-lang:2.6" />
+      <element id="library" level="project" name="Maven: javax.activation:javax.activation-api:1.2.0" />
+      <element id="library" level="project" name="Maven: org.jetbrains:annotations:20.1.0" />
+    </root>
+  </artifact>
+</component>
