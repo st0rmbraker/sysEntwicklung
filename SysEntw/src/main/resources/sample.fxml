@@ -15,7 +15,7 @@
          </items>
       </MenuButton>
       <Button fx:id="following_button" disable="true" layoutX="600.0" layoutY="356.0" mnemonicParsing="false" onAction="#onClick_following_button" prefHeight="46.0" prefWidth="200.0" text="Following" textFill="#211f1f" />
-      <TextField fx:id="insert_user" layoutX="600.0" layoutY="15.0" prefHeight="28.0" prefWidth="165.0" />
+      <TextField fx:id="insert_user" onAction="#onEnterFollow" layoutX="600.0" layoutY="15.0" prefHeight="28.0" prefWidth="165.0" />
       <Button fx:id="to_follow_button" layoutX="768.0" layoutY="15.0" mnemonicParsing="false" onAction="#onClick_to_follow_button" prefHeight="26.0" prefWidth="32.0" text="+" />
       <TextArea fx:id="own_infos" layoutX="8.0" layoutY="173.0" prefHeight="230.0" prefWidth="200.0" />
       <TextArea fx:id="to_follow_infos" layoutX="214.0" layoutY="14.0" prefHeight="143.0" prefWidth="220.0" />
