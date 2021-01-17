@@ -21,8 +21,8 @@
       <TextArea fx:id="to_follow_infos" layoutX="214.0" layoutY="14.0" prefHeight="143.0" prefWidth="220.0" />
       <TextArea fx:id="output_chat" layoutX="214.0" layoutY="173.0" prefHeight="241.0" prefWidth="380.0" text="Ladevorgang..." />
       <ListView fx:id="output_follower" layoutX="600.0" layoutY="59.0" onMouseClicked="#getListViewItem" prefHeight="290.0" prefWidth="200.0" />
-      <TextField fx:id="input_chat" layoutX="214.0" layoutY="415.0" prefHeight="39.0" prefWidth="318.0" promptText="Geben sie hier ihre Nachricht ein." />
-      <Button fx:id="send_button" disable="true" layoutX="532.0" layoutY="415.0" mnemonicParsing="false" onAction="#onClick_send_button" prefHeight="39.0" prefWidth="57.0" text="Senden" />
+      <TextField fx:id="input_chat" layoutX="214.0" layoutY="415.0" onAction="#onEnter" prefHeight="39.0" prefWidth="318.0" promptText="Geben sie hier ihre Nachricht ein." />
+      <Button fx:id="send_button" disable="true" layoutX="532.0" layoutY="415.0" mnemonicParsing="false" onAction="#onClick_send_button" prefHeight="39.0" prefWidth="66.0" text="Senden" />
       <ImageView fx:id="chat_Partner" fitHeight="143.0" fitWidth="155.0" layoutX="442.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </AnchorPane>

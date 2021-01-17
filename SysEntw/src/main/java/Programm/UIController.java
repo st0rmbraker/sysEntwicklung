@@ -211,9 +211,15 @@ public class UIController extends Helpers {
     }
 
     public void onClick_send_button(ActionEvent actionEvent){
+        sendMessage();
+    }
+
+    public void sendMessage()
+    {
         if(chatPartner!=null && input_chat.getText()!=null){
             ODocument chat = getChat(user, chatPartner, db);
             createMessage(user, input_chat.getText(), chat, db);
+            input_chat.clear();
         }
         else if(input_chat.getText()==null){
             createAlert("Senden fehlgeschlagen", "Senden fehlgeschlagen", "Sie können keine leeren Nachrichten schicken.");
@@ -303,8 +309,11 @@ public class UIController extends Helpers {
         }
     }
 
-
     public void onClick_setting_2(ActionEvent actionEvent) {
+    }
+
+    public void onEnter(ActionEvent actionEvent) {
+        sendMessage();
     }
 }
 
