@@ -267,7 +267,7 @@ public class Helpers {
      * @param u Vertex des Benutzers
      * @return user-properties
      */
-    public String printUserInfo(OVertex u) {
+    public String printUserInfo(OVertex u, ODatabaseSession db) {
         session();
         String ret;
         ret = ("Benutzername: " + u.getProperty("username") + "\n");
@@ -314,7 +314,7 @@ public class Helpers {
         */
 
     //Holt alle User die das Land in den Userinfos angegeben haben
-    public String getUsersFromLand(String land){
+    public String getUsersFromLand(String land, ODatabaseSession db){
 
         session();
         String ret = "User: \n";
@@ -363,7 +363,7 @@ public class Helpers {
      * Bild in Form einer Binary Arrays wird in DB gespeichert
      * @param bild: vorher duch convertToBinary() aufrufen, um Format anzupassen
      */
-    public ODocument saveImage(byte[] bild){
+    public ODocument saveImage(byte[] bild, ODatabaseSession db){
         session();
         ODocument n = new ODocument("Bild");
         n.field("bild", bild, OType.BINARY);
@@ -387,7 +387,7 @@ public class Helpers {
      * @param bildname
      * @return: Datensatz mit dem neuen Bild
      */
-    public byte[] getPictureByName(String bildname){
+    public byte[] getPictureByName(String bildname, ODatabaseSession db){
         session();
         for(ODocument images : db.browseClass("Bild")) {
             //System.out.println(images.field("name").toString());
@@ -435,7 +435,7 @@ public class Helpers {
      * @param text Nachrichteninhalt
      * @return Messageobjekt, das erzeugt wurde
      */
-    public ODocument createMessage(OVertex sendBy, String text, ODocument chat)
+    public ODocument createMessage(OVertex sendBy, String text, ODocument chat, ODatabaseSession db)
     {
         session();
         OClass messages = db.getClass("Message");
@@ -461,7 +461,7 @@ public class Helpers {
      * @param user2 user2 mit dem der Chat gespeichert wird
      * @return der bestehende Chat oder ein neu erstellter
      */
-    public ODocument getChat(OVertex user1, OVertex user2)
+    public ODocument getChat(OVertex user1, OVertex user2, ODatabaseSession db)
     {
         session();
         OResultSet rs = db.query("SELECT COUNT(*) FROM Chat WHERE user1.@rid="+user1.getProperty("@rid").toString() + " AND user2.@rid="
@@ -512,7 +512,7 @@ public class Helpers {
      * @param message Nachricht die an die Linklist in Chat angehängt werden soll
      * @param chat der Chat der user zu dem die Nachricht gehört
      */
-    public void addMessageToChat(ODocument message, ODocument chat) {
+    public void addMessageToChat(ODocument message, ODocument chat, ODatabaseSession db) {
         session();
 
         if(chat.field("messages") == null)
@@ -535,7 +535,7 @@ public class Helpers {
      * Gibt alle Nachrihcten inklusive Sender eines Chats aus
      * @param chat der Chat dessen Nachrichten ausgegeben werden
      */
-    public String printMessagesFromChat(ODocument chat){
+    public String printMessagesFromChat(ODocument chat, ODatabaseSession db){
 
         session();
         String ret = " ";
