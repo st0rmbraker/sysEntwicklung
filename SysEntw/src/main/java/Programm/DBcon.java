@@ -20,7 +20,7 @@ public class DBcon {
                 firstTime = false;
             } catch (Exception e) {
                 e.printStackTrace();
-                Thread.sleep(1000);
+                Thread.sleep(3000);
                 orient = new OrientDB("remote:wgay.hopto.org", OrientDBConfig.defaultConfig());
                 db = orient.open("Netzwerk1", "root", "123456");
                 firstTime = false;

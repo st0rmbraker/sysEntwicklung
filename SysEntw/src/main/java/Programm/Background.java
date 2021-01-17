@@ -58,7 +58,7 @@ public class Background extends Thread {
                     output_chat = (h.printMessagesFromChat(chat));
                     //System.out.println(output_chat);
                 }
-                Thread.sleep(1000);
+                Thread.sleep(2000);
             }
             catch (InterruptedException e) {
                e.printStackTrace();
