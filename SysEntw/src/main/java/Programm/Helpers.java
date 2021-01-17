@@ -46,11 +46,6 @@ public class Helpers {
 
     }
 
-    public void close() {
-        con.close();
-        con = null;
-    }
-
 
     public String refreshAcc(ODatabaseSession db){
         db.activateOnCurrentThread();
