@@ -74,7 +74,6 @@ public class Helpers {
             if(row.<String>getProperty("username").equals(username)) return true;
         }
         rs.close();
-
         return false;
     }
 
