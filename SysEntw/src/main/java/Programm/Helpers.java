@@ -257,10 +257,8 @@ public class Helpers {
         ret = ret.concat("Vorname: " + u.getProperty("firstName") + "\n");
         ret = ret.concat("Nachname: " + u.getProperty("lastName") + "\n");
 
-        ODocument dt = u.getProperty("userInfos");
-        ORecordId d2 = new ORecordId(dt.getProperty("@rid").toString());
-        ODocument d = db.load(d2);
-        db.load(d);
+        ODocument d = u.getProperty("userInfos");
+
         if(u.getProperty("userInfos") != null) {
             Set<String> s = d.getPropertyNames();
             for (String temp : s) {

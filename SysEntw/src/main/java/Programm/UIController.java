@@ -252,17 +252,17 @@ public class UIController extends Helpers {
         System.out.println("onClick_to_follow_button");
         String userToFollow = insert_user.getText();
         OVertex toFollow = getVertexByUsername(userToFollow, db);
-        if (toFollow != null) {
+        if (toFollow != null || !toFollow.getProperty("username").toString().equals(userToFollow)) {
             if(followUser(user, toFollow, db)) {
                 System.out.println(user.getProperty("username") + " folgt jetzt " + userToFollow);
                 output_follower.setItems(prepareFollowers(user, "OUT"));
             }
             else {
-                createAlert("Fehler", "Fehler", "Sich selbst folgen ist echt traurig");
+                createAlert("Fehler", "Fehler", "User folgt bereits");
             }
         }
         else{
-            createAlert("Fehler", "Fehler", "Gib einen existierenden Benutzernamen ein");
+            createAlert("Fehler", "Fehler", "Selbst folgen ist traurig, hol dir Freunde");
         }
     }
 
