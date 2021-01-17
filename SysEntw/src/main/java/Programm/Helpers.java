@@ -533,12 +533,16 @@ public class Helpers {
         {
             List children = chat.field("messages");
 
-            for(Object messages : children)
+
+            for(int i = children.size()-10; i < children.size(); i++)
             {
-                ODocument currentMessage = (ODocument) messages;
+                if(i < 0)
+                {
+                    i = 0;
+                }
+                ODocument currentMessage = (ODocument) children.get(i);
                 OVertex sendBy = currentMessage.getProperty("sendBy");
                 ret = ret+("-"+sendBy.getProperty("firstName") + ": " + currentMessage.getProperty("text").toString()+"\n");
-                //System.out.println("-"+sendBy.getProperty("firstName") + ": " + currentMessage.getProperty("text").toString());
             }
         }
         return ret;
