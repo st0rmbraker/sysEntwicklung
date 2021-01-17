@@ -42,7 +42,7 @@ public class Background extends Thread {
         else System.out.println("Problem");
         while(true){
             try {
-                ODatabaseSession db = new DBcon().getDb2();
+                ODatabaseSession db = new DBcon().getDb();
                 userV = h.getVertexByUsername(user, db);
                 own_infos = (h.printUserInfo(userV, db));
                 own_infos = own_infos+(("\nLetzte Aktualisierung:\n" + new java.util.Date() + "\n"));
