@@ -51,7 +51,7 @@ public class Helpers {
     }
 
 
-    public String refreshAcc(){
+    public String refreshAcc(ODatabaseSession db){
         System.out.println("Refreshing");
         try{
             session();
@@ -72,7 +72,7 @@ public class Helpers {
      * @param username: String
      * @return: boolean
      */
-    public boolean checkUserExists(String username){
+    public boolean checkUserExists(String username, ODatabaseSession db){
         session();
         OResultSet rs = db.query("SELECT FROM Account WHERE username =?", username);
         while (rs.hasNext()) {
@@ -85,7 +85,7 @@ public class Helpers {
         return false;
     }
 
-    public String outputQueryAcc(String statement) {
+    public String outputQueryAcc(String statement, ODatabaseSession db) {
         session();
         String ret = "Nutzer in der Datenbank:\n";
         OResultSet rs = db.query(statement);
@@ -108,7 +108,7 @@ public class Helpers {
      * @param nUsername: USername des Users
      * @return: gibt den neu erstellten Nutzer zurück
      */
-    public OVertex createPerson ( String nFirstName, String nLastName, String nUsername){
+    public OVertex createPerson ( String nFirstName, String nLastName, String nUsername, ODatabaseSession db){
         session();
         OVertex n = db.newVertex("Account");
         n.setProperty("lastName", nLastName);
@@ -120,7 +120,7 @@ public class Helpers {
     }
 
     //Gibt alle Knoten aus, denen der User folgt.
-    public String listConnectedVertices(OVertex element, String direction){
+    public String listConnectedVertices(OVertex element, String direction, ODatabaseSession db){
         session();
         String ret = "";
         Iterable<OVertex> overtexList;
@@ -139,7 +139,7 @@ public class Helpers {
     }
 
     //Erzeugt Edge "follows" von follower zu followed, wenn Edge noch nicht vorhanden und gibt erstellte Edge zurück
-    public boolean followUser(OVertex follower, OVertex followed){
+    public boolean followUser(OVertex follower, OVertex followed, ODatabaseSession db){
         session();
         boolean followsAlready = false;
         //checkt ob User bereits folgt damit keine doppelten Edges kommen
@@ -161,7 +161,7 @@ public class Helpers {
     }
 
     //Gibt ein Element passend zur property "username" aus der Tabelle Account zurueck... WICHTIG: Nutzernamen duerfen nur einmalig sein, ansonsten wird erstes gefundenes Element zurueckgegeben => Bei Erstellung beachten
-    public OVertex getVertexByUsername(String userID){
+    public OVertex getVertexByUsername(String userID, ODatabaseSession db){
         session();
         OResultSet rs = db.query("SELECT FROM Account WHERE username = ?", userID);
         while(rs.hasNext()){
@@ -179,7 +179,7 @@ public class Helpers {
         return null;
     }
 
-    public String countFollowers(OVertex user, String direction)
+    public String countFollowers(OVertex user, String direction, ODatabaseSession db)
     {
         session();
         Iterable<OVertex> list;
@@ -202,7 +202,7 @@ public class Helpers {
      * erstellt Userinfos Objekt in der klasse userInfos mit Stadt, Mail und Geburtstag, letzteres als java.sql.Date
      * @return erstelltes Object der userInfos klasse
      */
-    public ODocument createUserDocument(String city, String mail, Date birthDay)
+    public ODocument createUserDocument(String city, String mail, Date birthDay, ODatabaseSession db)
     {
         session();
         ODocument doc = new ODocument("userInfos");
@@ -221,8 +221,7 @@ public class Helpers {
      * @param lastName
      * @return
      */
-    public OVertex createUser(String userName, String firstName, String lastName, String filePath)
-    {
+    public OVertex createUser(String userName, String firstName, String lastName, String filePath, ODatabaseSession db){
         if(checkUserExists(userName) == false)
         {
             OVertex user = db.newVertex("Account");
