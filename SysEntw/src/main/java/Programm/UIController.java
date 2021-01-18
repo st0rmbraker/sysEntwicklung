@@ -65,9 +65,6 @@ public class UIController extends Helpers {
         db = new DBcon().getDb();
         if(checkUserExists(user, db)){
             this.user = h.getVertexByUsername(user, db);
-            if(getPictureByUser(this.user) != null) {
-                profile_image.setImage(convertToImg(getPictureByUser(this.user)));
-            }
         }
         else{
             prepareCreateUser();
@@ -76,6 +73,8 @@ public class UIController extends Helpers {
             Thread.sleep(1500);
             this.user = h.getVertexByUsername(result.get()[2], db);
         }
+
+        profile_image.setImage(convertToImg(getPictureByUser(this.user)));
     }
     public String getUser()
     {
