@@ -15,11 +15,11 @@ public class DBcon {
     private static int count;
     private static int closed;
 
-    public static ODatabaseSession getDb() throws InterruptedException {
+    public static ODatabaseSession getDb(){
         if (firstTime) {
             try {
-                orient = new OrientDB("remote:wgay.hopto.org", OrientDBConfig.defaultConfig());
-                db = orient.open("Netzwerk1", "root", "123456");
+                orient = new OrientDB("remote:wwi19sysentw.hopto.org/", OrientDBConfig.defaultConfig());
+                db = orient.open("Netzwerk1", "root", "WWI19netzwerk");
                 firstTime = false;
                 System.out.println("Neue Verbindung hergestellt.");
             } catch (Exception e) {
@@ -30,7 +30,7 @@ public class DBcon {
         return db;
     }
 
-    public static ODatabaseSession getDb2() throws InterruptedException {
+    public static ODatabaseSession getDb2(){
         if (firstTime2) {
             try {
                 orient2 = new OrientDB("remote:wgay.hopto.org", OrientDBConfig.defaultConfig());

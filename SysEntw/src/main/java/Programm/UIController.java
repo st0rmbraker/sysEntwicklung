@@ -56,13 +56,14 @@ public class UIController extends Helpers {
         return h;
     }
 
-    public void dbcon() throws InterruptedException {
+    public void dbcon(){
         db = new DBcon().getDb();
     }
 
 
     public void setUser(String user) throws InterruptedException {
         db = new DBcon().getDb();
+        db.activateOnCurrentThread();
         if(checkUserExists(user, db)){
             this.user = h.getVertexByUsername(user, db);
         }
@@ -73,13 +74,7 @@ public class UIController extends Helpers {
             Thread.sleep(1500);
             this.user = h.getVertexByUsername(result.get()[2], db);
         }
-        try {
-            profile_image.setImage(convertToImg(getPictureByUser(this.user)));
-        }
-        catch (Exception e)
-        {
-            System.out.println("Kein Bild eingegeben, dann halt ohne Profilbild :)");
-        }
+        profile_image.setImage(convertToImg(getPictureByUser(this.user)));
     }
     public String getUser()
     {

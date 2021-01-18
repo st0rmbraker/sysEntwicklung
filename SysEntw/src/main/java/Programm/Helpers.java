@@ -19,26 +19,23 @@ import com.orientechnologies.orient.core.sql.executor.OResult;
 import com.orientechnologies.orient.core.sql.executor.OResultSet;
 
 import java.io.*;
-import java.lang.reflect.InvocationTargetException;
-import java.sql.Date;
 import java.util.*;
 //benötigt um bilder in binary data zu konvertieren
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
-import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 import javafx.scene.image.Image;
 
 public class Helpers {
 
-    public ODatabaseSession db;
+    //public ODatabaseSession db;
 
     public void session(){
-        try{
-            db = DBcon.getDb();
-        }
-        catch(Exception ex){
-            System.out.println("Fehler");
-        }
+    //    try{
+    //        db = DBcon.getDb();
+    //    }
+     //   catch(Exception ex){
+    //        System.out.println("Fehler");
+    //    }
 
     }
 
@@ -90,7 +87,6 @@ public class Helpers {
         }
 
         rs.close();
-
         return ret;
     }
 
@@ -105,6 +101,7 @@ public class Helpers {
      */
     public OVertex createPerson ( String nFirstName, String nLastName, String nUsername, ODatabaseSession db){
         session();
+        db.activateOnCurrentThread();
         OVertex n = db.newVertex("Account");
         n.setProperty("lastName", nLastName);
         n.setProperty("firstName", nFirstName);
@@ -118,6 +115,7 @@ public class Helpers {
     //Gibt alle Knoten aus, denen der User folgt.
     public String listConnectedVertices(OVertex element, String direction, ODatabaseSession db){
         session();
+        db.activateOnCurrentThread();
         String ret = "";
         Iterable<OVertex> overtexList;
         if(direction.equals("IN")) {
@@ -214,7 +212,7 @@ public class Helpers {
             user.setProperty("firstName", firstName);
             user.setProperty("lastName", lastName);
 
-            user.setProperty("profile", uploadImage(filePath));
+            user.setProperty("profile", uploadImage(filePath,db));
 
             user.save();
             return user;
@@ -228,9 +226,11 @@ public class Helpers {
      * @param city
      * @return
      */
+    /*
     public List<Optional<OVertex>> getUsersByCity(String city)
     {
         session();
+        db.activateOnCurrentThread();
         List<Optional<OVertex>> list = new ArrayList<>();
 
         OResultSet rs = db.query("SELECT FROM Account");
@@ -246,7 +246,7 @@ public class Helpers {
 
         return list;
     }
-
+*/
     /**
      * Gibt die User-properties als String zurück
      * @param u Vertex des Benutzers
@@ -268,7 +268,6 @@ public class Helpers {
                 ret = ret.concat(temp + " : " + d.getProperty(temp.toString()) + "\n");
             }
         }
-
         return ret;
     }
 
@@ -277,8 +276,8 @@ public class Helpers {
      * @param user
      * @return
      */
-    public String printUserInfo(String user) {
-        return printUserInfo(getVertexByUsername(user, db), db);
+    public String printUserInfo(String user, ODatabaseSession db) {
+       return printUserInfo(getVertexByUsername(user, db), db);
     }
 
     //Dieser Code muss noch in eine Funktion übernommen werden ToDo
@@ -416,12 +415,11 @@ public class Helpers {
      * @param path: Pfad zum Bild welches hochgeladen werden soll
      * @return
      */
-    public ODocument uploadImage(String path){
+    public ODocument uploadImage(String path, ODatabaseSession db){
         return saveImage(convertToBinary(path), db);
     }
 
     /**
-     *
      * @param sendBy Sender der Nachricht,
      * @param text Nachrichteninhalt
      * @return Messageobjekt, das erzeugt wurde

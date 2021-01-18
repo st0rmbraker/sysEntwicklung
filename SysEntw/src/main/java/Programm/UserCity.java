@@ -1,13 +1,7 @@
 package Programm;
 
 //benötigt um bilder in binary data zu konvertieren
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import javax.imageio.ImageIO;
 
-import com.orientechnologies.orient.core.record.impl.ODocument;
-import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 
 
 public class UserCity extends Helpers{
