@@ -73,8 +73,13 @@ public class UIController extends Helpers {
             Thread.sleep(1500);
             this.user = h.getVertexByUsername(result.get()[2], db);
         }
-
-        profile_image.setImage(convertToImg(getPictureByUser(this.user)));
+        try {
+            profile_image.setImage(convertToImg(getPictureByUser(this.user)));
+        }
+        catch (Exception e)
+        {
+            System.out.println("Kein Bild eingegeben, dann halt ohne Profilbild :)");
+        }
     }
     public String getUser()
     {
