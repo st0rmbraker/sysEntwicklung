@@ -18,7 +18,7 @@ public class DBcon {
     public static ODatabaseSession getDb(){
         if (firstTime) {
             try {
-                orient = new OrientDB("remote:wwi19sysentw.hopto.org/", OrientDBConfig.defaultConfig());
+                orient = new OrientDB("remote:wwi19sysentw.hopto.org", OrientDBConfig.defaultConfig());
                 db = orient.open("Netzwerk1", "root", "WWI19netzwerk");
                 firstTime = false;
                 System.out.println("Neue Verbindung hergestellt.");
